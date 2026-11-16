@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Línea de tiempo interactiva de la historia de la inteligencia artificial, desde la neurona artificial de 1943 hasta la IA generativa.">
+<title>Historia de la IA · ExploraIA</title>
+<style>
+:root{color-scheme:dark;--bg:#07111f;--panel:#0d1d30;--line:rgba(169,205,237,.17);--txt:#ecf6ff;--muted:#a8bacf;--mint:#67ecd0;--blue:#6dbff7;--violet:#c1a4ff;--yellow:#f8cb80;--red:#ff969c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse 70% 24% at 81% 2%,rgba(40,101,178,.2),transparent 80%),radial-gradient(ellipse 32% 20% at 1% 16%,rgba(94,47,148,.13),transparent 80%),var(--bg);color:var(--txt);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}a:focus-visible,button:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+.coursenav{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 24px;background:#07111f;border-bottom:1px solid var(--line);font-size:13px;font-weight:700}
+.coursenav a{color:#c9d6e8;border:1px solid var(--line);border-radius:99px;padding:6px 12px}
+.coursenav a[aria-current=page]{background:linear-gradient(110deg,#78e6d0,#63b8f1);color:#082238;border-color:transparent}
+.shell{max-width:1120px;margin:auto;padding:0 24px}
+.hero{padding:58px 0 30px}
+.eyebrow{display:inline-flex;gap:8px;font-size:12px;font-weight:740;color:#91ffe2;border:1px solid rgba(103,236,208,.25);padding:6px 11px;border-radius:99px;background:rgba(103,236,208,.06);letter-spacing:1px;text-transform:uppercase}
+h1{font-size:clamp(36px,5vw,62px);line-height:1.08;letter-spacing:-.05em;margin:18px 0 14px}
+h2{font-size:clamp(24px,3vw,34px);letter-spacing:-.03em;margin:0 0 8px}
+.grad{background:linear-gradient(100deg,#79e7d3,#70bfff,#c7a8ff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:17px;max-width:690px;margin:0}
+.author{margin:18px 0 0;font-weight:800;font-size:14px;letter-spacing:.02em}.author span{display:block;font-weight:500;color:var(--muted)}
+.eras{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 14px}
+.era{border:1px solid var(--line);background:#102239;color:#cfe0f0;border-radius:99px;padding:7px 13px;font-size:13px;font-weight:700}
+.era[aria-pressed=true]{background:var(--c,#67ecd0);color:#071826;border-color:transparent}
+.track{position:relative;overflow-x:auto;padding:30px 4px 14px;scrollbar-width:thin}
+.rail{position:relative;display:flex;gap:6px;min-width:max-content;padding:0 10px}
+.rail::before{content:"";position:absolute;left:0;right:0;top:27px;height:3px;background:linear-gradient(90deg,#3d6f9a,#67ecd0,#c1a4ff);border-radius:3px;opacity:.55}
+.node{position:relative;width:84px;background:none;border:0;color:var(--muted);padding:0;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;font-weight:700}
+.node i{width:20px;height:20px;margin-top:18px;border-radius:50%;background:#0b1b2d;border:3px solid var(--c);transition:transform .15s,background .15s;position:relative;z-index:1}
+.node:hover i{transform:scale(1.25)}
+.node[aria-current=true]{color:var(--txt)}
+.node[aria-current=true] i{background:var(--c);transform:scale(1.4);box-shadow:0 0 18px var(--c)}
+.node[hidden]{display:none}
+.detail{display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:start;margin-top:10px;padding:26px;border:1px solid var(--line);border-left:4px solid var(--c,#67ecd0);border-radius:20px;background:linear-gradient(135deg,#102238,#0b1b2d)}
+.year{font-size:52px;font-weight:900;letter-spacing:-.05em;line-height:1;color:var(--c,#67ecd0)}
+.tag{display:inline-block;margin-top:10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#071826;background:var(--c,#67ecd0);border-radius:6px;padding:3px 8px}
+.detail h3{font-size:24px;letter-spacing:-.03em;margin:0 0 8px}
+.detail p{margin:0 0 12px;color:#c6d7e5}
+.why{padding:12px 14px;border-radius:12px;background:rgba(103,236,208,.07);border:1px solid rgba(103,236,208,.18);color:#caeadf;font-size:14px}
+.controls{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#112239;color:var(--txt);border-radius:12px;padding:10px 15px;font-weight:750;font-size:14px}
+.btn.primary{background:linear-gradient(110deg,#78e6d0,#68bef8);color:#092238;border:0}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.count{font-size:13px;color:var(--muted)}
+.progress{height:6px;background:#182d43;border-radius:20px;overflow:hidden;margin-top:12px}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--mint),var(--blue));transition:width .25s}
+.section{padding:56px 0;border-top:1px solid var(--line);margin-top:50px}
+.sub{color:var(--muted);max-width:720px;margin:0 0 22px}
+.erasum{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.ec{border:1px solid var(--line);border-top:3px solid var(--c);border-radius:14px;background:#0e2033;padding:16px}
+.ec b{display:block;font-size:14px}.ec small{display:block;color:var(--c);font-weight:800;margin:3px 0 7px}.ec span{font-size:13px;color:var(--muted)}
+.quiz{border:1px solid rgba(109,191,247,.26);border-radius:22px;padding:24px;background:linear-gradient(130deg,#0d2237,#0d1b2b)}
+.qtext{font-size:19px;font-weight:800;margin:6px 0 16px}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.opt{padding:14px;border-radius:12px;border:1px solid rgba(144,198,236,.2);background:#152d47;color:var(--txt);font-weight:800;font-size:18px}
+.opt.good{border-color:#67d9ba;background:rgba(45,166,125,.2)}.opt.bad{border-color:#f09aa0;background:rgba(202,78,83,.15)}
+.opt:disabled{cursor:default}
+.fb{min-height:48px;margin:14px 0 0;color:#c6d7e5;font-size:14px}
+.note{padding:16px 17px;border-left:3px solid var(--yellow);border-radius:0 12px 12px 0;background:rgba(248,203,128,.07);color:#e8d9bc;margin-top:22px}
+.footer{margin-top:40px;padding:34px 0 46px;border-top:1px solid var(--line);color:#91a6bc;font-size:13px}
+@media(max-width:900px){.erasum{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.shell{padding:0 17px}.coursenav{padding:10px 17px}.detail{grid-template-columns:1fr;gap:10px;padding:20px}.year{font-size:42px}.erasum{grid-template-columns:1fr}.opts{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<nav class="coursenav" aria-label="Sitio">
+<a href="index.html">Inicio</a>
+<a href="historia.html" aria-current="page">Historia de la IA</a>
+<a href="aprende.html">Aprende IA</a>
+<a href="gestion.html">Gestión universitaria</a>
+<a href="directorio.html">Directorio</a>
+</nav>
+<main class="shell">
+<section class="hero">
+<span class="eyebrow">✦ Línea de tiempo interactiva</span>
+<h1>De una neurona de papel a la <span class="grad">IA generativa.</span></h1>
+<p class="lead">Ochenta años de ideas, entusiasmo, inviernos y saltos técnicos. Recorre los hitos uno por uno, filtra por etapa y descubre por qué cada uno abrió el camino al siguiente.</p>
+<p class="author">ING. GREGORIO BAUTISTA OBLITAS<span>Maestro en Inteligencia Artificial</span></p>
+</section>
+
+<section aria-labelledby="tl">
+<h2 id="tl">Recorre la historia</h2>
+<p class="sub">Haz clic en un punto, usa los botones o las flechas ← → del teclado.</p>
+<div class="eras" id="eras" role="group" aria-label="Filtrar por etapa"></div>
+<div class="track" id="track"><div class="rail" id="rail"></div></div>
+<article class="detail" id="detail" aria-live="polite">
+<div><div class="year" id="dYear"></div><span class="tag" id="dEra"></span></div>
+<div><h3 id="dTitle"></h3><p id="dText"></p><div class="why"><b>¿Por qué importa?</b> <span id="dWhy"></span></div></div>
+</article>
+<div class="controls">
+<button class="btn" type="button" id="prev">← Anterior</button>
+<span class="count" id="count"></span>
+<button class="btn primary" type="button" id="next">Siguiente →</button>
+</div>
+<div class="progress" aria-hidden="true"><span id="bar"></span></div>
+</section>
+
+<section class="section" aria-labelledby="et">
+<h2 id="et">Cinco etapas en una mirada</h2>
+<p class="sub">Toca una etapa para filtrar la línea de tiempo.</p>
+<div class="erasum" id="erasum"></div>
+</section>
+
+<section class="section" aria-labelledby="qz">
+<h2 id="qz">¿En qué año ocurrió?</h2>
+<p class="sub">Cinco preguntas para comprobar lo que recorriste. Tus respuestas no se envían a ningún servidor.</p>
+<div class="quiz">
+<span class="count" id="qn"></span>
+<div class="qtext" id="qtext"></div>
+<div class="opts" id="opts"></div>
+<p class="fb" id="qfb" aria-live="polite"></p>
+<div class="controls" style="margin-top:4px"><span class="count" id="qscore"></span><button class="btn primary" type="button" id="qnext" hidden>Siguiente pregunta →</button></div>
+</div>
+<div class="note"><b>Para pensar:</b> la IA avanzó cuando coincidieron tres cosas: mejores ideas, más datos y computadoras más potentes. Cuando faltó alguna, llegaron los «inviernos». ¿Cuál de las tres crees que falta hoy en tu oficina para usar bien la IA?</div>
+</section>
+</main>
+<footer class="footer"><div class="shell"><p><b style="color:#eef7ff">ING. GREGORIO BAUTISTA OBLITAS</b><br>Maestro en Inteligencia Artificial</p><p>ExploraIA · Material didáctico. Las fechas corresponden a publicaciones o anuncios públicos; algunos hitos se desarrollaron durante varios años.</p></div></footer>
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s);
+const ERAS={
+ origen:{n:'Orígenes',c:'#6dbff7',r:'1943–1969',s:'Se define el campo y nacen las primeras ideas: neuronas artificiales, la prueba de Turing y el perceptrón.'},
+ invierno:{n:'Inviernos y sistemas expertos',c:'#f8cb80',r:'1970–1993',s:'Promesas incumplidas recortan fondos. Los sistemas expertos dan un respiro, pero también decaen.'},
+ ml:{n:'Aprendizaje automático',c:'#67ecd0',r:'1986–2011',s:'Las máquinas aprenden de datos en vez de reglas escritas a mano. Llegan Deep Blue y Watson.'},
+ deep:{n:'Aprendizaje profundo',c:'#c1a4ff',r:'2012–2019',s:'Redes de muchas capas, GPU y grandes datos. Nace el Transformer, base de los modelos de lenguaje.'},
+ gen:{n:'IA generativa',c:'#ff969c',r:'2020–hoy',s:'Modelos que crean texto, imágenes, audio y código. La IA llega al público general.'}
+};
+const E=[
+ {y:1943,e:'origen',t:'La primera neurona artificial',x:'Warren McCulloch y Walter Pitts proponen un modelo matemático de neurona que se activa o no según sus entradas.',w:'Es la semilla de todas las redes neuronales, incluidas las que hoy generan texto.'},
+ {y:1950,e:'origen',t:'Turing pregunta: ¿pueden pensar las máquinas?',x:'Alan Turing publica «Computing Machinery and Intelligence» y propone el juego de la imitación, conocido luego como prueba de Turing.',w:'Plantea la pregunta que guía el campo y una forma práctica de discutirla.'},
+ {y:1956,e:'origen',t:'Nace el nombre «inteligencia artificial»',x:'En el taller de Dartmouth, John McCarthy, Marvin Minsky, Claude Shannon y Nathaniel Rochester reúnen a investigadores bajo el término «artificial intelligence».',w:'La IA se convierte en un campo de investigación con nombre propio.'},
+ {y:1958,e:'origen',t:'El perceptrón aprende',x:'Frank Rosenblatt presenta el perceptrón, una red de una capa que ajusta sus pesos con ejemplos para clasificar patrones.',w:'Primera máquina que aprende de datos en lugar de seguir solo reglas fijas.'},
+ {y:1966,e:'origen',t:'ELIZA, el primer chatbot famoso',x:'Joseph Weizenbaum crea ELIZA en el MIT. Simula a un terapeuta reformulando lo que escribe el usuario con patrones simples.',w:'Muestra lo fácil que es atribuir comprensión a una máquina que solo repite patrones. La lección sigue vigente.'},
+ {y:1969,e:'origen',t:'Los límites del perceptrón',x:'Minsky y Papert publican «Perceptrons» y demuestran que una red de una sola capa no puede resolver problemas como el XOR.',w:'El interés por las redes neuronales cae durante más de una década.'},
+ {y:1973,e:'invierno',t:'Primer invierno de la IA',x:'El informe Lighthill en el Reino Unido critica los resultados de la IA. Gobiernos de varios países recortan el financiamiento.',w:'Enseña que prometer de más tiene costo: la confianza y los fondos se pierden.'},
+ {y:1980,e:'invierno',t:'Auge de los sistemas expertos',x:'Programas como XCON, de Digital Equipment, codifican el conocimiento de especialistas en miles de reglas «si… entonces…».',w:'Primera IA rentable en empresas. También muestra su límite: mantener miles de reglas es caro y frágil.'},
+ {y:1986,e:'ml',t:'Retropropagación: las redes vuelven',x:'Rumelhart, Hinton y Williams difunden la retropropagación, un método para entrenar redes de varias capas corrigiendo el error hacia atrás.',w:'Resuelve el límite del perceptrón y es, hasta hoy, la forma de entrenar redes neuronales.'},
+ {y:1987,e:'invierno',t:'Segundo invierno',x:'Cae el mercado de máquinas especializadas para IA y los sistemas expertos resultan difíciles de mantener. El financiamiento vuelve a caer.',w:'La IA se refugia en métodos estadísticos más modestos, que luego darán frutos.'},
+ {y:1997,e:'ml',t:'Deep Blue vence a Kasparov',x:'La computadora de IBM gana un match de ajedrez al campeón mundial Garri Kaspárov.',w:'Gran hito público. Pero es IA estrecha: búsqueda y cálculo masivo para un solo juego.'},
+ {y:1998,e:'ml',t:'LeNet lee números escritos a mano',x:'Yann LeCun y su equipo presentan LeNet-5, una red convolucional usada para leer dígitos, por ejemplo en cheques bancarios.',w:'Anticipa la arquitectura que años después revolucionará la visión por computadora.'},
+ {y:2006,e:'ml',t:'Se habla de «aprendizaje profundo»',x:'Geoffrey Hinton y colegas muestran cómo entrenar redes de muchas capas de forma eficiente.',w:'Renueva el interés por las redes profundas justo antes de que existan datos y GPU suficientes.'},
+ {y:2009,e:'ml',t:'ImageNet: millones de imágenes etiquetadas',x:'Fei-Fei Li y su equipo publican ImageNet, una base con millones de imágenes clasificadas en miles de categorías.',w:'Demuestra que los datos son tan importantes como los algoritmos.'},
+ {y:2011,e:'ml',t:'Watson y Siri',x:'IBM Watson gana el concurso televisivo Jeopardy! y Apple lanza Siri en el iPhone.',w:'La IA conversacional entra al bolsillo de millones de personas.'},
+ {y:2012,e:'deep',t:'AlexNet y el despegue del deep learning',x:'Krizhevsky, Sutskever y Hinton ganan el desafío ImageNet con una red profunda entrenada en GPU, con mucho menos error que sus rivales.',w:'Empieza la era actual: ideas + datos + GPU funcionando juntos.'},
+ {y:2014,e:'deep',t:'Redes que generan imágenes (GAN)',x:'Ian Goodfellow propone las redes generativas adversarias: una red crea imágenes y otra intenta descubrir si son falsas.',w:'Primer gran paso hacia la generación realista de imágenes.'},
+ {y:2016,e:'deep',t:'AlphaGo vence a Lee Sedol',x:'El sistema de DeepMind gana 4 a 1 al campeón de Go, un juego considerado demasiado complejo para la fuerza bruta.',w:'Combina redes profundas y aprendizaje por refuerzo. Sigue siendo IA estrecha.'},
+ {y:2017,e:'deep',t:'El Transformer: «Attention Is All You Need»',x:'Investigadores de Google presentan el Transformer, una arquitectura basada en mecanismos de atención que procesa texto en paralelo.',w:'Es la base de GPT, Gemini, Claude, Llama, DeepSeek y Qwen. La «T» de GPT viene de aquí.'},
+ {y:2018,e:'deep',t:'GPT y BERT',x:'OpenAI presenta el primer GPT y Google presenta BERT. Ambos se entrenan primero con mucho texto y luego se adaptan a tareas.',w:'Nace el modelo de lenguaje preentrenado, la receta de los asistentes actuales.'},
+ {y:2020,e:'gen',t:'GPT-3 sorprende al mundo',x:'OpenAI presenta GPT-3, con 175 000 millones de parámetros, capaz de redactar, traducir y resumir con solo unos ejemplos en la instrucción.',w:'Muestra que escalar modelos y datos produce habilidades nuevas.'},
+ {y:2022,e:'gen',t:'Imágenes desde texto y ChatGPT',x:'Llegan DALL·E 2, Midjourney y Stable Diffusion. El 30 de noviembre OpenAI lanza ChatGPT, que alcanza millones de usuarios en pocos días.',w:'La IA generativa pasa del laboratorio a la vida diaria, incluida la universidad.'},
+ {y:2023,e:'gen',t:'Carrera de modelos multimodales',x:'Aparecen GPT-4, Claude, Llama y Gemini. Los modelos empiezan a combinar texto, imágenes y documentos largos.',w:'Las instituciones empiezan a debatir políticas de uso, privacidad y evaluación.'},
+ {y:2024,e:'gen',t:'Modelos que razonan y regulación',x:'Se difunden modelos que dedican más pasos a «pensar» antes de responder. La Unión Europea aprueba su Ley de IA, basada en niveles de riesgo.',w:'Más capacidad trae más responsabilidad: la supervisión humana se vuelve obligación.'},
+ {y:2025,e:'gen',t:'Modelos abiertos y eficientes',x:'DeepSeek-R1 y Qwen muestran modelos de razonamiento competitivos con pesos abiertos y menor costo. Se extienden los agentes que ejecutan tareas de varios pasos.',w:'La IA generativa se vuelve más accesible. Verificar sus resultados sigue siendo tarea humana.'}
+];
+let filter='all',idx=0;
+const visible=()=>E.map((v,i)=>i).filter(i=>filter==='all'||E[i].e===filter);
+const rail=$('#rail');
+E.forEach((ev,i)=>{const b=document.createElement('button');b.type='button';b.className='node';b.style.setProperty('--c',ERAS[ev.e].c);b.innerHTML='<i></i>'+ev.y;b.setAttribute('aria-label',ev.y+': '+ev.t);b.onclick=()=>show(i);rail.appendChild(b)});
+function show(i){idx=i;const ev=E[i],era=ERAS[ev.e];const d=$('#detail');d.style.setProperty('--c',era.c);
+$('#dYear').textContent=ev.y;$('#dEra').textContent=era.n;$('#dTitle').textContent=ev.t;$('#dText').textContent=ev.x;$('#dWhy').textContent=ev.w;
+[...rail.children].forEach((b,j)=>b.setAttribute('aria-current',String(j===i)));
+const v=visible(),p=v.indexOf(i);$('#count').textContent=(p+1)+' de '+v.length+' hitos';$('#bar').style.width=((p+1)/v.length*100)+'%';
+$('#prev').disabled=p<=0;$('#next').disabled=p>=v.length-1;
+const n=rail.children[i];n.scrollIntoView({block:'nearest',inline:'center',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})}
+function step(k){const v=visible(),p=v.indexOf(idx)+k;if(p>=0&&p<v.length)show(v[p])}
+$('#prev').onclick=()=>step(-1);$('#next').onclick=()=>step(1);
+document.addEventListener('keydown',e=>{if(e.target.closest('.quiz'))return;if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1)});
+function setFilter(f){filter=f;[...rail.children].forEach((b,j)=>b.hidden=!(f==='all'||E[j].e===f));
+[...$('#eras').children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.f===f)));show(visible()[0])}
+const chips=[['all','Todas',  '#67ecd0']].concat(Object.entries(ERAS).map(([k,v])=>[k,v.n,v.c]));
+chips.forEach(([k,n,c])=>{const b=document.createElement('button');b.type='button';b.className='era';b.dataset.f=k;b.style.setProperty('--c',c);b.textContent=n;b.onclick=()=>setFilter(k);$('#eras').appendChild(b)});
+Object.entries(ERAS).forEach(([k,v])=>{const b=document.createElement('button');b.type='button';b.className='ec';b.style.setProperty('--c',v.c);b.style.textAlign='left';b.style.color='inherit';
+b.innerHTML='<b>'+v.n+'</b><small>'+v.r+'</small><span>'+v.s+'</span>';b.onclick=()=>{setFilter(k);$('#tl').scrollIntoView()};$('#erasum').appendChild(b)});
+setFilter('all');
+
+const Q=[
+ {q:'¿En qué año se acuñó el término «inteligencia artificial» en Dartmouth?',o:[1943,1956,1973,1997],a:1956,w:'El taller de Dartmouth de 1956 dio nombre al campo.'},
+ {q:'¿Cuándo venció Deep Blue al campeón mundial de ajedrez?',o:[1986,1997,2011,2016],a:1997,w:'Deep Blue venció a Kaspárov en 1997. Era IA estrecha: solo jugaba ajedrez.'},
+ {q:'¿En qué año se presentó el Transformer, base de los modelos de lenguaje?',o:[2012,2014,2017,2020],a:2017,w:'«Attention Is All You Need» se publicó en 2017.'},
+ {q:'¿Cuándo AlexNet impulsó el auge del aprendizaje profundo?',o:[2006,2009,2012,2018],a:2012,w:'AlexNet ganó el desafío ImageNet en 2012 entrenada en GPU.'},
+ {q:'¿En qué año se lanzó ChatGPT al público?',o:[2018,2020,2022,2024],a:2022,w:'ChatGPT se lanzó el 30 de noviembre de 2022.'}
+];
+let qi=0,score=0;
+function renderQ(){const q=Q[qi];$('#qn').textContent='Pregunta '+(qi+1)+' de '+Q.length;$('#qtext').textContent=q.q;$('#qfb').textContent='';$('#qnext').hidden=true;$('#qscore').textContent='Aciertos: '+score;
+$('#opts').innerHTML='';q.o.forEach(y=>{const b=document.createElement('button');b.type='button';b.className='opt';b.textContent=y;b.onclick=()=>answer(b,y);$('#opts').appendChild(b)})}
+function answer(b,y){const q=Q[qi],ok=y===q.a;if(ok)score++;
+[...$('#opts').children].forEach(x=>{x.disabled=true;if(Number(x.textContent)===q.a)x.classList.add('good')});if(!ok)b.classList.add('bad');
+$('#qfb').innerHTML='<b>'+(ok?'✓ Correcto.':'Era '+q.a+'.')+'</b> '+q.w;$('#qscore').textContent='Aciertos: '+score;
+if(qi<Q.length-1){$('#qnext').hidden=false;$('#qnext').textContent='Siguiente pregunta →'}
+else{$('#qnext').hidden=false;$('#qnext').textContent='↺ Volver a empezar';$('#qfb').innerHTML+='<br><b style="color:#80e7d2">Resultado: '+score+' de '+Q.length+'.</b> '+(score===Q.length?'¡Dominas la línea de tiempo!':'Recorre de nuevo los hitos y vuelve a intentarlo.')}}
+$('#qnext').onclick=()=>{if(qi<Q.length-1)qi++;else{qi=0;score=0}renderQ()};
+renderQ();
+})();
+</script>
+</body>
+</html>

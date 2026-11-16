@@ -40,6 +40,7 @@ h1{font:700 clamp(30px,6vw,44px)/1.1 "Trebuchet MS",system-ui,sans-serif;margin:
 <body>
 <nav class="site" aria-label="Sitio">
 <a href="index.html" aria-current="page">Inicio</a>
+<a href="historia.html">Historia de la IA</a>
 <a href="aprende.html">Aprende IA</a>
 <a href="gestion.html">Gestión universitaria</a>
 <a href="directorio.html">Directorio</a>
@@ -47,8 +48,8 @@ h1{font:700 clamp(30px,6vw,44px)/1.1 "Trebuchet MS",system-ui,sans-serif;margin:
 <main>
 <h1>IA generativa en la universidad</h1>
 <p class="author">ING. GREGORIO BAUTISTA OBLITAS<span>Maestro en Inteligencia Artificial</span></p>
-<p class="lead">Tres prácticas para entender la IA, ver cuándo se equivoca y elegir una herramienta para la gestión universitaria.</p>
-<p class="route"><b>Recorrido sugerido.</b> Empieza por <i>Aprende IA</i>. Sigue en <i>Gestión universitaria</i> para ver cómo elige palabras y alucina. Termina en el <i>Directorio</i> y abre el sitio oficial.</p>
+<p class="lead">Cuatro prácticas para conocer de dónde viene la IA, entenderla, ver cuándo se equivoca y elegir una herramienta para la gestión universitaria.</p>
+<p class="route"><b>Recorrido sugerido.</b> Empieza por la <i>Historia de la IA</i> y sigue con <i>Aprende IA</i>. Luego pasa a <i>Gestión universitaria</i> para ver cómo elige palabras y alucina. Termina en el <i>Directorio</i> y abre el sitio oficial.</p>
 <div class="grid" id="mods" role="group" aria-label="Elegir práctica"></div>
 <div class="panel" id="panel" hidden>
 <h3 id="pt"></h3>
@@ -59,11 +60,13 @@ h1{font:700 clamp(30px,6vw,44px)/1.1 "Trebuchet MS",system-ui,sans-serif;margin:
 <script>
 (function(){
 var mods=[
-{id:"aprende",k:"Práctica 1",t:"Aprende IA",d:"Lección desde cero: tipos de IA, una neurona, palabras y un desafío de seis preguntas.",href:"aprende.html",
+{id:"historia",k:"Práctica 1",t:"Historia de la IA",d:"Línea de tiempo interactiva: de la neurona de 1943 a la IA generativa.",href:"historia.html",
+steps:["Recorre 25 hitos con los botones o las flechas del teclado.","Filtra por etapa: orígenes, inviernos, aprendizaje automático, aprendizaje profundo e IA generativa.","Lee por qué cada hito abrió el camino al siguiente.","Responde cinco preguntas sobre en qué año ocurrió cada hito."]},
+{id:"aprende",k:"Práctica 2",t:"Aprende IA",d:"Lección desde cero: tipos de IA, una neurona, palabras y un desafío de seis preguntas.",href:"aprende.html",
 steps:["Compara IA estrecha, IA general y superinteligencia.","Entrena un clasificador de granos de café con ejemplos ficticios.","Mueve los pesos de una neurona artificial y mira la salida.","Genera la siguiente palabra y responde el desafío de seis preguntas."]},
-{id:"gestion",k:"Práctica 2",t:"Gestión universitaria",d:"Cuatro experimentos: predicción, prompts, alucinaciones y riesgo.",href:"gestion.html",
+{id:"gestion",k:"Práctica 3",t:"Gestión universitaria",d:"Cuatro experimentos: predicción, prompts, alucinaciones y riesgo.",href:"gestion.html",
 steps:["Completa un comunicado eligiendo la siguiente palabra y cambia la temperatura.","Compara tres prompts para el mismo correo a un estudiante.","Marca qué afirmaciones de un informe son verificables y cuáles inventadas.","Clasifica el riesgo de usos reales y el control humano que exigen."]},
-{id:"dir",k:"Práctica 3",t:"Directorio ExploraIA",d:"Busca 74 herramientas, filtra por tarea y abre el sitio oficial.",href:"directorio.html",
+{id:"dir",k:"Práctica 4",t:"Directorio ExploraIA",d:"Busca 74 herramientas, filtra por tarea y abre el sitio oficial.",href:"directorio.html",
 steps:["Elige la tarea de hoy: redactar, investigar, preparar diapositivas o mejorar un proceso.","Filtra por categoría o busca por nombre, por ejemplo DeepSeek o presentaciones.","Marca favoritos: se guardan solo en este navegador.","Copia una instrucción de práctica y ábrela en la herramienta, con datos ficticios."]}
 ];
 var box=document.getElementById("mods"),panel=document.getElementById("panel"),cur=null;
