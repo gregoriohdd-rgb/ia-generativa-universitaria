@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IA generativa en la gestión universitaria</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f3f6f4;--surface:#ffffff;--ink:#14231c;--mute:#5b6b63;--line:#cfdad3;--accent:#0f6b4f;--accent-ink:#ffffff;--warn:#b4460f;--bar:#0f6b4f33}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0e1714;--surface:#16231e;--ink:#e6f0ea;--mute:#93a69b;--line:#2a3d34;--accent:#4fd1a1;--accent-ink:#06140e;--warn:#f0985f;--bar:#4fd1a133}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0e1714;--surface:#16231e;--ink:#e6f0ea;--mute:#93a69b;--line:#2a3d34;--accent:#4fd1a1;--accent-ink:#06140e;--warn:#f0985f;--bar:#4fd1a133}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+main{max-width:760px;margin:0 auto;padding:24px 18px 48px}
+h1{font:700 clamp(28px,6vw,42px)/1.1 "Trebuchet MS",system-ui,sans-serif;margin:0 0 8px}
+h2{font:700 20px/1.2 "Trebuchet MS",system-ui,sans-serif;margin:0 0 10px}
+p{margin:0 0 12px}
+.lead{color:var(--mute);max-width:60ch}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;margin:18px 0}
+.text{font-size:clamp(20px,4.5vw,26px);line-height:1.45;min-height:5.5em}
+.text .u{color:var(--accent);font-weight:700}
+.cursor{display:inline-block;width:.6em;border-bottom:3px solid var(--accent);animation:b 1s steps(2) infinite}
+@keyframes b{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+.opts{display:grid;gap:8px}
+.opt{position:relative;overflow:hidden;text-align:left;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;display:flex;justify-content:space-between;gap:10px}
+.opt:hover,.opt:focus-visible{border-color:var(--accent);outline:2px solid var(--accent);outline-offset:1px}
+.opt i{position:absolute;inset:0 auto 0 0;background:var(--bar);pointer-events:none;transition:width .3s}
+.opt span{position:relative}
+.opt .p{font-family:system-ui,sans-serif;font-variant-numeric:tabular-nums;color:var(--mute)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button.b{font:600 15px system-ui,sans-serif;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:10px 14px;cursor:pointer}
+button.b.o{background:transparent;color:var(--accent)}
+button.b:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+label{font:600 15px system-ui,sans-serif}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.ends{display:flex;justify-content:space-between;font:14px system-ui,sans-serif;color:var(--mute)}
+.note{font:15px/1.5 system-ui,sans-serif;color:var(--mute)}
+.warn{color:var(--warn);font-weight:700}
+ul{padding-left:20px;margin:0}
+li{margin-bottom:8px}
+[hidden]{display:none!important}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 0}
+.tab{font:600 14px system-ui,sans-serif;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:9px 12px;cursor:pointer}
+.tab[aria-selected=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tab:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{font:13px system-ui,sans-serif;padding:3px 9px;border-radius:99px;border:1px solid var(--line);color:var(--mute)}
+.chip.on{background:var(--bar);color:var(--ink);border-color:var(--accent)}
+.q{border-top:1px solid var(--line);padding:12px 0}
+.q:first-of-type{border-top:0}
+.fb{font:15px/1.5 system-ui,sans-serif;margin-top:6px}
+.ok{color:var(--accent);font-weight:700}.bad{color:var(--warn);font-weight:700}
+.out{background:var(--bg);border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;white-space:pre-line}
+.pr{font:15px/1.5 system-ui,sans-serif;color:var(--mute)}
+button.sel{font:600 14px system-ui,sans-serif;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:8px 12px;cursor:pointer;margin:6px 6px 0 0}
+button.sel[aria-pressed=true]{border-color:var(--accent);outline:2px solid var(--accent)}
+button.sel:disabled{cursor:default;opacity:.85}
+.site{position:sticky;top:0;z-index:5;display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 18px;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);font:600 14px system-ui,sans-serif}
+.site a{color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:6px 12px;background:var(--bg)}
+.site a[aria-current=page]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.site a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+<nav class="site" aria-label="Sitio">
+<a href="index.html">Inicio</a>
+<a href="laboratorio.html">Laboratorio</a>
+<a href="gestion.html" aria-current="page">Gestión universitaria</a>
+</nav>
+<main>
+<h1>IA generativa en la gestión universitaria</h1>
+<p class="lead">Cuatro experimentos cortos: cómo funciona, cómo se le habla, cuándo se equivoca y dónde conviene usarla.</p>
+<div class="tabs" role="tablist" id="tabs"></div>
+
+<section id="m0">
+<div class="box"><h2>1. Cómo genera: una palabra a la vez</h2>
+<p class="note">Completa el comunicado eligiendo palabras. Las barras son la probabilidad que el modelo asigna a cada una.</p>
+<div class="text" id="text" aria-live="polite"></div></div>
+<div class="box"><h2 id="qh">Elige la siguiente palabra</h2><div class="opts" id="opts"></div></div>
+<div class="box"><label for="t">Temperatura: <span id="tv">1.0</span></label>
+<input type="range" id="t" min="0.2" max="3" step="0.1" value="1">
+<div class="ends"><span>Predecible</span><span>Arriesgada</span></div>
+<div class="row" style="margin-top:14px"><button class="b" id="auto">Que elija la IA</button><button class="b o" id="full">Generar todo</button><button class="b o" id="reset">Reiniciar</button></div>
+<p class="note" style="margin-top:12px">Temperatura baja: siempre lo más probable. Alta: más variedad, y más <span class="warn">alucinaciones</span>. El modelo no entiende la universidad, calcula qué palabra suele seguir.</p></div>
+</section>
+
+<section id="m1" hidden>
+<div class="box"><h2>2. El prompt cambia el resultado</h2>
+<p class="note">Mismo modelo, misma tarea: responder a un estudiante enfermo que pide extender el plazo de matrícula. Cambia el nivel del prompt.</p>
+<div id="lv"></div>
+<div class="chips" id="chips"></div>
+<p class="pr" id="pr"></p>
+<div class="out" id="po"></div>
+<p class="fb" id="pc"></p></div>
+</section>
+
+<section id="m2" hidden>
+<div class="box"><h2>3. Detecta las alucinaciones</h2>
+<p class="note">La IA escribió este párrafo para un informe institucional. Marca cada afirmación como verificable o inventada y comprueba tu criterio.</p>
+<div id="hq"></div><p class="fb" id="hs"></p></div>
+</section>
+
+<section id="m3" hidden>
+<div class="box"><h2>4. ¿Qué nivel de riesgo tiene cada uso?</h2>
+<p class="note">Clasifica el riesgo de cada caso. Luego verás qué control humano necesita.</p>
+<div id="uc"></div><p class="fb" id="us"></p></div>
+<div class="box"><h2>Cuatro preguntas antes de adoptar una herramienta</h2>
+<ul><li><b>Datos:</b> ¿qué información de estudiantes recibe la herramienta y dónde se guarda?</li>
+<li><b>Sesgo:</b> ¿con qué datos aprendió y a quién podría perjudicar?</li>
+<li><b>Verificación:</b> ¿quién revisa el resultado antes de que llegue a una persona?</li>
+<li><b>Responsabilidad:</b> ¿quién firma y responde si falla?</li></ul>
+<p class="note" style="margin-top:12px">Para debatir: ¿qué proceso de tu facultad automatizarías mañana y cuál nunca?</p></div>
+</section>
+</main>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var names=["1. Cómo genera","2. Prompts","3. Alucinaciones","4. Riesgos"];
+names.forEach(function(n,i){var b=document.createElement("button");b.className="tab";b.type="button";b.setAttribute("role","tab");b.textContent=n;b.onclick=function(){show(i)};$("tabs").appendChild(b)});
+function show(k){names.forEach(function(_,i){$("m"+i).hidden=i!==k;$("tabs").children[i].setAttribute("aria-selected",i===k)})}
+show(0);
+
+/* 1. Predicción */
+var START="Estimados estudiantes, la universidad ha decidido";
+var G={"START":[["implementar",40],["ampliar",25],["suspender",15],["celebrar",12],["regalar",8]],
+"implementar":[["un",55],["una",40],["cien",5]],"un":[["sistema",45],["programa",30],["horario",20],["dragón",5]],
+"una":[["plataforma",50],["estrategia",35],["cafetería",10],["galaxia",5]],"cien":[["unicornios",100]],
+"ampliar":[["las becas",40],["los laboratorios",30],["los horarios",25],["las vacaciones",5]],
+"suspender":[["las clases",50],["los exámenes",30],["las matrículas",15],["la gravedad",5]],
+"celebrar":[["el aniversario",55],["la graduación",35],["una fiesta",8],["un eclipse",2]],
+"regalar":[["libros",40],["laptops",35],["pizzas",20],["islas",5]],
+"_a":[["para mejorar",50],["para optimizar",30],["para sorprender",15],["para confundir",5]],
+"_b":[["la gestión académica.",45],["la experiencia estudiantil.",35],["los procesos administrativos.",17],["el clima del planeta.",3]]};
+var seq=[],cur=[];
+function key(){var n=seq.length,l=seq[n-1];if(!n)return "START";if(l.slice(-1)===".")return null;if(n===1)return l;if(n===2)return G[l]&&(l==="un"||l==="una"||l==="cien")?"_a":"_a";return n===3?"_a":n===4?"_b":null}
+function key2(){var n=seq.length;if(n===0)return "START";if(n===1)return seq[0];if(n===2)return "__";return null}
+function nextKey(){var n=seq.length,l=seq[n-1];if(!n)return "START";if(l.slice(-1)===".")return null;
+var f=seq[0];
+if(n===1)return f;
+if(n===2)return (f==="implementar")?seq[1]:"_a";
+if(n===3)return (f==="implementar")?"_a":"_b";
+if(n===4)return (f==="implementar")?"_b":null;
+return null}
+function dist(k){var T=parseFloat($("t").value);var o=G[k].map(function(x){return{w:x[0],p:Math.pow(x[1],1/T)}});var s=o.reduce(function(a,b){return a+b.p},0);o.forEach(function(x){x.p/=s});return o}
+function render(){var h=START+" ";seq.forEach(function(w){h+='<span class="u">'+w+'</span> '});var k=nextKey();
+$("text").innerHTML=h+(k?'<span class="cursor">&nbsp;</span>':"");var box=$("opts");box.innerHTML="";
+if(!k){box.innerHTML='<p class="note">Texto terminado. Reinicia, cambia la temperatura y compara.</p>';$("auto").disabled=true;$("qh").textContent="Fin del comunicado";return}
+$("auto").disabled=false;$("qh").textContent="Elige la siguiente palabra";cur=dist(k);
+cur.forEach(function(x){var b=document.createElement("button");b.className="opt";b.type="button";
+b.innerHTML='<i style="width:'+(x.p*100).toFixed(1)+'%"></i><span>'+x.w+'</span><span class="p">'+(x.p*100).toFixed(1)+'%</span>';
+b.onclick=function(){seq.push(x.w);render()};box.appendChild(b)})}
+function sample(){var r=Math.random(),a=0;for(var i=0;i<cur.length;i++){a+=cur[i].p;if(r<=a)return cur[i].w}return cur[cur.length-1].w}
+$("auto").onclick=function(){if(nextKey()){seq.push(sample());render()}};
+$("full").onclick=function(){while(nextKey()){cur=dist(nextKey());seq.push(sample())}render()};
+$("reset").onclick=function(){seq=[];render()};
+$("t").oninput=function(){$("tv").textContent=parseFloat(this.value).toFixed(1);if(nextKey())render()};
+render();
+
+/* 2. Prompts */
+var EL=["Rol","Contexto","Datos reales","Restricciones","Formato"];
+var P=[
+{on:[],p:"Escribe una carta sobre matrículas.",o:"Estimado usuario:\nLe informamos que las matrículas son importantes. Debe pagar a tiempo para evitar problemas.\nAtentamente, La Institución.",c:"Texto genérico: no sabe quién escribe, a quién, ni qué pasó. Sirve para cualquiera y para nadie."},
+{on:[0,1],p:"Eres la oficina de Registro Académico de una universidad pública. Responde a un estudiante que pide extender el plazo de matrícula por enfermedad.",o:"Estimado estudiante:\nLamentamos su situación de salud. Para evaluar su matrícula extemporánea, presente un certificado médico en Registro Académico. Le responderemos en 3 días hábiles.\nAtentamente, Registro Académico.",c:"Mucho mejor, pero inventó un plazo de 3 días hábiles que nadie le dio. Un estudiante podría reclamarlo."},
+{on:[0,1,2,3,4],p:"Eres Registro Académico de una universidad pública. Responde a un estudiante enfermo que pide extender la matrícula. Usa solo estos datos: la matrícula extemporánea requiere certificado médico y pago del 10%. Si falta un dato, escribe [CONFIRMAR]. Tono cordial, máximo 60 palabras.",o:"Estimado estudiante:\nLamentamos su situación de salud. Puede solicitar matrícula extemporánea presentando su certificado médico y pagando el 10% del costo. El plazo de respuesta es [CONFIRMAR].\nRegistro Académico.",c:"Usó solo los datos dados y marcó lo que no sabe. Aun así, una persona debe completar [CONFIRMAR] y revisar antes de enviar."}];
+var lv=$("lv");
+["Nivel 1: vago","Nivel 2: con contexto","Nivel 3: preciso"].forEach(function(n,i){var b=document.createElement("button");b.className="sel";b.type="button";b.textContent=n;b.onclick=function(){setP(i)};lv.appendChild(b)});
+function setP(i){var d=P[i];Array.prototype.forEach.call(lv.children,function(b,j){b.setAttribute("aria-pressed",j===i)});
+$("chips").innerHTML=EL.map(function(e,j){return '<span class="chip'+(d.on.indexOf(j)>-1?' on':'')+'">'+e+'</span>'}).join("");
+$("pr").textContent="Prompt: "+d.p;$("po").textContent=d.o.replace(/\\n/g,"\n");$("pc").textContent=d.c}
+setP(0);
+
+/* 3. Alucinaciones */
+var H=[
+["La Universidad de Bolonia, fundada en 1088, es considerada la más antigua en funcionamiento continuo de Occidente.",true,"Dato histórico ampliamente documentado."],
+["Según Ramírez y Torres (2023), el 87% de las universidades latinoamericanas ya usa IA en admisiones.",false,"Cita con autores, año y cifra exactos que suena real pero no existe. Pide siempre la fuente y compruébala."],
+["La Ley Universitaria 30220 de Perú creó la SUNEDU como ente regulador.",true,"Correcto: la ley es de 2014."],
+["El promedio ponderado se calcula multiplicando cada nota por sus créditos y dividiendo entre el total de créditos.",true,"Fórmula estándar."],
+["ChatGPT fue lanzado en 2015 por Google.",false,"Fue lanzado por OpenAI a fines de 2022. El tono seguro no es evidencia."]];
+var sc=0,ans=0;
+H.forEach(function(h,i){var d=document.createElement("div");d.className="q";d.innerHTML='<div>'+h[0]+'</div>';
+var fb=document.createElement("div");fb.className="fb";
+[["Verificable",true],["Inventada",false]].forEach(function(o){var b=document.createElement("button");b.className="sel";b.type="button";b.textContent=o[0];
+b.onclick=function(){if(d.dataset.done)return;d.dataset.done=1;ans++;var ok=o[1]===h[1];if(ok)sc++;b.setAttribute("aria-pressed","true");
+fb.innerHTML=(ok?'<span class="ok">Correcto.</span> ':'<span class="bad">No.</span> ')+h[2];
+Array.prototype.forEach.call(d.querySelectorAll("button"),function(x){x.disabled=true});
+if(ans===H.length)$("hs").innerHTML="Acertaste "+sc+" de "+H.length+". Lección: la IA escribe igual de seguro lo cierto y lo falso. Verificar es parte del proceso."};d.appendChild(b)});
+d.appendChild(fb);$("hq").appendChild(d)});
+
+/* 4. Riesgos */
+var L=["Bajo","Medio","Alto"];
+var U=[
+["Resumir actas de consejo universitario",0,"Es un borrador interno. Control: lectura rápida de quien asistió a la sesión."],
+["Chatbot de preguntas frecuentes sobre matrícula",1,"Llega directo al estudiante y puede inventar plazos. Control: responder solo con documentos oficiales y ofrecer contacto humano."],
+["Redactar correos masivos a estudiantes",1,"Un error se multiplica por miles. Control: revisión humana antes del envío."],
+["Calificar ensayos automáticamente",2,"Afecta notas y trayectorias. Control: la IA sugiere, el docente decide y el estudiante puede apelar."],
+["Preseleccionar postulantes a admisión o becas",2,"Puede reproducir sesgos de datos históricos y excluir personas. Control: auditoría de sesgos, transparencia y decisión humana."],
+["Acusar plagio o uso de IA con un detector",2,"Los detectores dan falsos positivos y pueden culpar a inocentes. Control: nunca como prueba única."]];
+var us=0,ua=0;
+U.forEach(function(u){var d=document.createElement("div");d.className="q";d.innerHTML='<div>'+u[0]+'</div>';var fb=document.createElement("div");fb.className="fb";
+L.forEach(function(l,j){var b=document.createElement("button");b.className="sel";b.type="button";b.textContent=l;
+b.onclick=function(){if(d.dataset.done)return;d.dataset.done=1;ua++;b.setAttribute("aria-pressed","true");var ok=j===u[1];if(ok)us++;
+fb.innerHTML=(ok?'<span class="ok">Coincide.</span> ':'<span class="bad">Riesgo '+L[u[1]].toLowerCase()+'.</span> ')+u[2];
+Array.prototype.forEach.call(d.querySelectorAll("button"),function(x){x.disabled=true});
+if(ua===U.length)$("us").innerHTML="Coincidiste en "+us+" de "+U.length+". Regla práctica: a mayor impacto en la vida de una persona, más supervisión humana."};d.appendChild(b)});
+d.appendChild(fb);$("uc").appendChild(d)});
+})();
+</script>
+</body>
+</html>
