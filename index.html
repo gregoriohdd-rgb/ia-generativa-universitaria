@@ -21,7 +21,7 @@ h1{font:700 clamp(30px,6vw,44px)/1.1 "Trebuchet MS",system-ui,sans-serif;margin:
 .route{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:0 0 16px;font:15px/1.5 system-ui,sans-serif}
 .route b{font-family:"Trebuchet MS",system-ui,sans-serif}
 .grid{display:grid;gap:12px}
-@media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
+@media(min-width:720px){.grid{grid-template-columns:1fr 1fr}.card:last-child:nth-child(odd){grid-column:1/-1}}
 .card{display:flex;flex-direction:column;gap:8px;text-align:left;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;font:inherit}
 .card[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 3px var(--tint)}
 .card h2{font:700 20px/1.2 "Trebuchet MS",system-ui,sans-serif;margin:0}
@@ -38,13 +38,14 @@ h1{font:700 clamp(30px,6vw,44px)/1.1 "Trebuchet MS",system-ui,sans-serif;margin:
 <body>
 <nav class="site" aria-label="Sitio">
 <a href="index.html" aria-current="page">Inicio</a>
-<a href="laboratorio.html">Laboratorio</a>
 <a href="gestion.html">Gestión universitaria</a>
+<a href="laboratorio.html">Laboratorio</a>
+<a href="directorio.html">Directorio</a>
 </nav>
 <main>
 <h1>IA generativa en la universidad</h1>
-<p class="lead">Dos prácticas para ver cómo funciona la IA, cuándo se equivoca y qué herramienta conviene en la gestión universitaria.</p>
-<p class="route"><b>Recorrido sugerido.</b> Empieza por <i>Gestión universitaria</i> para ver cómo elige palabras y alucina. Luego pasa al <i>Laboratorio</i> y evalúa una herramienta con tus propias pruebas.</p>
+<p class="lead">Tres prácticas para ver cómo funciona la IA, cuándo se equivoca y qué herramienta conviene en la gestión universitaria.</p>
+<p class="route"><b>Recorrido sugerido.</b> Empieza por <i>Gestión universitaria</i> para ver cómo elige palabras y alucina. Sigue en el <i>Laboratorio</i> para evaluar una herramienta. Termina en el <i>Directorio</i> y abre el sitio oficial.</p>
 <div class="grid" id="mods" role="group" aria-label="Elegir práctica"></div>
 <div class="panel" id="panel" hidden>
 <h3 id="pt"></h3>
@@ -58,7 +59,9 @@ var mods=[
 {id:"gestion",k:"Práctica 1",t:"Gestión universitaria",d:"Cuatro experimentos: predicción, prompts, alucinaciones y riesgo.",href:"gestion.html",
 steps:["Completa un comunicado eligiendo la siguiente palabra y cambia la temperatura.","Compara tres prompts para el mismo correo a un estudiante.","Marca qué afirmaciones de un informe son verificables y cuáles inventadas.","Clasifica el riesgo de usos reales y el control humano que exigen."]},
 {id:"lab",k:"Práctica 2",t:"Laboratorio de herramientas",d:"Catálogo, casos y una ficha para evaluar la herramienta que pruebes.",href:"laboratorio.html",
-steps:["Filtra el catálogo por lo que necesitas: redactar, investigar, analizar, programar o imágenes.","Elige una herramienta para cinco situaciones de oficina y compara con la sugerencia.","Haz las tres preguntas de prueba en dos herramientas distintas.","Marca la ficha de evaluación y lee el criterio de uso."]}
+steps:["Filtra el catálogo por lo que necesitas: redactar, investigar, analizar, programar o imágenes.","Elige una herramienta para cinco situaciones de oficina y compara con la sugerencia.","Haz las tres preguntas de prueba en dos herramientas distintas.","Marca la ficha de evaluación y lee el criterio de uso."]},
+{id:"dir",k:"Práctica 3",t:"Directorio ExploraIA",d:"Busca 74 herramientas, filtra por tarea y abre el sitio oficial.",href:"directorio.html",
+steps:["Elige la tarea de hoy: redactar, investigar, preparar diapositivas o mejorar un proceso.","Filtra por categoría o busca por nombre, por ejemplo DeepSeek o presentaciones.","Marca favoritos: se guardan solo en este navegador.","Copia una instrucción de práctica y ábrela en la herramienta, con datos ficticios."]}
 ];
 var box=document.getElementById("mods"),panel=document.getElementById("panel"),cur=null;
 mods.forEach(function(m){
