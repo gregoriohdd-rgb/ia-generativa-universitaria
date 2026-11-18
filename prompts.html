@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Ingeniería de prompts para la gestión universitaria: examen diagnóstico con historial, teoría completa, taller interactivo y práctica con rúbrica. Resultados guardados en tu navegador.">
+<title>Arte del Prompt · ExploraIA</title>
+<style>
+:root{color-scheme:dark;--bg:#07111f;--line:rgba(169,205,237,.17);--txt:#ecf6ff;--muted:#a8bacf;--mint:#67ecd0;--blue:#6dbff7;--violet:#c1a4ff;--yellow:#f8cb80;--red:#ff969c}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:66px}
+body{margin:0;background:radial-gradient(ellipse 70% 24% at 81% 2%,rgba(40,101,178,.2),transparent 80%),radial-gradient(ellipse 32% 20% at 1% 16%,rgba(94,47,148,.13),transparent 80%),var(--bg);color:var(--txt);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+p{margin:0 0 12px}h2,h3{letter-spacing:-.03em}h2{font-size:clamp(24px,3vw,36px);margin:0 0 10px}h3{font-size:19px;margin:0 0 8px}
+
+/* Nav */
+.coursenav{position:sticky;top:0;z-index:10;display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:9px 22px;background:#07111f;border-bottom:1px solid var(--line);font-size:12px;font-weight:700}
+.coursenav a{color:#c9d6e8;border:1px solid var(--line);border-radius:99px;padding:5px 11px;white-space:nowrap}
+.coursenav a[aria-current=page]{background:linear-gradient(110deg,#78e6d0,#63b8f1);color:#082238;border-color:transparent}
+.coursenav a:hover{color:#fff}
+
+/* Layout */
+.shell{max-width:1100px;margin:auto;padding:0 22px}
+.section{padding:48px 0;border-top:1px solid var(--line)}
+.sub{color:var(--muted);max-width:700px;margin:0 0 20px;font-size:15px}
+
+/* Hero */
+.hero{padding:52px 0 28px}
+.eyebrow{display:inline-flex;gap:8px;font-size:11px;font-weight:800;color:#91ffe2;border:1px solid rgba(103,236,208,.25);padding:5px 11px;border-radius:99px;background:rgba(103,236,208,.06);letter-spacing:1px;text-transform:uppercase}
+h1{font-size:clamp(32px,5vw,58px);line-height:1.08;letter-spacing:-.05em;margin:14px 0 12px}
+.grad{background:linear-gradient(100deg,#79e7d3,#70bfff,#c7a8ff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:16px;max-width:660px;margin:0 0 16px}
+.author{font-weight:800;font-size:13px;letter-spacing:.02em;margin:12px 0 0}
+.author span{display:block;font-weight:500;color:var(--muted)}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.pillrow span{font-size:12px;color:#b6cbdd;background:#12243a;border:1px solid var(--line);border-radius:30px;padding:5px 11px}
+
+/* Page strip nav */
+.navstrip{display:flex;overflow-x:auto;gap:7px;padding:10px 0 16px;scrollbar-width:thin}
+.navstrip a{white-space:nowrap;color:#c7d4e4;border:1px solid var(--line);border-radius:25px;padding:7px 12px;font-size:12px;font-weight:700}
+.navstrip a:hover{background:#14304e}
+
+/* Badges */
+.badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:800}
+.badge.ok{background:rgba(103,236,208,.15);color:#a2ffe8;border:1px solid rgba(103,236,208,.3)}
+.badge.warn{background:rgba(248,203,128,.12);color:#ffe1a0;border:1px solid rgba(248,203,128,.3)}
+.badge.ko{background:rgba(255,150,156,.12);color:#ffd5d8;border:1px solid rgba(255,150,156,.3)}
+
+/* Cards */
+.card{background:linear-gradient(135deg,#102238,#0b1b2d);border:1px solid var(--line);border-radius:17px;padding:19px}
+.card h4{color:#a2ffe8;margin:0 0 7px;font-size:15px}
+.card p,.card li{color:#c6d7e5;font-size:14px}
+.card ul{padding-left:17px;margin:7px 0 0}.card li{margin:5px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+
+/* Notes */
+.note{padding:13px 16px;border-left:3px solid var(--c,var(--yellow));border-radius:0 11px 11px 0;background:rgba(248,203,128,.07);color:#e8d9bc;font-size:13px;margin:12px 0}
+.note.safe{--c:var(--mint);background:rgba(103,236,208,.07);color:#caeadf}
+.note.info{--c:var(--blue);background:rgba(109,191,247,.07);color:#cce5fa}
+.note.danger{--c:var(--red);background:rgba(255,150,156,.07);color:#f4d8dd}
+
+/* Buttons */
+.btn{border:1px solid var(--line);background:#112239;color:var(--txt);border-radius:11px;padding:9px 15px;font-weight:750;font-size:13px;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn.primary{background:linear-gradient(110deg,#78e6d0,#68bef8);color:#092238;border:0}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btnrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+
+/* ===== EXAMEN ===== */
+.exam-panel{border:1px solid rgba(109,191,247,.26);border-radius:20px;padding:22px;background:linear-gradient(130deg,#0d2237,#0d1b2b)}
+.qcard{padding:16px;border:1px solid var(--line);border-radius:14px;background:#102238;margin:0 0 12px}
+.qcard h4{font-size:15px;margin:0 0 11px;color:#ecf6ff;line-height:1.4}
+.answers{display:grid;gap:6px}
+.ans{display:block;width:100%;text-align:left;padding:10px 13px;background:#152d47;border:1px solid rgba(144,198,236,.2);border-radius:10px;color:var(--txt);font-size:13px}
+.ans:hover:not(:disabled){border-color:var(--blue)}
+.ans.good{border-color:#67d9ba;background:rgba(45,166,125,.17)}
+.ans.bad{border-color:#f09aa0;background:rgba(202,78,83,.13)}
+.ans:disabled{cursor:default}
+.ans-fb{font-size:12px;margin:7px 0 0;display:none;color:#b8d8e6}
+.ans-fb.shown{display:block}
+.quizmeta{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.score-big{font-size:16px;font-weight:850}
+.prog{height:6px;background:#182d43;border-radius:20px;overflow:hidden;flex:1;min-width:100px}
+.prog>span{height:100%;display:block;width:0;background:linear-gradient(90deg,var(--mint),var(--blue));transition:width .3s}
+
+/* ===== TEORÍA ===== */
+.concept-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.concept{text-align:center;padding:14px 8px;border:1px solid var(--line);border-radius:13px;background:#0e2033;cursor:pointer;transition:border-color .2s}
+.concept:hover,.concept.active{border-color:var(--mint)}
+.concept.active{background:rgba(103,236,208,.07)}
+.clet{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;margin:0 auto 7px;font-size:19px;font-weight:900}
+.concept small{font-size:11px;color:var(--muted);display:block;margin-top:3px}
+.cdetail{margin-top:12px;padding:16px;border:1px solid rgba(103,236,208,.2);border-radius:13px;background:rgba(103,236,208,.04);min-height:70px;transition:opacity .2s}
+.cdetail h4{color:var(--mint);margin:0 0 5px;font-size:14px}
+
+.ttabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 10px}
+.ttab{font:600 12px system-ui;border:1px solid var(--line);background:#102239;color:#cfe0f0;border-radius:8px;padding:7px 11px}
+.ttab.on{background:var(--violet);color:#1a0a2e;border-color:var(--violet)}
+.tpanel{padding:15px;border:1px solid var(--line);border-radius:13px;background:#0e2033;display:none}
+.tpanel.on{display:block}
+.code{background:#081728;border:1px solid var(--line);border-radius:9px;padding:13px;font:12px/1.6 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;margin:9px 0;position:relative}
+.cpy{position:absolute;top:7px;right:7px;font:600 10px system-ui;background:rgba(109,191,247,.13);border:1px solid rgba(109,191,247,.28);color:#a8dfff;border-radius:5px;padding:3px 7px}
+.cpy:hover{background:rgba(109,191,247,.22)}
+
+/* ===== TALLER ===== */
+.builder{background:linear-gradient(130deg,#0d2237,#0d1b2b);border:1px solid rgba(109,191,247,.26);border-radius:20px;padding:22px}
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px}
+.bfield{margin:0 0 12px}
+.bfield label{display:block;font:700 11px system-ui;letter-spacing:.5px;text-transform:uppercase;color:#83e8d2;margin:0 0 5px}
+.bfield input,.bfield select,.bfield textarea{width:100%;background:#081728;border:1px solid var(--line);border-radius:9px;color:#ecf6ff;padding:9px 11px;font-size:13px;resize:vertical}
+.bfield textarea{min-height:66px}
+.bfield input:focus,.bfield select:focus,.bfield textarea:focus{border-color:var(--mint);outline:none}
+.prompt-preview{background:#081728;border:1px solid rgba(103,236,208,.2);border-radius:11px;padding:14px;font:13px/1.65 'SFMono-Regular',Consolas,monospace;color:#d0eeff;white-space:pre-wrap;min-height:130px}
+
+.comp-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.ccomp{border:1px solid var(--line);border-radius:13px;padding:15px}
+.ccomp.bad{border-color:rgba(255,150,156,.3);background:rgba(255,150,156,.04)}
+.ccomp.good{border-color:rgba(103,236,208,.3);background:rgba(103,236,208,.04)}
+.ccomp h5{margin:0 0 8px;font-size:13px}
+.ccomp pre{font:12px/1.5 'SFMono-Regular',Consolas,monospace;white-space:pre-wrap;color:#c6d7e5;margin:0}
+.ccomp ul{padding-left:16px;margin:8px 0 0;font-size:12px;color:#9eb8cc}
+
+.cl-item{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid var(--line);border-radius:9px;background:#102238;margin:6px 0;font-size:13px}
+.cl-item select{background:#081728;border:1px solid var(--line);border-radius:7px;padding:5px 7px;color:#ecf6ff;font-size:12px}
+.cl-item .ci{flex:1;color:#c6d7e5}
+.clfb{font-size:12px;font-weight:700;min-width:60px}
+.clfb.ok{color:var(--mint)}.clfb.ko{color:var(--red)}
+
+/* ===== PRÁCTICA ===== */
+.sc-card{border:1px solid var(--line);border-radius:17px;padding:20px;background:linear-gradient(135deg,#102238,#0b1b2d);margin:0 0 18px}
+.sc-card h4{font-size:16px;color:#ecf6ff;margin:0 0 7px}
+.sc-ctx{font-size:12px;color:var(--muted);margin:0 0 10px;padding:9px 13px;background:#081728;border-radius:9px;border-left:3px solid var(--blue)}
+.sc-ctx b{color:#a2d8f7}
+.prompt-ta{width:100%;background:#081728;border:1px solid var(--line);border-radius:9px;color:#ecf6ff;padding:11px;font-size:13px;resize:vertical;min-height:95px;margin:9px 0}
+.prompt-ta:focus{border-color:var(--mint);outline:none}
+.rubric label{display:flex;gap:9px;align-items:flex-start;padding:6px 0;font-size:13px;cursor:pointer;border-bottom:1px solid rgba(169,205,237,.07)}
+.rubric label:last-child{border-bottom:0}
+.rubric input[type=checkbox]{width:17px;height:17px;accent-color:var(--mint);flex-shrink:0;margin-top:2px}
+.rbar{height:7px;background:#182d43;border-radius:9px;overflow:hidden;margin:8px 0}
+.rbar span{display:block;height:100%;background:linear-gradient(90deg,var(--mint),var(--blue));transition:width .3s}
+.rscore{font:700 13px system-ui;margin:4px 0;color:#83e8d2}
+.saved-tag{font-size:10px;font-weight:700;color:var(--mint);background:rgba(103,236,208,.1);border:1px solid rgba(103,236,208,.2);border-radius:5px;padding:2px 7px;margin-left:7px;display:none}
+
+/* ===== RESULTADOS ===== */
+.rtable{width:100%;border-collapse:collapse;font-size:13px}
+.rtable th{text-align:left;padding:9px;border-bottom:1px solid var(--line);color:#83e8d2;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.rtable td{padding:9px;border-bottom:1px solid rgba(169,205,237,.07);color:#c6d7e5;vertical-align:top}
+
+/* Footer */
+.footer{margin-top:44px;padding:30px 0 44px;border-top:1px solid var(--line);color:#91a6bc;font-size:12px}
+
+/* Responsive */
+@media(max-width:880px){.concept-grid{grid-template-columns:repeat(3,1fr)}.grid3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.shell{padding:0 15px}.coursenav{padding:9px 15px}.grid2,.bgrid,.comp-row{grid-template-columns:1fr}.concept-grid{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="coursenav" aria-label="Sitio">
+<a href="index.html">Inicio</a>
+<a href="historia.html">Historia</a>
+<a href="aprende.html">Aprende IA</a>
+<a href="prompts.html" aria-current="page">Arte del Prompt</a>
+<a href="gestion.html">Gestión universitaria</a>
+<a href="directorio.html">Directorio</a>
+</nav>
+
+<main class="shell">
+
+<!-- HERO -->
+<section class="hero">
+<span class="eyebrow">✦ Módulo · Ingeniería de prompts</span>
+<h1>El arte de <span class="grad">hablarle bien a la IA.</span></h1>
+<p class="lead">Un prompt bien construido transforma un resultado genérico en una respuesta útil. Este módulo te lleva desde el diagnóstico hasta la práctica real, con resultados guardados en tu navegador.</p>
+<p class="author">ING. GREGORIO BAUTISTA OBLITAS<span>Maestro en Inteligencia Artificial</span></p>
+<div class="pillrow">
+<span>⏱ 35–45 minutos</span>
+<span>📋 Examen con historial</span>
+<span>📖 Teoría con ejemplos</span>
+<span>🛠 Taller interactivo</span>
+<span>✍️ Práctica con rúbrica</span>
+</div>
+</section>
+
+<nav class="navstrip" aria-label="Secciones del módulo">
+<a href="#examen">📋 01 · Diagnóstico</a>
+<a href="#teoria">📖 02 · Teoría</a>
+<a href="#taller">🛠 03 · Taller</a>
+<a href="#practica">✍️ 04 · Práctica</a>
+<a href="#resultados">📊 05 · Mis resultados</a>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════
+     01 · EXAMEN DIAGNÓSTICO
+══════════════════════════════════════════════════════ -->
+<section class="section" id="examen" aria-labelledby="exh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">01 · Diagnóstico</span>
+<h2 id="exh">¿Cuánto sabes sobre prompts?</h2>
+<p class="sub">10 preguntas de opción múltiple. Tu puntaje se guarda automáticamente en este navegador. Repítelo después de estudiar la teoría y compara tu progreso.</p>
+<div class="exam-panel">
+  <div class="quizmeta">
+    <span style="font-size:12px;font-weight:800;color:#91ffe2;border:1px solid rgba(103,236,208,.25);padding:5px 11px;border-radius:99px;background:rgba(103,236,208,.06);letter-spacing:1px;text-transform:uppercase">🏆 Examen diagnóstico</span>
+    <span id="examScore" class="score-big">0 / 10 respondidas</span>
+    <div class="prog" aria-label="Progreso del examen"><span id="examProg"></span></div>
+  </div>
+  <div id="examList"></div>
+  <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div id="examFinal" style="font-size:14px;color:#c6d7e5"></div>
+    <div class="btnrow" style="margin:0">
+      <button class="btn" type="button" id="examRetry">↺ Repetir examen</button>
+      <a class="btn primary" href="#teoria">Ir a la teoría →</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     02 · TEORÍA
+══════════════════════════════════════════════════════ -->
+<section class="section" id="teoria" aria-labelledby="teoh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">02 · Teoría</span>
+<h2 id="teoh">Fundamentos del prompting</h2>
+<p class="sub">La diferencia entre una respuesta genérica y una útil casi siempre está en cómo formulaste tu instrucción.</p>
+
+<h3>¿Qué es un prompt?</h3>
+<div class="grid2" style="margin-bottom:20px">
+  <div class="card">
+    <h4>Definición</h4>
+    <p>Un prompt es el texto que escribes o envías a un modelo de lenguaje para obtener una respuesta. Es tu punto de entrada: todo lo que el modelo genera parte de lo que le dices y de cómo lo dices.</p>
+  </div>
+  <div class="card">
+    <h4>Analogía práctica</h4>
+    <p>Es como darle instrucciones a un asistente muy capaz que no sabe nada de tu contexto. Si le dices «escribe algo sobre matrícula», obtendrás algo genérico. Si describes la situación, el tono y el formato, obtendrás algo útil.</p>
+  </div>
+</div>
+
+<h3>Anatomía del prompt: el marco R-C-T-F-R</h3>
+<p style="color:var(--muted);font-size:13px;margin-bottom:10px">Haz clic en cada componente para ver su descripción y un ejemplo universitario.</p>
+<div class="concept-grid" id="conceptGrid"></div>
+<div class="cdetail" id="cdetail"><p style="color:var(--muted);font-size:13px">Selecciona un componente para ver su descripción y ejemplo.</p></div>
+
+<div class="note safe" style="margin-top:16px"><b>Ejemplo completo con R-C-T-F-R:</b> «Eres el área de Registro Académico (R). Un estudiante pide extender el plazo de matrícula porque estuvo hospitalizado (C). Redacta una respuesta formal (T) de máximo 100 palabras estructurada en saludo, cuerpo y despedida (F). No inventes plazos ni artículos de reglamento; usa solo datos ficticios (R).»</div>
+
+<h3 style="margin-top:28px">Técnicas principales</h3>
+<div class="ttabs" id="techTabs"></div>
+<div id="techPanels"></div>
+
+<h3 style="margin-top:28px">Errores frecuentes</h3>
+<div class="grid3" id="errGrid"></div>
+
+<div class="note danger" style="margin-top:16px"><b>Privacidad obligatoria:</b> nunca incluyas datos personales reales de estudiantes, DNI, calificaciones ni documentos confidenciales en un servicio de IA no autorizado por tu institución. Usa siempre ejemplos ficticios o anonimizados.</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     03 · TALLER
+══════════════════════════════════════════════════════ -->
+<section class="section" id="taller" aria-labelledby="talh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">03 · Taller</span>
+<h2 id="talh">Construye y compara prompts</h2>
+<p class="sub">Tres actividades para practicar antes de redactar un prompt propio.</p>
+
+<!-- A. Constructor -->
+<h3>A. Constructor de prompts</h3>
+<p style="color:var(--muted);font-size:13px;margin-bottom:6px">Completa los campos y el prompt se arma solo. Cópialo y pruébalo en ChatGPT, Gemini o DeepSeek con datos ficticios.</p>
+<div class="builder">
+  <div class="bgrid">
+    <div>
+      <div class="bfield"><label for="bRol">Rol — ¿quién es la IA?</label>
+        <select id="bRol">
+          <option value="">Elige un rol...</option>
+          <option>Asistente del área de Registro Académico de una universidad pública</option>
+          <option>Especialista en comunicación institucional universitaria</option>
+          <option>Docente universitario experto en diseño de programas académicos</option>
+          <option>Responsable de atención al estudiante</option>
+          <option>Jefe de logística universitaria</option>
+          <option>Redactor técnico de documentos administrativos</option>
+          <option value="__custom">Otro (escribe abajo)</option>
+        </select>
+      </div>
+      <div class="bfield" id="bRolCWrap" hidden><label for="bRolC">Escribe el rol</label><input id="bRolC" type="text" placeholder="Ej: Coordinador de admisiones universitarias"></div>
+      <div class="bfield"><label for="bCtx">Contexto — ¿cuál es la situación?</label><textarea id="bCtx" placeholder="Ej: Un estudiante pide extender el plazo de matrícula porque estuvo hospitalizado la semana de inscripción."></textarea></div>
+      <div class="bfield"><label for="bTask">Tarea — ¿qué debe hacer?</label><textarea id="bTask" placeholder="Ej: Redacta una respuesta formal de no más de 100 palabras explicando los requisitos para la matrícula extemporánea."></textarea></div>
+      <div class="bfield"><label for="bFmt">Formato de salida</label>
+        <select id="bFmt">
+          <option value="">Sin especificar</option>
+          <option>Texto corrido, máximo 80 palabras</option>
+          <option>Lista con viñetas</option>
+          <option>Tabla comparativa</option>
+          <option>Correo formal con asunto, cuerpo y despedida</option>
+          <option>Resumen ejecutivo con 3 puntos clave</option>
+          <option>Preguntas frecuentes (FAQ) con 5 ítems</option>
+          <option>Pasos numerados del 1 al 5</option>
+        </select>
+      </div>
+      <div class="bfield"><label for="bRes">Restricciones — ¿qué NO debe hacer?</label><textarea id="bRes" placeholder="Ej: No inventes plazos ni normas. No uses datos personales reales. Máximo 100 palabras."></textarea></div>
+    </div>
+    <div>
+      <b style="font:700 11px system-ui;letter-spacing:.5px;text-transform:uppercase;color:#83e8d2;display:block;margin-bottom:7px">Vista previa del prompt</b>
+      <div class="prompt-preview" id="promptPrev">Tu prompt aparecerá aquí conforme llenas los campos...</div>
+      <div class="btnrow">
+        <button class="btn primary" type="button" id="copyPBtn">📋 Copiar prompt</button>
+        <button class="btn" type="button" id="clearBBtn">↺ Limpiar</button>
+      </div>
+      <p id="cpyFb" style="font-size:12px;color:var(--mint);margin-top:7px;min-height:16px"></p>
+    </div>
+  </div>
+</div>
+
+<!-- B. Comparador -->
+<h3 style="margin-top:30px">B. Comparador: prompt vago vs. prompt preciso</h3>
+<p style="color:var(--muted);font-size:13px;margin-bottom:9px">Mismo objetivo universitario, resultados muy distintos. Haz clic en un escenario.</p>
+<div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px" id="compBtns"></div>
+<div class="comp-row" id="compRow" hidden>
+  <div class="ccomp bad"><h5><span class="badge ko">❌ Prompt vago</span></h5><pre id="cBad"></pre><ul id="cBadIss"></ul></div>
+  <div class="ccomp good"><h5><span class="badge ok">✓ Prompt preciso</span></h5><pre id="cGood"></pre><ul id="cGoodPts"></ul></div>
+</div>
+
+<!-- C. Clasificador -->
+<h3 style="margin-top:30px">C. Clasifica los componentes</h3>
+<p style="color:var(--muted);font-size:13px;margin-bottom:11px">Cada fragmento pertenece a uno de los componentes R-C-T-F-R. Identifícalo y comprueba tu respuesta.</p>
+<div id="clList"></div>
+<div class="btnrow" style="margin-top:4px">
+  <button class="btn primary" type="button" id="checkCl">Comprobar respuestas</button>
+  <button class="btn" type="button" id="resetCl">↺ Reiniciar</button>
+</div>
+<p id="clScore" style="margin-top:10px;font-size:13px;color:var(--mint)"></p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     04 · PRÁCTICA
+══════════════════════════════════════════════════════ -->
+<section class="section" id="practica" aria-labelledby="prach">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">04 · Práctica</span>
+<h2 id="prach">Redacta tus propios prompts</h2>
+<p class="sub">Cinco situaciones reales de la gestión universitaria. Escribe el mejor prompt que puedas, evalúate con la rúbrica de 7 criterios y guarda tu progreso.</p>
+<div id="scList"></div>
+<div class="note safe" style="margin-top:4px"><b>Regla de oro:</b> trabaja siempre con datos ficticios. Ningún DNI, nombre real, nota o documento confidencial debe ir a un servicio de IA no autorizado por tu institución.</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     05 · MIS RESULTADOS
+══════════════════════════════════════════════════════ -->
+<section class="section" id="resultados" aria-labelledby="rsh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">05 · Mis resultados</span>
+<h2 id="rsh">Tu historial guardado</h2>
+<p class="sub">Almacenado solo en este navegador. Nadie más lo ve y no se envía a ningún servidor.</p>
+
+<h3>Historial del examen diagnóstico</h3>
+<div id="examHist"><p style="color:var(--muted);font-size:13px">Aún no has completado el examen.</p></div>
+
+<h3 style="margin-top:24px">Resumen de la práctica</h3>
+<div id="pracHist"><p style="color:var(--muted);font-size:13px">Aún no has guardado ninguna práctica.</p></div>
+
+<div class="btnrow" style="margin-top:16px">
+  <button class="btn" type="button" id="clearAll">🗑 Borrar todo mi historial</button>
+</div>
+</section>
+</main>
+
+<footer class="footer"><div class="shell">
+<p><b style="color:#eef7ff">ING. GREGORIO BAUTISTA OBLITAS</b><br>Maestro en Inteligencia Artificial</p>
+<p style="margin-top:8px">ExploraIA · Módulo de ingeniería de prompts para formación universitaria · Basado en principios de prompt engineering; los ejemplos son ficticios. Inspirado en masterprompting.net.</p>
+</div></footer>
+
+<script>
+'use strict';
+/* ───────── DATOS ───────── */
+const EQ = [
+  {q:'¿Qué es un prompt en el contexto de la inteligencia artificial?',
+   a:1, opts:['Un programa que se ejecuta en la computadora','La instrucción o mensaje que le das a la IA para obtener una respuesta','El nombre del modelo de inteligencia artificial','Un tipo de algoritmo de aprendizaje automático'],
+   why:'Un prompt es el texto que envías al modelo. Todo lo que genera parte de lo que le dices y de cómo lo dices.'},
+  {q:'¿Cuál es la principal diferencia entre un prompt vago y uno preciso?',
+   a:2, opts:['Los vagos son más creativos y los precisos, aburridos','Los vagos no funcionan nunca y los precisos siempre','Los precisos incluyen contexto, rol, tarea y formato; los vagos no','Solo difieren en la longitud del texto'],
+   why:'La precisión no depende del largo, sino de incluir los elementos clave: quién habla, en qué contexto, qué se necesita y en qué forma.'},
+  {q:'¿Qué significa asignar un "rol" en un prompt?',
+   a:1, opts:['Darle un nombre personalizado a la IA','Indicarle a la IA que actúe como un experto o persona específica','Cambiar el idioma de respuesta','Limitar la cantidad de palabras'],
+   why:'Asignar un rol hace que la IA filtre sus respuestas a través de ese perfil: vocabulario, nivel de detalle y estilo de razonamiento.'},
+  {q:'En la técnica "few-shot prompting", ¿qué se incluye en el prompt?',
+   a:1, opts:['Solo la tarea sin ningún ejemplo','Uno o varios ejemplos del resultado esperado','Una lista larga de restricciones','El código fuente del modelo de IA'],
+   why:'Con few-shot le muestras a la IA cómo quieres que luzca la respuesta usando uno o más ejemplos concretos.'},
+  {q:'¿Qué es el "Chain of Thought" (cadena de pensamiento)?',
+   a:1, opts:['Un tipo de red neuronal especial para textos largos','Pedirle a la IA que explique su razonamiento paso a paso antes de responder','Una técnica para encadenar múltiples IAs','El historial de conversación con la IA'],
+   why:'Con Chain of Thought pides a la IA que muestre sus pasos de razonamiento. Mejora la exactitud en problemas complejos.'},
+  {q:'¿Cuál de estos prompts está mejor construido para un contexto universitario?',
+   a:1, opts:['«Escribe algo sobre matrículas»','«Eres el área de Registro Académico. Redacta una respuesta de máximo 100 palabras a un estudiante que pide extender la matrícula por enfermedad, usando datos ficticios.»','«Dime todo sobre los estudiantes universitarios»','«Genera contenido educativo»'],
+   why:'El prompt preciso define rol, longitud, situación y la restricción de no usar datos reales.'},
+  {q:'¿Qué información NUNCA debes incluir en un prompt enviado a una IA pública no autorizada?',
+   a:2, opts:['El cargo del solicitante','El tono de respuesta esperado','Datos personales reales de estudiantes o trabajadores (DNI, notas, expedientes)','Ejemplos de texto no confidencial'],
+   why:'Los datos personales están protegidos por principios de privacidad y, en muchos países, por ley.'},
+  {q:'¿Qué significa la técnica "zero-shot" en prompting?',
+   a:1, opts:['El prompt no produce ningún resultado la primera vez','El modelo responde sin que se le hayan dado ejemplos dentro del prompt','El costo de la API es cero','La respuesta siempre es incorrecta en el primer intento'],
+   why:'Zero-shot significa que no incluyes ejemplos; confías en que el modelo entiende la tarea solo con la instrucción.'},
+  {q:'¿Cuál es el propósito de agregar RESTRICCIONES en un prompt?',
+   a:1, opts:['Hacer el prompt más largo para "impresionar" a la IA','Delimitar qué puede y qué NO puede incluir la respuesta','Mejorar la velocidad de procesamiento','Cambiar el modelo que genera la respuesta'],
+   why:'Las restricciones ("no inventes plazos", "máximo 100 palabras") evitan alucinaciones y resultados no deseados.'},
+  {q:'Después de recibir una respuesta de la IA, ¿qué SIEMPRE debes hacer antes de usarla?',
+   a:2, opts:['Publicarla directamente, ya que la IA no comete errores graves','Eliminar el prompt original','Verificar la información con fuentes confiables antes de usar el resultado','Traducirla al inglés para confirmar que es correcta'],
+   why:'La IA puede alucinar datos, citar normas inexistentes o dar cifras equivocadas. La verificación humana es parte del proceso.'}
+];
+
+const COMPS = [
+  {k:'R1',l:'Rol',c:'rgba(103,236,208,.22)',cb:'#67ecd0',txt:'¿Quién es la IA?',
+   desc:'Define la identidad desde la que debe responder. Ajusta vocabulario, nivel de detalle y estilo.',
+   ex:'«Eres el jefe de Registro Académico de una universidad pública.»'},
+  {k:'C',l:'Contexto',c:'rgba(109,191,247,.22)',cb:'#6dbff7',txt:'¿Cuál es la situación?',
+   desc:'Proporciona el antecedente necesario para que la respuesta sea pertinente. Sin contexto, la IA responde en abstracto.',
+   ex:'«Un estudiante envió un correo indicando que estuvo hospitalizado durante la semana de matrícula regular.»'},
+  {k:'T',l:'Tarea',c:'rgba(193,164,255,.22)',cb:'#c1a4ff',txt:'¿Qué debe hacer?',
+   desc:'La acción concreta esperada: redactar, resumir, comparar, listar, traducir, proponer. Cuanto más específica, mejor.',
+   ex:'«Redacta una respuesta formal de no más de 100 palabras explicando los requisitos para la matrícula extemporánea.»'},
+  {k:'F',l:'Formato',c:'rgba(248,203,128,.22)',cb:'#f8cb80',txt:'¿Cómo debe presentarse?',
+   desc:'El tipo de salida esperada: lista, tabla, correo, párrafos, paso a paso. Si no lo indicas, la IA elige por defecto.',
+   ex:'«Estructura: saludo, cuerpo en dos párrafos, despedida. Tono: cordial y formal.»'},
+  {k:'R2',l:'Restricciones',c:'rgba(255,150,156,.22)',cb:'#ff969c',txt:'¿Qué NO debe hacer?',
+   desc:'Límites explícitos que previenen alucinaciones o contenido no deseado. Tan importantes como la tarea misma.',
+   ex:'«No inventes plazos ni artículos de reglamento. No uses el nombre real de ningún estudiante.»'},
+];
+
+const TECHS = [
+  {id:'z',l:'Zero-shot',
+   desc:'Le das la tarea directamente, sin ejemplos. Funciona bien para tareas simples y bien definidas.',
+   code:'Redacta un aviso de 50 palabras comunicando que la matrícula\nextemporánea estará abierta del 10 al 15 de diciembre.\nUsa un tono formal e institucional.',
+   when:'Cuando la tarea es clara y no requiere un estilo o formato muy específico.'},
+  {id:'f',l:'Few-shot',
+   desc:'Incluyes uno o más ejemplos del resultado que esperas. La IA "imita" el patrón.',
+   code:'Pregunta: ¿Cuándo cierra la matrícula regular?\nRespuesta: La matrícula regular cierra el último día hábil de noviembre.\n\nPregunta: ¿Qué necesito para hacer la matrícula extemporánea?\nRespuesta: [genera esta respuesta en el mismo estilo]',
+   when:'Cuando necesitas que la IA siga un estilo o formato muy específico que es difícil de describir con palabras.'},
+  {id:'c',l:'Chain of Thought',
+   desc:'Pides que razone paso a paso antes de dar la respuesta. Reduce errores en tareas que requieren lógica o normas.',
+   code:'Analiza el siguiente caso y razona paso a paso antes de recomendar:\n\nUn estudiante perdió el 40 % de asistencias porque fue operado de urgencia\nen la semana 8. El reglamento permite justificar hasta el 30 % con\ncertificado médico. ¿Qué opciones tiene el estudiante?\n\nSigue estos pasos: 1) identifica el porcentaje de inasistencias,\n2) verifica si supera el límite justificable, 3) describe cada\nopción disponible, 4) indica qué documentos necesitaría.',
+   when:'Cuando la respuesta depende de varios pasos de razonamiento o de comparar reglas.'},
+  {id:'r',l:'Role prompting',
+   desc:'Asignas un rol específico para moldear el estilo, vocabulario y nivel de detalle.',
+   code:'Eres un especialista en comunicación institucional con 10 años\nde experiencia en universidades públicas. Tu estilo es claro,\ndirecto y sin tecnicismos innecesarios. Escribes para personal\nadministrativo sin formación en comunicación.\n\nTarea: Propón tres formas de mejorar el aviso de inicio de\nmatrícula para que sea más fácil de entender. Usa ejemplos\nconcretos pero ficticios.',
+   when:'Cuando el tono, el estilo o el nivel de detalle importan tanto como el contenido mismo.'},
+  {id:'n',l:'Restricciones negativas',
+   desc:'Dices explícitamente qué NO debe hacer la IA. Reduce alucinaciones y resultados fuera de contexto.',
+   code:'Redacta una FAQ de 5 preguntas sobre el proceso de admisión.\n\nRESTRICCIONES:\n- No inventes artículos de reglamento ni fechas específicas.\n- Si falta información, escribe [DATO POR CONFIRMAR].\n- No menciones nombres de personas reales.\n- No uses lenguaje informal ni emojis.\n- Máximo 40 palabras por respuesta.',
+   when:'Cuando el tema es sensible (normativas, plazos, derechos) y un error puede tener consecuencias reales.'},
+];
+
+const ERRS = [
+  {ic:'💭',t:'Prompt demasiado vago',d:'«Ayúdame con la matrícula» no dice qué hacer, para quién ni en qué formato.',f:'Especifica la tarea: redactar, resumir, responder, listar.'},
+  {ic:'📦',t:'Demasiado en un prompt',d:'Pedir que resuma, traduzca, mejore el estilo y proponga mejoras en una sola instrucción produce resultados mediocres.',f:'Divide tareas complejas en pasos separados.'},
+  {ic:'📐',t:'Sin formato de salida',d:'La IA elige su propio formato. A veces útil; otras, no es el que necesitas.',f:'Especifica: lista, tabla, correo, párrafo, paso a paso.'},
+  {ic:'🔒',t:'Datos confidenciales',d:'Incluir DNI, notas o nombres reales en un servicio no autorizado viola la privacidad.',f:'Usa siempre ejemplos ficticios o anonimizados.'},
+  {ic:'✅',t:'No verificar el resultado',d:'La IA puede inventar fechas, citar normas inexistentes o dar cifras equivocadas.',f:'Verifica cada dato importante con la fuente oficial.'},
+  {ic:'🔄',t:'No iterar el prompt',d:'Si el primer resultado no es bueno, muchos abandonan. El prompting es un proceso.',f:'Ajusta el rol, agrega contexto o añade ejemplos y vuelve a intentar.'},
+];
+
+const COMP_SCENS = [
+  {l:'Responder a estudiante',
+   bad:'Escribe algo sobre matrículas.',
+   bi:['Sin rol definido','Sin contexto de la situación','Sin límite de longitud','Sin restricciones'],
+   good:'Eres el área de Registro Académico. Un estudiante pide extender el plazo de matrícula por enfermedad (adjunta certificado médico). Redacta una respuesta formal de máximo 100 palabras indicando los pasos a seguir, usando datos ficticios. No inventes plazos ni artículos de reglamento.',
+   gp:['✓ Rol: Registro Académico','✓ Contexto: situación del estudiante','✓ Formato: máximo 100 palabras','✓ Restricción: no inventar datos']},
+  {l:'Resumir reglamento',
+   bad:'Resume este reglamento.',
+   bi:['No especifica la extensión del resumen','No indica la audiencia','No define el formato','No dice qué aspectos priorizar'],
+   good:'Eres un especialista en comunicación institucional. Resume el siguiente reglamento de matrículas en máximo 200 palabras, dirigido a estudiantes de primer ciclo. Usa lenguaje sencillo, evita tecnicismos y organiza las ideas en 4 puntos clave: plazos, requisitos, costos y excepciones.',
+   gp:['✓ Rol: especialista en comunicación','✓ Audiencia: estudiantes de primer ciclo','✓ Formato: 200 palabras, 4 puntos','✓ Lenguaje: sencillo, sin tecnicismos']},
+  {l:'Proponer mejoras',
+   bad:'Dime cómo mejorar el proceso de admisión.',
+   bi:['Sin contexto del proceso actual','Puede inventar mejoras inviables','Sin formato de respuesta','Pregunta demasiado abierta'],
+   good:'Eres un consultor de gestión universitaria. Te presento el proceso actual de admisión (texto a continuación). Propón exactamente 3 mejoras concretas para reducir el tiempo de respuesta al postulante. Para cada mejora indica: qué cambiar, beneficio esperado y un riesgo a considerar. No inventes tecnologías que no existan.',
+   gp:['✓ Número exacto de mejoras: 3','✓ Estructura: qué / beneficio / riesgo','✓ Restricción: sin tecnologías inexistentes','✓ Criterio claro: reducir tiempo de respuesta']},
+];
+
+const CL_ITEMS = [
+  {t:'«Eres la coordinadora de admisiones de una universidad pública con 8 años de experiencia.»', c:'R1'},
+  {t:'«Un postulante no pudo presentarse a la evaluación por un desastre natural en su región.»', c:'C'},
+  {t:'«Redacta un comunicado oficial informando las opciones que tiene el postulante.»', c:'T'},
+  {t:'«No inventes fechas ni artículos de reglamento; si falta un dato, escribe [CONFIRMAR].»', c:'R2'},
+  {t:'«Presenta la respuesta como un correo formal con asunto, cuerpo y firma institucional.»', c:'F'},
+  {t:'«El postulante tiene documentación del Ministerio que certifica el desastre y solicita una nueva fecha.»', c:'C'},
+];
+const CL_LABELS = {R1:'Rol',C:'Contexto',T:'Tarea',F:'Formato',R2:'Restricciones'};
+
+const SCENARIOS = [
+  {id:'s1',title:'Aviso de matrícula extemporánea',
+   ctx:'La oficina de Registro necesita enviar un aviso a todos los estudiantes que no se matricularon en el período regular. El período extemporáneo va del 8 al 12 de diciembre, con un recargo del 10 %. Solo trabaja con datos ficticios.',
+   goal:'Escribe un prompt para que la IA redacte el aviso oficial.'},
+  {id:'s2',title:'FAQ sobre proceso de admisión',
+   ctx:'La unidad de admisiones recibe 50 correos diarios con las mismas dudas: fechas, documentos requeridos, modalidades y puntajes. Quieren un documento de preguntas frecuentes. Usa datos ficticios.',
+   goal:'Escribe un prompt para generar una FAQ de 6 preguntas y respuestas.'},
+  {id:'s3',title:'Resumen ejecutivo de actas',
+   ctx:'El director académico necesita un resumen ejecutivo de las decisiones tomadas en la última reunión de consejo. El acta original tiene 12 páginas (ficticias). Debe poder leerse en 2 minutos.',
+   goal:'Escribe un prompt para resumir el acta con los puntos de acción más importantes.'},
+  {id:'s4',title:'Propuesta de mejora de un proceso',
+   ctx:'El proceso de devolución de pagos por retiro de matrícula tarda 30 días hábiles. La dirección quiere reducirlo a 10. Usa un proceso ficticio como ejemplo.',
+   goal:'Escribe un prompt para que la IA analice el proceso y proponga 3 mejoras concretas.'},
+  {id:'s5',title:'Correo de convocatoria a taller',
+   ctx:'La oficina de calidad quiere convocar a 40 coordinadores a un taller virtual de 3 horas sobre uso responsable de IA. Fecha: próximo viernes, 9:00 a. m. Datos ficticios.',
+   goal:'Escribe un prompt para redactar el correo de convocatoria.'},
+];
+const RUBRIC = [
+  {id:'r_rol',l:'Incluí un rol claro (¿quién es la IA?)'},
+  {id:'r_ctx',l:'El contexto es suficiente para entender la situación'},
+  {id:'r_task',l:'La tarea está claramente definida (verbo + objeto)'},
+  {id:'r_fmt',l:'Especifiqué el formato de salida esperado'},
+  {id:'r_res',l:'Incluí al menos una restricción («no inventes», «máximo X palabras»)'},
+  {id:'r_priv',l:'No incluí datos personales reales ni información confidencial'},
+  {id:'r_check',l:'Revisé el prompt antes de enviarlo a la IA'},
+];
+
+/* ───────── STORAGE ───────── */
+const EK = 'exploia_exam_prom_v1', PK = 'exploia_prac_prom_v1';
+const ls = k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null}};
+const ss = (k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+
+/* ───────── EXAMEN ───────── */
+let eAns = {}, eDone = false;
+function renderExam(){
+  const list = document.getElementById('examList');
+  list.innerHTML = '';
+  EQ.forEach((q,i)=>{
+    const sec = document.createElement('div');
+    sec.className = 'qcard';
+    let h = `<h4>${i+1}. ${q.q}</h4><div class="answers">`;
+    q.opts.forEach((o,j)=>{
+      let c = '';
+      if(eAns[i]!==undefined){ if(j===q.a)c='good'; else if(j===eAns[i])c='bad'; }
+      h+=`<button class="ans ${c}" type="button" data-q="${i}" data-a="${j}"${eAns[i]!==undefined?' disabled':''}>${String.fromCharCode(65+j)}. ${o}</button>`;
+    });
+    h+='</div>';
+    if(eAns[i]!==undefined) h+=`<p class="ans-fb shown"><b>${eAns[i]===q.a?'✓ Correcto.':'✗ Incorrecto.'}</b> ${q.why}</p>`;
+    sec.innerHTML = h;
+    list.appendChild(sec);
+  });
+  document.querySelectorAll('.ans').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const qi=Number(b.dataset.q),ai=Number(b.dataset.a);
+      if(eAns[qi]!==undefined)return;
+      eAns[qi]=ai; renderExam(); updateExamMeta();
+    });
+  });
+  updateExamMeta();
+}
+function updateExamMeta(){
+  const done=Object.keys(eAns).length;
+  const sc=EQ.filter((q,i)=>eAns[i]===q.a).length;
+  document.getElementById('examScore').textContent=`${done} / ${EQ.length} respondidas`;
+  document.getElementById('examProg').style.width=(100*done/EQ.length)+'%';
+  if(done===EQ.length && !eDone){
+    eDone=true;
+    const pct=Math.round(sc/EQ.length*100);
+    const msg=pct>=80?'🎉 Excelente dominio del tema.':pct>=60?'👍 Buen comienzo. La teoría te ayudará a mejorar.':'📖 Estudia la teoría y vuelve a intentarlo.';
+    document.getElementById('examFinal').innerHTML=`<b style="font-size:17px;color:#80e7d2">Resultado: ${sc}/${EQ.length} (${pct}%)</b> &nbsp;${msg}`;
+    const hist=ls(EK)||[];
+    hist.push({date:new Date().toLocaleString('es-PE'),score:sc,total:EQ.length,pct});
+    ss(EK,hist); renderHistory();
+  }
+}
+document.getElementById('examRetry').onclick=()=>{eAns={};eDone=false;document.getElementById('examFinal').innerHTML='';renderExam();};
+renderExam();
+
+/* ───────── COMPONENTES ───────── */
+const cg = document.getElementById('conceptGrid');
+const cd = document.getElementById('cdetail');
+let acIdx = -1;
+COMPS.forEach((c,i)=>{
+  const btn=document.createElement('button');
+  btn.type='button'; btn.className='concept';
+  btn.innerHTML=`<div class="clet" style="background:${c.c};border:2px solid ${c.cb};color:#ecf6ff">${c.l[0]}</div><b style="font-size:12px">${c.l}</b><small>${c.txt}</small>`;
+  btn.onclick=()=>{
+    document.querySelectorAll('.concept').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active'); acIdx=i;
+    cd.innerHTML=`<h4>${c.l}: ${c.txt}</h4><p style="color:#c6d7e5;font-size:13px;margin-bottom:8px">${c.desc}</p><div class="code" style="margin:0;font-size:12px">${c.ex}</div>`;
+  };
+  cg.appendChild(btn);
+});
+
+/* ───────── TÉCNICAS ───────── */
+const tbEl=document.getElementById('techTabs');
+const tpEl=document.getElementById('techPanels');
+TECHS.forEach((t,i)=>{
+  const btn=document.createElement('button');
+  btn.type='button'; btn.className='ttab'+(i===0?' on':''); btn.textContent=t.l;
+  btn.onclick=()=>{
+    document.querySelectorAll('.ttab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(x=>x.classList.remove('on'));
+    btn.classList.add('on'); document.getElementById('tp'+i).classList.add('on');
+  };
+  tbEl.appendChild(btn);
+  const p=document.createElement('div');
+  p.className='tpanel'+(i===0?' on':''); p.id='tp'+i;
+  p.innerHTML=`<p style="color:#c6d7e5;font-size:13px;margin-bottom:9px">${t.desc}</p><div class="code">${t.code}<button class="cpy" data-ci="${i}">Copiar</button></div><p style="font-size:12px;color:var(--muted);margin:0"><b style="color:#83e8d2">Cuándo usarla:</b> ${t.when}</p>`;
+  tpEl.appendChild(p);
+});
+document.querySelectorAll('.cpy').forEach(b=>{
+  b.onclick=()=>{
+    navigator.clipboard.writeText(TECHS[Number(b.dataset.ci)].code).catch(()=>{});
+    b.textContent='¡Copiado!'; setTimeout(()=>b.textContent='Copiar',1800);
+  };
+});
+
+/* ───────── ERRORES ───────── */
+const eg=document.getElementById('errGrid');
+ERRS.forEach(e=>{
+  const d=document.createElement('div'); d.className='card';
+  d.innerHTML=`<div style="font-size:26px;margin-bottom:7px">${e.ic}</div><h4>${e.t}</h4><p style="font-size:13px">${e.d}</p><p style="font-size:13px;color:var(--mint)"><b>✓ Solución:</b> ${e.f}</p>`;
+  eg.appendChild(d);
+});
+
+/* ───────── CONSTRUCTOR ───────── */
+function getRol(){const s=document.getElementById('bRol');return s.value==='__custom'?document.getElementById('bRolC').value.trim():s.value;}
+document.getElementById('bRol').onchange=function(){document.getElementById('bRolCWrap').hidden=this.value!=='__custom';updPrev();};
+['bRolC','bCtx','bTask','bFmt','bRes'].forEach(id=>document.getElementById(id).addEventListener('input',updPrev));
+function updPrev(){
+  const rol=getRol(),ctx=document.getElementById('bCtx').value.trim(),task=document.getElementById('bTask').value.trim(),fmt=document.getElementById('bFmt').value,res=document.getElementById('bRes').value.trim();
+  let lines=[];
+  if(rol) lines.push(`ROL:\n${rol}`);
+  if(ctx) lines.push(`\nCONTEXTO:\n${ctx}`);
+  if(task) lines.push(`\nTAREA:\n${task}`);
+  if(fmt) lines.push(`\nFORMATO:\n${fmt}`);
+  if(res) lines.push(`\nRESTRICCIONES:\n${res}`);
+  document.getElementById('promptPrev').textContent=lines.length?lines.join('\n'):'Tu prompt aparecerá aquí conforme llenas los campos...';
+}
+document.getElementById('copyPBtn').onclick=()=>{
+  const t=document.getElementById('promptPrev').textContent;
+  if(t.startsWith('Tu prompt'))return;
+  navigator.clipboard.writeText(t).catch(()=>{});
+  document.getElementById('cpyFb').textContent='✓ Prompt copiado. Pégalo en ChatGPT, Gemini o DeepSeek con datos ficticios.';
+  setTimeout(()=>document.getElementById('cpyFb').textContent='',3200);
+};
+document.getElementById('clearBBtn').onclick=()=>{
+  ['bRol','bFmt'].forEach(id=>document.getElementById(id).value='');
+  ['bRolC','bCtx','bTask','bRes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('bRolCWrap').hidden=true; updPrev();
+};
+
+/* ───────── COMPARADOR ───────── */
+const cbEl=document.getElementById('compBtns');
+COMP_SCENS.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.type='button'; b.className='btn'+(i===0?' primary':''); b.textContent=s.l;
+  b.onclick=()=>{
+    document.querySelectorAll('#compBtns .btn').forEach(x=>x.className='btn'); b.className='btn primary';
+    document.getElementById('cBad').textContent=s.bad;
+    document.getElementById('cGood').textContent=s.good;
+    document.getElementById('cBadIss').innerHTML=s.bi.map(x=>`<li style="color:#f9b8bb">❌ ${x}</li>`).join('');
+    document.getElementById('cGoodPts').innerHTML=s.gp.map(x=>`<li style="color:#9af5df">${x}</li>`).join('');
+    document.getElementById('compRow').hidden=false;
+  };
+  cbEl.appendChild(b);
+});
+cbEl.firstChild.click();
+
+/* ───────── CLASIFICADOR ───────── */
+const clEl=document.getElementById('clList');
+CL_ITEMS.forEach((item,i)=>{
+  const row=document.createElement('div'); row.className='cl-item';
+  row.innerHTML=`<span class="ci">${item.t}</span>
+    <select data-cl="${i}"><option value="">Elegir...</option><option value="R1">Rol</option><option value="C">Contexto</option><option value="T">Tarea</option><option value="F">Formato</option><option value="R2">Restricciones</option></select>
+    <span class="clfb" id="cf${i}"></span>`;
+  clEl.appendChild(row);
+});
+document.getElementById('checkCl').onclick=()=>{
+  let ok=0;
+  CL_ITEMS.forEach((item,i)=>{
+    const sel=document.querySelector(`select[data-cl="${i}"]`),fb=document.getElementById('cf'+i);
+    if(sel.value===item.c){ok++;fb.textContent='✓ '+CL_LABELS[item.c];fb.className='clfb ok';}
+    else if(sel.value){fb.textContent='✗ Era: '+CL_LABELS[item.c];fb.className='clfb ko';}
+    else{fb.textContent='—';fb.className='clfb';}
+  });
+  document.getElementById('clScore').textContent=`Acertaste ${ok} de ${CL_ITEMS.length} fragmentos.${ok===CL_ITEMS.length?' ¡Perfecto!':ok>=4?' Muy bien.':' Repasa el marco R-C-T-F-R.'}`;
+};
+document.getElementById('resetCl').onclick=()=>{
+  document.querySelectorAll('[data-cl]').forEach(s=>s.value='');
+  CL_ITEMS.forEach((_,i)=>{const f=document.getElementById('cf'+i);f.textContent='';f.className='clfb';});
+  document.getElementById('clScore').textContent='';
+};
+
+/* ───────── PRÁCTICA ───────── */
+const pd=ls(PK)||{};
+const slEl=document.getElementById('scList');
+SCENARIOS.forEach(sc=>{
+  const saved=pd[sc.id]||{text:'',rubric:{}};
+  const card=document.createElement('div'); card.className='sc-card';
+  const rHtml=RUBRIC.map(r=>`<label><input type="checkbox" data-sc="${sc.id}" data-r="${r.id}"${saved.rubric&&saved.rubric[r.id]?' checked':''}> ${r.l}</label>`).join('');
+  const initPct=saved.rubric?Math.round(Object.values(saved.rubric).filter(Boolean).length/RUBRIC.length*100):0;
+  card.innerHTML=`
+    <h4>${sc.title} <span class="saved-tag" id="stag_${sc.id}"${saved.savedAt?' style="display:inline"':''}>✓ ${saved.savedAt||''}</span></h4>
+    <div class="sc-ctx"><b>Contexto:</b> ${sc.ctx}<br><b>Tu objetivo:</b> ${sc.goal}</div>
+    <textarea class="prompt-ta" id="pa_${sc.id}" placeholder="Escribe tu prompt aquí...">${saved.text||''}</textarea>
+    <div class="rubric" id="rub_${sc.id}">${rHtml}</div>
+    <div class="rbar"><span id="rb_${sc.id}" style="width:${initPct}%"></span></div>
+    <div class="rscore" id="rs_${sc.id}">${initPct>0?scoreMsg(Object.values(saved.rubric).filter(Boolean).length):''}</div>
+    <div class="btnrow">
+      <button class="btn primary" type="button" data-save="${sc.id}">💾 Guardar mi prompt</button>
+      <button class="btn" type="button" data-clear="${sc.id}">↺ Limpiar</button>
+    </div>`;
+  slEl.appendChild(card);
+});
+function scoreMsg(n){const p=Math.round(n/RUBRIC.length*100);return `${n} de ${RUBRIC.length} criterios (${p}%). ${p>=85?'Excelente prompt.':p>=57?'Buen avance, revisa los criterios faltantes.':'Puedes mejorar el prompt.'}`;}
+slEl.addEventListener('change',e=>{
+  const cb=e.target.closest('input[type=checkbox]');if(!cb)return;
+  const sc=cb.dataset.sc,r=cb.dataset.r;
+  if(!pd[sc])pd[sc]={text:'',rubric:{}};
+  pd[sc].rubric[r]=cb.checked;
+  const n=Object.values(pd[sc].rubric).filter(Boolean).length;
+  document.getElementById('rb_'+sc).style.width=(n/RUBRIC.length*100)+'%';
+  document.getElementById('rs_'+sc).textContent=scoreMsg(n);
+});
+slEl.addEventListener('click',e=>{
+  const sb=e.target.closest('[data-save]'),cb=e.target.closest('[data-clear]');
+  if(sb){
+    const sc=sb.dataset.save;
+    if(!pd[sc])pd[sc]={text:'',rubric:{}};
+    pd[sc].text=document.getElementById('pa_'+sc).value;
+    pd[sc].savedAt=new Date().toLocaleString('es-PE');
+    ss(PK,pd);
+    const tag=document.getElementById('stag_'+sc);
+    tag.style.display='inline';tag.textContent='✓ '+pd[sc].savedAt;
+    renderHistory();
+  }
+  if(cb){
+    const sc=cb.dataset.clear;
+    document.getElementById('pa_'+sc).value='';
+    if(pd[sc]){pd[sc].text='';pd[sc].rubric={};pd[sc].savedAt='';}
+    document.querySelectorAll(`input[data-sc="${sc}"]`).forEach(x=>x.checked=false);
+    document.getElementById('rb_'+sc).style.width='0';
+    document.getElementById('rs_'+sc).textContent='';
+    document.getElementById('stag_'+sc).style.display='none';
+    ss(PK,pd); renderHistory();
+  }
+});
+
+/* ───────── HISTORIAL ───────── */
+function renderHistory(){
+  const eh=document.getElementById('examHist');
+  const ph=document.getElementById('pracHist');
+  const exH=ls(EK)||[];
+  if(exH.length){
+    const rows=exH.slice().reverse().map(h=>`<tr><td>${h.date}</td><td>${h.score}/${h.total}</td><td><span class="badge ${h.pct>=80?'ok':h.pct>=60?'warn':'ko'}">${h.pct}%</span></td></tr>`).join('');
+    eh.innerHTML=`<table class="rtable"><thead><tr><th>Fecha</th><th>Puntaje</th><th>Porcentaje</th></tr></thead><tbody>${rows}</tbody></table>`;
+  }
+  const pData=ls(PK)||{};
+  const pE=Object.entries(pData).filter(([,v])=>v.savedAt);
+  if(pE.length){
+    const rows=pE.map(([k,v])=>{
+      const sc=SCENARIOS.find(s=>s.id===k);
+      const n=v.rubric?Object.values(v.rubric).filter(Boolean).length:0;
+      const p=Math.round(n/RUBRIC.length*100);
+      return `<tr><td>${sc?sc.title:k}</td><td>${v.savedAt||'—'}</td><td><span class="badge ${p>=85?'ok':p>=57?'warn':'ko'}">${p}% (${n}/${RUBRIC.length})</span></td><td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)">${v.text?v.text.slice(0,80)+'…':'—'}</td></tr>`;
+    }).join('');
+    ph.innerHTML=`<table class="rtable"><thead><tr><th>Escenario</th><th>Guardado</th><th>Rúbrica</th><th>Extracto del prompt</th></tr></thead><tbody>${rows}</tbody></table>`;
+  }
+}
+renderHistory();
+document.getElementById('clearAll').onclick=()=>{
+  if(confirm('¿Borrar todo tu historial de exámenes y práctica de esta página?')){
+    try{localStorage.removeItem(EK);localStorage.removeItem(PK);}catch{}
+    location.reload();
+  }
+};
+</script>
+</body>
+</html>
