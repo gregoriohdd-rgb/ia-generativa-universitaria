@@ -198,21 +198,39 @@ h1{font-size:clamp(32px,5vw,58px);line-height:1.08;letter-spacing:-.05em;margin:
 <section class="section" id="examen" aria-labelledby="exh">
 <span class="eyebrow" style="margin-bottom:10px;display:inline-flex">01 · Diagnóstico</span>
 <h2 id="exh">¿Cuánto sabes sobre prompts?</h2>
-<p class="sub">10 preguntas de opción múltiple. Tu puntaje se guarda automáticamente en este navegador. Repítelo después de estudiar la teoría y compara tu progreso.</p>
+<p class="sub">10 preguntas de opción múltiple. Tu puntaje se guarda en este navegador. Repítelo después de estudiar la teoría y compara tu progreso.</p>
 <div class="exam-panel">
-  <div class="quizmeta">
-    <span style="font-size:12px;font-weight:800;color:#91ffe2;border:1px solid rgba(103,236,208,.25);padding:5px 11px;border-radius:99px;background:rgba(103,236,208,.06);letter-spacing:1px;text-transform:uppercase">🏆 Examen diagnóstico</span>
-    <span id="examScore" class="score-big">0 / 10 respondidas</span>
-    <div class="prog" aria-label="Progreso del examen"><span id="examProg"></span></div>
+
+  <!-- ① Puerta de nombre — se oculta al confirmar -->
+  <div id="nameGate" style="margin-bottom:18px;padding:16px 18px;border:1px solid rgba(103,236,208,.22);border-radius:13px;background:rgba(103,236,208,.05)">
+    <p style="font:800 12px system-ui;letter-spacing:.6px;text-transform:uppercase;color:#83e8d2;margin:0 0 9px">📝 Antes de comenzar — escribe tu nombre completo</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <input id="studentName" type="text" maxlength="80" autocomplete="name"
+        placeholder="Ej. Ana García Pérez..."
+        style="flex:1;min-width:200px;background:#081728;border:1px solid var(--line);border-radius:9px;color:#ecf6ff;padding:10px 13px;font-size:14px">
+      <button class="btn primary" type="button" id="startExamBtn">Comenzar examen →</button>
+    </div>
+    <p id="nameErr" style="font-size:12px;color:var(--red);margin:6px 0 0;min-height:14px"></p>
   </div>
-  <div id="examList"></div>
-  <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-    <div id="examFinal" style="font-size:14px;color:#c6d7e5"></div>
-    <div class="btnrow" style="margin:0">
-      <button class="btn" type="button" id="examRetry">↺ Repetir examen</button>
-      <a class="btn primary" href="#teoria">Ir a la teoría →</a>
+
+  <!-- ② Contenido del examen — visible tras confirmar nombre -->
+  <div id="examContent" hidden>
+    <div class="quizmeta">
+      <span id="examNameTag" style="font-size:12px;font-weight:800;color:#91ffe2;border:1px solid rgba(103,236,208,.25);padding:5px 11px;border-radius:99px;background:rgba(103,236,208,.06)">👤</span>
+      <span id="examScore" class="score-big">0 / 10 respondidas</span>
+      <div class="prog" aria-label="Progreso del examen"><span id="examProg"></span></div>
+    </div>
+    <div id="examList"></div>
+    <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div id="examFinal" style="font-size:14px;color:#c6d7e5"></div>
+      <div class="btnrow" style="margin:0">
+        <button class="btn" type="button" id="examRetry">↺ Repetir</button>
+        <a id="gformBtn" class="btn" style="background:linear-gradient(110deg,#4285f4,#34a853);color:#fff;border:0;display:none" href="#" target="_blank" rel="noopener noreferrer">📊 Enviar al profesor</a>
+        <a class="btn primary" href="#teoria">Ir a la teoría →</a>
+      </div>
     </div>
   </div>
+
 </div>
 </section>
 
@@ -348,12 +366,14 @@ h1{font-size:clamp(32px,5vw,58px);line-height:1.08;letter-spacing:-.05em;margin:
 <p class="sub">Almacenado solo en este navegador. Nadie más lo ve y no se envía a ningún servidor.</p>
 
 <h3>Historial del examen diagnóstico</h3>
+<p style="color:var(--muted);font-size:13px;margin-bottom:8px">Se guarda cada intento con tu nombre, fecha y puntaje. Solo visible en este navegador.</p>
 <div id="examHist"><p style="color:var(--muted);font-size:13px">Aún no has completado el examen.</p></div>
 
 <h3 style="margin-top:24px">Resumen de la práctica</h3>
 <div id="pracHist"><p style="color:var(--muted);font-size:13px">Aún no has guardado ninguna práctica.</p></div>
 
 <div class="btnrow" style="margin-top:16px">
+  <button class="btn" type="button" id="changeNameBtn">✏️ Cambiar nombre</button>
   <button class="btn" type="button" id="clearAll">🗑 Borrar todo mi historial</button>
 </div>
 </section>
@@ -366,6 +386,36 @@ h1{font-size:clamp(32px,5vw,58px);line-height:1.08;letter-spacing:-.05em;margin:
 
 <script>
 'use strict';
+
+/* ══════════════════════════════════════════════════════
+   CONFIGURACIÓN GOOGLE FORM
+   ──────────────────────────────────────────────────────
+   1. Ve a forms.google.com y crea un formulario con 4
+      campos de tipo "Respuesta corta":
+        • Nombre completo
+        • Puntaje
+        • Porcentaje
+        • Fecha
+   2. Haz clic en la vista previa (👁).
+   3. En el navegador abre DevTools (F12) → Consola y
+      escribe: document.querySelectorAll('[name^="entry"]')
+      Copia cada número que aparece después de "entry."
+   4. Pega aquí el ID del form (parte de la URL entre
+      /d/e/  y  /viewform) y los 4 entry IDs.
+══════════════════════════════════════════════════════ */
+const GFORM_ID       = '';  // ← Pega aquí el ID del form
+const GENTRY_NOMBRE  = '';  // ← entry ID del campo "Nombre completo"
+const GENTRY_PUNTAJE = '';  // ← entry ID del campo "Puntaje"
+const GENTRY_PCT     = '';  // ← entry ID del campo "Porcentaje"
+const GENTRY_FECHA   = '';  // ← entry ID del campo "Fecha"
+
+function buildGUrl(nombre,puntaje,pct,fecha){
+  if(!GFORM_ID) return null;
+  const base='https://docs.google.com/forms/d/e/'+GFORM_ID+'/viewform?usp=pp_url';
+  const q=(k,v)=>k?'&entry.'+k+'='+encodeURIComponent(v):'';
+  return base+q(GENTRY_NOMBRE,nombre)+q(GENTRY_PUNTAJE,puntaje)+q(GENTRY_PCT,pct+'%')+q(GENTRY_FECHA,fecha);
+}
+
 /* ───────── DATOS ───────── */
 const EQ = [
   {q:'¿Qué es un prompt en el contexto de la inteligencia artificial?',
@@ -506,9 +556,34 @@ const RUBRIC = [
 ];
 
 /* ───────── STORAGE ───────── */
-const EK = 'exploia_exam_prom_v1', PK = 'exploia_prac_prom_v1';
+const EK = 'exploia_exam_prom_v1', PK = 'exploia_prac_prom_v1', NK = 'exploia_exam_nombre_v1';
 const ls = k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null}};
 const ss = (k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+
+/* ───────── NOMBRE DEL ESTUDIANTE ───────── */
+let studentName = ls(NK) || '';
+
+function showExamContent(){
+  document.getElementById('nameGate').hidden = true;
+  document.getElementById('examContent').hidden = false;
+  document.getElementById('examNameTag').textContent = '👤 ' + studentName;
+}
+
+// Si ya tenía nombre guardado, abre directamente el examen
+if(studentName) showExamContent();
+
+document.getElementById('studentName').value = studentName;
+
+document.getElementById('startExamBtn').onclick = ()=>{
+  const v = document.getElementById('studentName').value.trim();
+  if(!v){ document.getElementById('nameErr').textContent='⚠ Por favor escribe tu nombre antes de continuar.'; return; }
+  document.getElementById('nameErr').textContent='';
+  studentName = v;
+  ss(NK, studentName);
+  showExamContent();
+  renderExam();
+};
+document.getElementById('studentName').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('startExamBtn').click(); });
 
 /* ───────── EXAMEN ───────── */
 let eAns = {}, eDone = false;
@@ -546,15 +621,27 @@ function updateExamMeta(){
   if(done===EQ.length && !eDone){
     eDone=true;
     const pct=Math.round(sc/EQ.length*100);
+    const fecha=new Date().toLocaleString('es-PE');
     const msg=pct>=80?'🎉 Excelente dominio del tema.':pct>=60?'👍 Buen comienzo. La teoría te ayudará a mejorar.':'📖 Estudia la teoría y vuelve a intentarlo.';
     document.getElementById('examFinal').innerHTML=`<b style="font-size:17px;color:#80e7d2">Resultado: ${sc}/${EQ.length} (${pct}%)</b> &nbsp;${msg}`;
+    // Guardar en historial con nombre
     const hist=ls(EK)||[];
-    hist.push({date:new Date().toLocaleString('es-PE'),score:sc,total:EQ.length,pct});
+    hist.push({nombre:studentName, date:fecha, score:sc, total:EQ.length, pct});
     ss(EK,hist); renderHistory();
+    // Botón Google Form
+    const gurl=buildGUrl(studentName, sc+'/'+EQ.length, pct, fecha);
+    const gb=document.getElementById('gformBtn');
+    if(gurl){ gb.href=gurl; gb.style.display='inline-flex'; }
   }
 }
-document.getElementById('examRetry').onclick=()=>{eAns={};eDone=false;document.getElementById('examFinal').innerHTML='';renderExam();};
-renderExam();
+document.getElementById('examRetry').onclick=()=>{
+  eAns={}; eDone=false;
+  document.getElementById('examFinal').innerHTML='';
+  document.getElementById('gformBtn').style.display='none';
+  renderExam();
+};
+// Solo renderizar si ya hay nombre
+if(studentName) renderExam();
 
 /* ───────── COMPONENTES ───────── */
 const cg = document.getElementById('conceptGrid');
@@ -734,8 +821,8 @@ function renderHistory(){
   const ph=document.getElementById('pracHist');
   const exH=ls(EK)||[];
   if(exH.length){
-    const rows=exH.slice().reverse().map(h=>`<tr><td>${h.date}</td><td>${h.score}/${h.total}</td><td><span class="badge ${h.pct>=80?'ok':h.pct>=60?'warn':'ko'}">${h.pct}%</span></td></tr>`).join('');
-    eh.innerHTML=`<table class="rtable"><thead><tr><th>Fecha</th><th>Puntaje</th><th>Porcentaje</th></tr></thead><tbody>${rows}</tbody></table>`;
+    const rows=exH.slice().reverse().map(h=>`<tr><td>${h.nombre||'—'}</td><td>${h.date}</td><td>${h.score}/${h.total}</td><td><span class="badge ${h.pct>=80?'ok':h.pct>=60?'warn':'ko'}">${h.pct}%</span></td></tr>`).join('');
+    eh.innerHTML=`<table class="rtable"><thead><tr><th>Nombre</th><th>Fecha</th><th>Puntaje</th><th>%</th></tr></thead><tbody>${rows}</tbody></table>`;
   }
   const pData=ls(PK)||{};
   const pE=Object.entries(pData).filter(([,v])=>v.savedAt);
@@ -750,9 +837,23 @@ function renderHistory(){
   }
 }
 renderHistory();
+document.getElementById('changeNameBtn').onclick=()=>{
+  if(confirm('¿Deseas cambiar tu nombre? El examen se reiniciará.')){
+    try{localStorage.removeItem(NK);}catch{}
+    studentName=''; eAns={}; eDone=false;
+    document.getElementById('examContent').hidden=true;
+    document.getElementById('nameGate').hidden=false;
+    document.getElementById('studentName').value='';
+    document.getElementById('examFinal').innerHTML='';
+    document.getElementById('gformBtn').style.display='none';
+    document.getElementById('examList').innerHTML='';
+    document.getElementById('examScore').textContent='0 / 10 respondidas';
+    document.getElementById('examProg').style.width='0';
+  }
+};
 document.getElementById('clearAll').onclick=()=>{
   if(confirm('¿Borrar todo tu historial de exámenes y práctica de esta página?')){
-    try{localStorage.removeItem(EK);localStorage.removeItem(PK);}catch{}
+    try{localStorage.removeItem(EK);localStorage.removeItem(PK);localStorage.removeItem(NK);}catch{}
     location.reload();
   }
 };
