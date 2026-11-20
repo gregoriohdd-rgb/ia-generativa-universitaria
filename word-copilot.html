@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Guía completa de prompts para Copilot en Microsoft Word: oficio, memorándum, carta, informe, acta, resolución y más. Marco R·D·O·C·T·F para documentos profesionales universitarios.">
+<title>Word con Copilot · ExploraIA</title>
+<style>
+:root{color-scheme:dark;--bg:#07101f;--line:rgba(130,160,230,.14);--txt:#ecf6ff;--muted:#a0b8cc;--blue:#5b9cf6;--indigo:#818cf8;--sky:#38bdf8;--violet:#c084fc;--green:#86efac;--yellow:#fcd34d;--red:#ff969c}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:66px}
+body{margin:0;background:radial-gradient(ellipse 60% 20% at 90% 2%,rgba(91,156,246,.12),transparent 70%),radial-gradient(ellipse 35% 22% at 2% 14%,rgba(129,140,248,.13),transparent 80%),var(--bg);color:var(--txt);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+p{margin:0 0 12px}h2,h3{letter-spacing:-.03em}h2{font-size:clamp(22px,3vw,34px);margin:0 0 10px}h3{font-size:19px;margin:0 0 8px}
+
+.coursenav{position:sticky;top:0;z-index:10;display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:9px 22px;background:#07101f;border-bottom:1px solid var(--line);font-size:12px;font-weight:700}
+.coursenav a{color:#c0d0e8;border:1px solid var(--line);border-radius:99px;padding:5px 11px;white-space:nowrap}
+.coursenav a[aria-current=page]{background:linear-gradient(110deg,#5b9cf6,#818cf8);color:#020c24;border-color:transparent}
+.coursenav a:hover{color:#fff}
+
+.shell{max-width:1120px;margin:auto;padding:0 22px}
+.section{padding:52px 0;border-top:1px solid var(--line)}
+.sub{color:var(--muted);max-width:720px;margin:0 0 20px;font-size:15px}
+.eyebrow{display:inline-flex;gap:8px;font-size:11px;font-weight:800;color:#a5c4ff;border:1px solid rgba(91,156,246,.3);padding:5px 11px;border-radius:99px;background:rgba(91,156,246,.07);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+h1{font-size:clamp(32px,5vw,60px);line-height:1.07;letter-spacing:-.05em;margin:14px 0 12px}
+.grad{background:linear-gradient(100deg,#5b9cf6,#818cf8,#c084fc);background-clip:text;-webkit-background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:16px;max-width:680px;margin:0 0 16px}
+.author{font-weight:800;font-size:13px;letter-spacing:.02em;margin:12px 0 0}
+.author span{display:block;font-weight:500;color:var(--muted)}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.pillrow span{font-size:12px;color:#b6cbdd;background:#0d1e35;border:1px solid var(--line);border-radius:30px;padding:5px 11px}
+
+.navstrip{display:flex;overflow-x:auto;gap:7px;padding:10px 0 16px;scrollbar-width:thin}
+.navstrip a{white-space:nowrap;color:#c0d0e8;border:1px solid var(--line);border-radius:25px;padding:7px 12px;font-size:12px;font-weight:700}
+.navstrip a:hover{background:#0d2040}
+
+/* Code blocks */
+.code{background:#060f1e;border:1px solid var(--line);border-radius:10px;padding:14px 15px;font:12.5px/1.6 'SFMono-Regular',Consolas,monospace;color:#b4d4ff;white-space:pre-wrap;margin:9px 0;position:relative}
+.cpy{position:absolute;top:8px;right:9px;font:700 10px system-ui;background:rgba(91,156,246,.12);border:1px solid rgba(91,156,246,.3);color:#a5c4ff;border-radius:5px;padding:3px 8px;cursor:pointer}
+.cpy:hover{background:rgba(91,156,246,.22)}
+
+/* Notes */
+.note{padding:13px 16px;border-left:3px solid var(--c,var(--yellow));border-radius:0 11px 11px 0;background:rgba(252,211,77,.07);color:#e8d9bc;font-size:13px;margin:12px 0}
+.note.blue{--c:var(--blue);background:rgba(91,156,246,.07);color:#cce0fa}
+.note.green{--c:var(--green);background:rgba(134,239,172,.07);color:#c5f5d8}
+.note.violet{--c:var(--violet);background:rgba(192,132,252,.07);color:#e5d5fa}
+
+/* Formula cards */
+.formula-box{background:linear-gradient(135deg,#0c1e3a,#0a1628);border:1px solid rgba(91,156,246,.25);border-radius:20px;padding:24px;margin-top:14px}
+.formula-row{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid rgba(130,160,230,.07)}
+.formula-row:last-child{border-bottom:0}
+.formula-let{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:16px;flex-shrink:0}
+.formula-row h5{font-size:13px;margin:0 0 3px;color:#ecf6ff}
+.formula-row p{font-size:12px;color:#8ab0cc;margin:0}
+.formula-ex{font:12px/1.5 'SFMono-Regular',Consolas,monospace;color:#90c0f8;background:#060f1e;border:1px solid var(--line);border-radius:7px;padding:5px 9px;display:inline-block;margin-top:4px}
+
+/* Document tabs */
+.doc-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 10px}
+.doc-tab{font:700 12px system-ui;border:1px solid var(--line);background:#0d1e35;color:#cfe0f0;border-radius:8px;padding:7px 12px;white-space:nowrap}
+.doc-tab.on{background:linear-gradient(110deg,#5b9cf6,#818cf8);color:#020c24;border-color:transparent}
+.doc-panel{display:none}.doc-panel.on{display:block}
+
+/* Two-column layout */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+@media(max-width:700px){.two-col{grid-template-columns:1fr}}
+
+/* Document anatomy card */
+.anat-card{background:#0a1a2e;border:1px solid rgba(91,156,246,.2);border-radius:14px;padding:18px}
+.anat-card h4{font-size:14px;color:#a5c4ff;margin:0 0 10px}
+.anat-item{display:flex;gap:9px;margin-bottom:7px;align-items:flex-start}
+.anat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+
+/* Premium prompt */
+.premium-box{background:linear-gradient(135deg,#0d1a3a,#0c1535);border:2px solid rgba(91,156,246,.3);border-radius:20px;padding:24px;margin-top:14px;position:relative;overflow:hidden}
+.premium-box::before{content:'⭐ PREMIUM';position:absolute;top:12px;right:14px;font:800 10px system-ui;color:#fcd34d;background:rgba(252,211,77,.12);border:1px solid rgba(252,211,77,.3);border-radius:5px;padding:3px 8px;letter-spacing:.5px}
+
+/* Quick reference table */
+.ref-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:12px}
+.ref-table th{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#a5c4ff;background:#070f1e}
+.ref-table td{padding:8px 12px;border-bottom:1px solid rgba(130,160,230,.06);vertical-align:top}
+.ref-table tr:hover td{background:rgba(91,156,246,.04)}
+.ref-table td:first-child{font-weight:700;color:#c0d8f8;width:140px}
+
+/* Badges */
+.badge{font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px}
+.badge-free{background:rgba(134,239,172,.12);color:#86efac;border:1px solid rgba(134,239,172,.25)}
+.badge-m365{background:rgba(91,156,246,.12);color:#93b8f6;border:1px solid rgba(91,156,246,.25)}
+.badge-tip{background:rgba(192,132,252,.12);color:#d4a8ff;border:1px solid rgba(192,132,252,.25)}
+
+/* Access steps */
+.steps-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:14px}
+.step-card{background:#0a1a2e;border:1px solid var(--line);border-radius:13px;padding:14px;text-align:center}
+.step-num{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#5b9cf6,#818cf8);color:#020c24;font-weight:900;font-size:14px;display:grid;place-items:center;margin:0 auto 8px}
+.step-card p{font-size:12px;color:#9eb8cc;margin:0}
+.step-card b{font-size:13px;color:#ecf6ff;display:block;margin-bottom:4px}
+
+/* Footer */
+.footer{margin-top:44px;padding:30px 0 44px;border-top:1px solid var(--line);color:#91a6bc;font-size:12px}
+</style>
+</head>
+<body>
+
+<nav class="coursenav" aria-label="Sitio">
+<a href="index.html">Inicio</a>
+<a href="prompts.html">Arte del Prompt</a>
+<a href="agentes.html">Agentes de Código</a>
+<a href="markdown.html">Markdown</a>
+<a href="codigos-imagen.html">Códigos de Imagen</a>
+<a href="diagramas.html">Diagramas con IA</a>
+<a href="word-copilot.html" aria-current="page">Word + Copilot</a>
+<a href="gestion.html">Gestión universitaria</a>
+<a href="directorio.html">Directorio</a>
+</nav>
+
+<main class="shell">
+
+<!-- HERO -->
+<section style="padding:56px 0 32px">
+<span class="eyebrow">✦ Módulo · Documentos con IA</span>
+<h1>Word con<br><span class="grad">Microsoft Copilot.</span></h1>
+<p class="lead">Genera oficios, memorándums, cartas, informes y más con prompts profesionales. Incluye la anatomía R·D·O·C·T·F para documentos institucionales perfectos.</p>
+<p class="author">ING. GREGORIO BAUTISTA OBLITAS<span>Maestro en Inteligencia Artificial</span></p>
+<div class="pillrow">
+<span>📄 Oficio</span><span>📝 Memorándum</span><span>📬 Carta</span><span>📊 Informe</span><span>📋 Acta</span><span>⚖ Resolución</span><span>🏛 Uso universitario</span>
+</div>
+</section>
+
+<nav class="navstrip" aria-label="Secciones">
+<a href="#que-es">🔵 ¿Qué es?</a>
+<a href="#acceso">🖥 Acceso</a>
+<a href="#anatomia">🧩 Anatomía R·D·O·C·T·F</a>
+<a href="#documentos">📄 Documentos</a>
+<a href="#estilos">🎨 Estilos Word</a>
+<a href="#premium">⭐ Prompt Premium</a>
+<a href="#formula">🏆 Fórmula de oro</a>
+<a href="#consejos">💡 Consejos</a>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     01 · QUÉ ES COPILOT EN WORD
+══════════════════════════════════════════════════ -->
+<section class="section" id="que-es" aria-labelledby="qeh">
+<span class="eyebrow">01 · ¿Qué es?</span>
+<h2 id="qeh">Copilot en Microsoft Word</h2>
+<p class="sub">Copilot es el asistente de IA integrado directamente en Word. No tienes que abrir un chat separado: está dentro del documento y entiende el contexto de lo que estás escribiendo.</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:14px">
+  <div style="background:#0a1a2e;border:1px solid rgba(91,156,246,.2);border-radius:14px;padding:16px">
+    <div style="font-size:26px;margin-bottom:8px">✍</div>
+    <b style="font-size:14px;color:#a5c4ff;display:block;margin-bottom:5px">Genera desde cero</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Describe el documento y Copilot lo escribe completo: estructura, contenido, formato y estilos de Word correctos.</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid rgba(129,140,248,.2);border-radius:14px;padding:16px">
+    <div style="font-size:26px;margin-bottom:8px">🔄</div>
+    <b style="font-size:14px;color:#b8a8ff;display:block;margin-bottom:5px">Reescribe y mejora</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Selecciona cualquier párrafo → clic derecho → Copilot → Reescribir. Cambia el tono, simplifica o amplía.</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid rgba(56,189,248,.2);border-radius:14px;padding:16px">
+    <div style="font-size:26px;margin-bottom:8px">📋</div>
+    <b style="font-size:14px;color:#90d4f8;display:block;margin-bottom:5px">Resume documentos</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Abre un documento largo y pide "Resume este documento en 5 puntos clave". Copilot lee todo el archivo.</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid rgba(192,132,252,.2);border-radius:14px;padding:16px">
+    <div style="font-size:26px;margin-bottom:8px">🎨</div>
+    <b style="font-size:14px;color:#d4a8ff;display:block;margin-bottom:5px">Aplica estilos</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Si pides Título 1, Título 2 y Normal en el prompt, Copilot aplica los estilos nativos de Word — no formato manual.</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid rgba(134,239,172,.2);border-radius:14px;padding:16px">
+    <div style="font-size:26px;margin-bottom:8px">🌐</div>
+    <b style="font-size:14px;color:#a8f8c8;display:block;margin-bottom:5px">Traduce y adapta</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Traduce documentos completos, cambia de registro formal a informal o adapta para distintos destinatarios con un prompt.</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid rgba(252,211,77,.2);border-radius:14px;padding:16px">
+    <div style="font-size:26px;margin-bottom:8px">🔍</div>
+    <b style="font-size:14px;color:#fde68a;display:block;margin-bottom:5px">Revisa y corrige</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">"Revisa la coherencia de este documento y sugiere mejoras" — Copilot da retroalimentación editorial sobre todo el texto.</p>
+  </div>
+</div>
+
+<div class="note blue" style="margin-top:16px"><b>🔑 Requisito:</b> Necesitas una licencia <strong>Microsoft 365</strong> (personal, empresarial o educativa) con Copilot habilitado. Muchas universidades tienen convenio con Microsoft. Consulta con tu área de TI si tienes acceso.</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     02 · CÓMO ACCEDER
+══════════════════════════════════════════════════ -->
+<section class="section" id="acceso" aria-labelledby="acch">
+<span class="eyebrow">02 · Acceso</span>
+<h2 id="acch">Cómo activar Copilot en Word</h2>
+<div class="steps-row">
+  <div class="step-card">
+    <div class="step-num">1</div>
+    <b>Verifica tu licencia</b>
+    <p>Abre Word → Archivo → Cuenta. Debes ver "Microsoft 365" activo con tu cuenta institucional o personal.</p>
+  </div>
+  <div class="step-card">
+    <div class="step-num">2</div>
+    <b>Busca el botón Copilot</b>
+    <p>En la cinta de Word, pestaña Inicio o Vista, busca el botón azul "Copilot" con el ícono de estrella ✨.</p>
+  </div>
+  <div class="step-card">
+    <div class="step-num">3</div>
+    <b>Panel de Copilot</b>
+    <p>Se abre un panel lateral donde escribes tus prompts y ves el resultado antes de insertarlo en el documento.</p>
+  </div>
+  <div class="step-card">
+    <div class="step-num">4</div>
+    <b>Escribir en el doc</b>
+    <p>Haz clic en el documento, presiona Enter dos veces y verás el ícono ✨ de Copilot en el margen para generar contenido inline.</p>
+  </div>
+  <div class="step-card">
+    <div class="step-num">5</div>
+    <b>Alternativa: web</b>
+    <p>Abre word.microsoft.com con tu cuenta 365, crea un doc nuevo y el botón Copilot aparece en la barra superior.</p>
+  </div>
+</div>
+
+<h3 style="margin-top:24px">¿No tienes Copilot? Alternativas gratuitas</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:12px">
+  <div style="background:#0a1a2e;border:1px solid var(--line);border-radius:13px;padding:15px">
+    <b style="color:#a5c4ff;font-size:13px;display:block;margin-bottom:5px">ChatGPT + copiar a Word</b>
+    <p style="font-size:12px;color:#9eb8cc;margin:0">Genera el documento en ChatGPT con los prompts de esta guía → copia el texto → pégalo en Word → aplica los estilos Título 1/2/3 manualmente.</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid var(--line);border-radius:13px;padding:15px">
+    <b style="color:#a5c4ff;font-size:13px;display:block;margin-bottom:5px">Claude + Markdown → Pandoc</b>
+    <p style="font-size:12px;color:#9eb8cc;margin:0">Genera el documento en Markdown con Claude o ChatGPT → convierte con Pandoc a .docx con estilos automáticos (ver módulo Markdown).</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid var(--line);border-radius:13px;padding:15px">
+    <b style="color:#a5c4ff;font-size:13px;display:block;margin-bottom:5px">Gemini + Docs de Google</b>
+    <p style="font-size:12px;color:#9eb8cc;margin:0">Gemini está integrado en Google Docs de forma similar. Los mismos prompts de esta guía funcionan en Google Docs con Gemini.</p>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     03 · ANATOMÍA R·D·O·C·T·F
+══════════════════════════════════════════════════ -->
+<section class="section" id="anatomia" aria-labelledby="anah">
+<span class="eyebrow">03 · Anatomía del prompt</span>
+<h2 id="anah">El marco <span style="color:#5b9cf6">R · D · O · C · T · F</span> para documentos</h2>
+<p class="sub">Todo prompt para generar un documento profesional tiene 6 componentes. Incluirlos todos garantiza que Copilot entienda exactamente qué necesitas.</p>
+
+<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:14px 0 20px">
+  <div style="background:linear-gradient(145deg,#0a1e35,#060f1e);border:2px solid rgba(91,156,246,.35);border-radius:14px;padding:14px;text-align:center">
+    <div style="font-size:30px;font-weight:900;color:#5b9cf6;line-height:1">R</div>
+    <div style="font:700 11px system-ui;color:#ecf6ff;margin:5px 0 3px">Rol</div>
+    <p style="font-size:11px;color:#8ab0cc;margin:0">¿Quién redacta?</p>
+  </div>
+  <div style="background:linear-gradient(145deg,#0a1e35,#060f1e);border:2px solid rgba(129,140,248,.35);border-radius:14px;padding:14px;text-align:center">
+    <div style="font-size:30px;font-weight:900;color:#818cf8;line-height:1">D</div>
+    <div style="font:700 11px system-ui;color:#ecf6ff;margin:5px 0 3px">Documento</div>
+    <p style="font-size:11px;color:#8ab0cc;margin:0">¿Qué tipo?</p>
+  </div>
+  <div style="background:linear-gradient(145deg,#0a1e35,#060f1e);border:2px solid rgba(56,189,248,.35);border-radius:14px;padding:14px;text-align:center">
+    <div style="font-size:30px;font-weight:900;color:#38bdf8;line-height:1">O</div>
+    <div style="font:700 11px system-ui;color:#ecf6ff;margin:5px 0 3px">Objetivo</div>
+    <p style="font-size:11px;color:#8ab0cc;margin:0">¿Para qué?</p>
+  </div>
+  <div style="background:linear-gradient(145deg,#0a1e35,#060f1e);border:2px solid rgba(134,239,172,.35);border-radius:14px;padding:14px;text-align:center">
+    <div style="font-size:30px;font-weight:900;color:#86efac;line-height:1">C</div>
+    <div style="font:700 11px system-ui;color:#ecf6ff;margin:5px 0 3px">Contenido</div>
+    <p style="font-size:11px;color:#8ab0cc;margin:0">¿Qué incluir?</p>
+  </div>
+  <div style="background:linear-gradient(145deg,#0a1e35,#060f1e);border:2px solid rgba(252,211,77,.35);border-radius:14px;padding:14px;text-align:center">
+    <div style="font-size:30px;font-weight:900;color:#fcd34d;line-height:1">T</div>
+    <div style="font:700 11px system-ui;color:#ecf6ff;margin:5px 0 3px">Tono</div>
+    <p style="font-size:11px;color:#8ab0cc;margin:0">¿Cómo suena?</p>
+  </div>
+  <div style="background:linear-gradient(145deg,#0a1e35,#060f1e);border:2px solid rgba(192,132,252,.35);border-radius:14px;padding:14px;text-align:center">
+    <div style="font-size:30px;font-weight:900;color:#c084fc;line-height:1">F</div>
+    <div style="font:700 11px system-ui;color:#ecf6ff;margin:5px 0 3px">Formato</div>
+    <p style="font-size:11px;color:#8ab0cc;margin:0">¿Cómo se ve?</p>
+  </div>
+</div>
+@media(max-width:600px){.rdoctf-grid{grid-template-columns:repeat(3,1fr)!important}}
+
+<!-- Anatomía universal -->
+<h3>Plantilla universal R·D·O·C·T·F</h3>
+<div class="code">Actúa como [<span style="color:#5b9cf6">R</span>: especialista en redacción administrativa / consultor / experto].
+
+Genera un [<span style="color:#818cf8">D</span>: Oficio / Memorándum / Carta / Informe / Acta / Resolución].
+
+Objetivo:
+[<span style="color:#38bdf8">O</span>: qué se quiere lograr con este documento].
+
+Dirigido a:
+[destinatario: nombre, cargo, institución].
+
+Contexto:
+[situación, antecedentes, datos relevantes].
+
+Incluye:
+[<span style="color:#86efac">C</span>: - Sección 1
+     - Sección 2
+     - Sección 3
+     - Cierre y firma].
+
+Tono:
+[<span style="color:#fcd34d">T</span>: Formal e institucional / Ejecutivo / Técnico / Cordial].
+
+Formato Word:
+[<span style="color:#c084fc">F</span>: - Fuente Arial 11 pt
+     - Interlineado 1.5
+     - Texto justificado
+     - Título 1 para secciones principales
+     - Título 2 para subsecciones].
+
+Antes de redactar:
+1. Genera una estructura profesional.
+2. Aplica estilos de Word (no formato manual).
+3. Desarrolla cada sección de forma completa.
+4. Entrega una versión lista para revisión y firma.<button class="cpy">Copiar</button></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     04 · TIPOS DE DOCUMENTOS
+══════════════════════════════════════════════════ -->
+<section class="section" id="documentos" aria-labelledby="doch">
+<span class="eyebrow">04 · Documentos</span>
+<h2 id="doch">Prompts por tipo de documento</h2>
+<p class="sub">Cada documento tiene su propia estructura. Haz clic en el tipo y copia el prompt de anatomía o el ejemplo completo listo para usar.</p>
+
+<div class="doc-tabs" id="docTabs">
+  <button class="doc-tab on" data-doc="oficio">📄 Oficio</button>
+  <button class="doc-tab" data-doc="memo">📝 Memorándum</button>
+  <button class="doc-tab" data-doc="carta">📬 Carta</button>
+  <button class="doc-tab" data-doc="informe">📊 Informe</button>
+  <button class="doc-tab" data-doc="acta">📋 Acta</button>
+  <button class="doc-tab" data-doc="resolucion">⚖ Resolución</button>
+  <button class="doc-tab" data-doc="propuesta">🗂 Propuesta</button>
+  <button class="doc-tab" data-doc="contrato">🤝 Contrato</button>
+</div>
+
+<div id="docPanels">
+
+<!-- OFICIO -->
+<div class="doc-panel on" id="doc-oficio">
+<div class="note blue" style="margin-top:4px"><b>📄 Oficio:</b> Comunicación formal entre entidades o dependencias. Tiene número de oficio, fecha, destinatario, asunto, cuerpo y firma del remitente con cargo.</div>
+<div class="two-col">
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Anatomía</p>
+  <div class="code">Actúa como especialista en redacción administrativa.
+
+Genera un Oficio.
+
+Objetivo:
+[Solicitud o comunicación específica].
+
+Dirigido a:
+[Nombre, cargo, dependencia].
+
+Contexto:
+[Situación que motiva el oficio].
+
+Incluye:
+- Número y fecha del oficio.
+- Asunto (una línea).
+- Antecedentes.
+- Cuerpo con la solicitud o comunicación.
+- Justificación.
+- Cierre institucional.
+- Firma y sello.<button class="cpy">Copiar</button></div>
+</div>
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Ejemplo completo</p>
+  <div class="code">Actúa como especialista en redacción administrativa universitaria.
+
+Genera un Oficio dirigido al Gerente de Administración.
+
+Objetivo:
+Solicitar la adquisición de 10 computadoras para el laboratorio de informática de la Facultad de Ingeniería.
+
+Contexto:
+Los equipos actuales tienen más de 8 años de antigüedad, presentan fallas frecuentes y no soportan las aplicaciones de diseño y programación requeridas por el plan curricular vigente.
+
+Incluye:
+- Número de oficio y fecha.
+- Asunto: Solicitud de adquisición de equipos informáticos.
+- Antecedentes: estado actual de los equipos.
+- Justificación técnica: especificaciones mínimas requeridas.
+- Solicitud formal con cantidad y urgencia.
+- Cierre institucional.
+
+Tono:
+Formal e institucional.
+
+Formato Word:
+- Arial 11 pt, interlineado 1.5, texto justificado.
+- Título 1 para secciones principales.
+- Tabla para las especificaciones técnicas.
+
+Antes de redactar:
+1. Genera la estructura del oficio con numeración.
+2. Aplica estilos de Word correctamente.
+3. Desarrolla cada sección con detalle.
+4. Entrega versión lista para impresión y firma.<button class="cpy">Copiar</button></div>
+</div>
+</div>
+</div><!-- /oficio -->
+
+<!-- MEMORÁNDUM -->
+<div class="doc-panel" id="doc-memo">
+<div class="note blue" style="margin-top:4px"><b>📝 Memorándum:</b> Comunicación interna corta y directa. Formato: Para, De, Asunto, Fecha. No tiene número extenso ni cierre protocolar largo. Va al punto.</div>
+<div class="two-col">
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Anatomía</p>
+  <div class="code">Actúa como asistente administrativo experto en comunicación interna.
+
+Genera un Memorándum.
+
+Remitente:
+[Área o persona que envía].
+
+Destinatario:
+[Persona, área o todo el personal].
+
+Asunto:
+[Tema concreto en una línea].
+
+Objetivo:
+[Comunicar / Solicitar / Recordar / Coordinar].<button class="cpy">Copiar</button></div>
+</div>
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Ejemplo completo</p>
+  <div class="code">Actúa como asistente administrativo experto en comunicación interna universitaria.
+
+Genera un Memorándum.
+
+Remitente:
+Oficina de Recursos Humanos.
+
+Destinatario:
+Todo el personal docente y administrativo.
+
+Asunto:
+Actualización obligatoria de datos personales — Fecha límite 15 de diciembre.
+
+Objetivo:
+Informar que todos los trabajadores deben actualizar sus datos en el sistema RRHH antes del 15 de diciembre para el procesamiento de planillas del próximo año.
+
+Incluye:
+- Encabezado con datos del memorándum.
+- Introducción breve.
+- Disposición principal con instrucciones claras.
+- Pasos para actualizar los datos (lista numerada).
+- Fecha límite y consecuencias del incumplimiento.
+- Contacto para consultas.
+- Firma del jefe de RRHH.
+
+Tono:
+Ejecutivo, directo y profesional.
+
+Formato Word:
+- Calibri 11, interlineado 1.15, texto justificado.
+- Título 1 para secciones.
+- Lista numerada para los pasos.<button class="cpy">Copiar</button></div>
+</div>
+</div>
+</div><!-- /memo -->
+
+<!-- CARTA -->
+<div class="doc-panel" id="doc-carta">
+<div class="note blue" style="margin-top:4px"><b>📬 Carta:</b> Comunicación entre instituciones o personas externas. Puede ser de solicitud, agradecimiento, invitación, presentación o respuesta. Tono más personal que el oficio.</div>
+<div class="two-col">
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Anatomía</p>
+  <div class="code">Actúa como experto en comunicación empresarial.
+
+Genera una Carta.
+
+Objetivo:
+[Solicitar / Agradecer / Invitar / Presentar / Responder].
+
+Dirigida a:
+[Nombre, cargo, institución].
+
+Contexto:
+[Situación o relación con el destinatario].
+
+Tono:
+[Cordial y profesional / Formal / Cercano].<button class="cpy">Copiar</button></div>
+</div>
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Ejemplo completo — Carta de agradecimiento</p>
+  <div class="code">Actúa como experto en comunicación empresarial e institucional.
+
+Genera una Carta formal dirigida a la empresa TechPeru S.A.C.
+
+Objetivo:
+Agradecer la entrega oportuna y el soporte técnico excepcional brindado durante la implementación del sistema de gestión académica.
+
+Contexto:
+La empresa cumplió con todos los plazos establecidos, capacitó al personal y resolvió todas las incidencias en menos de 24 horas durante el período de implementación (octubre–noviembre 2026).
+
+Incluye:
+- Lugar y fecha.
+- Datos del destinatario.
+- Saludo protocolario.
+- Introducción con el motivo.
+- Cuerpo: descripción del trabajo realizado y logros.
+- Párrafo de agradecimiento específico.
+- Invitación a seguir colaborando.
+- Despedida y firma del Rector o Director.
+
+Tono:
+Cordial, cálido y profesional.
+
+Formato Word:
+- Arial 11, interlineado 1.5, justificado.
+- Carta en una página máximo.
+- Sin uso de Título 1 (carta no tiene secciones).<button class="cpy">Copiar</button></div>
+</div>
+</div>
+</div><!-- /carta -->
+
+<!-- INFORME -->
+<div class="doc-panel" id="doc-informe">
+<div class="note blue" style="margin-top:4px"><b>📊 Informe:</b> Documento analítico con datos, contexto, análisis y conclusiones. Puede ser ejecutivo (corto) o técnico (largo). Siempre tiene resumen ejecutivo, desarrollo y recomendaciones.</div>
+<div class="two-col">
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Anatomía</p>
+  <div class="code">Actúa como consultor profesional.
+
+Genera un Informe Ejecutivo.
+
+Tema:
+[Tema del informe].
+
+Objetivo:
+[Analizar / Evaluar / Informar / Diagnosticar].
+
+Dirigido a:
+[Gerencia / Dirección / Autoridad].
+
+Incluye:
+- Resumen Ejecutivo (máx. 1 página).
+- Antecedentes.
+- Análisis y desarrollo.
+- Conclusiones.
+- Recomendaciones.<button class="cpy">Copiar</button></div>
+</div>
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Ejemplo completo</p>
+  <div class="code">Actúa como consultor especializado en gestión institucional y transformación digital.
+
+Genera un Informe Ejecutivo sobre el avance del Plan de Transformación Digital de la Universidad.
+
+Dirigido a:
+Gerencia General y Consejo Universitario.
+
+Objetivo:
+Informar los avances, resultados e indicadores del tercer trimestre 2026 e identificar brechas para el cuarto trimestre.
+
+Incluye:
+- Resumen Ejecutivo (máx. 150 palabras).
+- Antecedentes del Plan de Transformación.
+- Objetivos del tercer trimestre.
+- Actividades realizadas (tabla).
+- Resultados obtenidos vs. metas.
+- Indicadores de cumplimiento (KPI).
+- Problemas y riesgos identificados.
+- Acciones correctivas propuestas.
+- Conclusiones.
+- Recomendaciones para el Q4.
+
+Tono:
+Técnico y ejecutivo, basado en evidencia.
+
+Formato Word:
+- Calibri 11, interlineado 1.15, justificado.
+- Título 1 para capítulos, Título 2 para secciones, Título 3 para subsecciones.
+- Tabla de contenido automática al inicio.
+- Tablas para indicadores y actividades.
+- Numeración automática de páginas.<button class="cpy">Copiar</button></div>
+</div>
+</div>
+</div><!-- /informe -->
+
+<!-- ACTA -->
+<div class="doc-panel" id="doc-acta">
+<div class="note blue" style="margin-top:4px"><b>📋 Acta:</b> Registro oficial de lo ocurrido en una reunión. Tiene valor legal. Incluye fecha/hora, asistentes, agenda, acuerdos y compromisos con responsables y fechas.</div>
+<div class="two-col">
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Anatomía</p>
+  <div class="code">Actúa como secretario técnico especializado en actas institucionales.
+
+Genera un Acta de Reunión.
+
+Reunión:
+[Nombre o tipo de reunión].
+
+Fecha y hora:
+[Fecha, hora inicio y fin].
+
+Lugar:
+[Sala, institución].
+
+Asistentes:
+[Lista de participantes con cargo].
+
+Agenda:
+[Lista de puntos tratados].
+
+Incluye:
+- Encabezado oficial.
+- Verificación de quórum.
+- Desarrollo por punto de agenda.
+- Acuerdos y compromisos (tabla: responsable, fecha límite).
+- Lectura y aprobación del acta.
+- Firmas de todos los asistentes.<button class="cpy">Copiar</button></div>
+</div>
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Ejemplo completo</p>
+  <div class="code">Actúa como secretario técnico especializado en actas de reuniones universitarias.
+
+Genera un Acta de Reunión del Comité de Calidad Académica.
+
+Reunión:
+Comité de Calidad Académica — Sesión Ordinaria N.° 08-2026.
+
+Fecha y hora:
+Viernes 20 de noviembre de 2026, de 10:00 a 12:30 horas.
+
+Lugar:
+Sala de Reuniones de Vicerrectorado Académico, piso 3.
+
+Asistentes:
+- Dr. Juan Pérez — Vicerrector Académico (preside)
+- Mg. Ana Torres — Directora de Calidad
+- Dr. Carlos Ramos — Decano de Ingeniería
+- Lic. Rosa Díaz — Jefa de Currículo
+- Secretaria Técnica: Ing. Laura Vega
+
+Agenda:
+1. Aprobación del acta anterior.
+2. Avance del proceso de autoevaluación SINEACE.
+3. Revisión de planes de mejora por carrera.
+4. Actualización de matrices de evaluación curricular.
+5. Acuerdos y compromisos.
+6. Varios.
+
+Incluye:
+- Encabezado con logo y datos institucionales.
+- Verificación de quórum (quórum reglamentario: 4 de 5).
+- Desarrollo detallado por punto de agenda.
+- Tabla de acuerdos: N.°, Acuerdo, Responsable, Plazo.
+- Cierre con firmas de todos los asistentes.
+
+Formato Word:
+- Arial 11, interlineado 1.15, justificado.
+- Título 1 para los puntos de agenda.
+- Tabla al final para los acuerdos.
+- Espacio para firmas con línea y nombre.<button class="cpy">Copiar</button></div>
+</div>
+</div>
+</div><!-- /acta -->
+
+<!-- RESOLUCIÓN -->
+<div class="doc-panel" id="doc-resolucion">
+<div class="note blue" style="margin-top:4px"><b>⚖ Resolución:</b> Acto administrativo formal que establece una decisión con efectos legales. Estructura rígida: vistos, considerando, resuelve. Tiene número y año.</div>
+<div class="two-col">
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Anatomía</p>
+  <div class="code">Actúa como asesor legal administrativo universitario.
+
+Genera una Resolución Rectoral / Decanal / Directoral.
+
+Número:
+[N.° XXX-2026-UNIVERSIDAD].
+
+Emisor:
+[Rectorado / Decanato / Dirección].
+
+Materia:
+[Qué se resuelve: aprobación, designación, sanción, etc.].
+
+Incluye:
+- VISTO: norma o documento que motiva la resolución.
+- CONSIDERANDO: fundamentos legales y motivación.
+- RESUELVE: artículos con la decisión (Art. 1.°, Art. 2.°, etc.).
+- Regístrese, comuníquese y archívese.
+- Firma de la autoridad.<button class="cpy">Copiar</button></div>
+</div>
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Ejemplo completo</p>
+  <div class="code">Actúa como asesor legal especializado en actos administrativos universitarios peruanos.
+
+Genera una Resolución Rectoral.
+
+Número:
+Resolución Rectoral N.° 0245-2026-UNI.
+
+Materia:
+Aprobación del Reglamento de Uso Responsable de Inteligencia Artificial para Docentes y Estudiantes.
+
+Visto:
+El Informe N.° 089-2026-VRA del Vicerrectorado Académico y el Acta de Consejo Universitario del 15 de noviembre de 2026.
+
+Considerando:
+- La necesidad institucional de regular el uso ético de las herramientas de IA.
+- Las disposiciones de la Ley Universitaria N.° 30220.
+- El Estatuto de la Universidad, Art. 45.
+
+Resuelve:
+Art. 1.° Aprobar el Reglamento de Uso Responsable de IA.
+Art. 2.° Encargar su difusión a la Dirección de TI y Vicerrectorado Académico.
+Art. 3.° La vigencia del reglamento es a partir de la fecha de publicación.
+Art. 4.° Dejar sin efecto normas internas contrarias.
+
+Incluye:
+- Encabezado oficial con logo y datos institucionales.
+- Estructura VISTO / CONSIDERANDO / RESUELVE.
+- Artículos numerados en RESUELVE.
+- Regístrese, comuníquese y archívese.
+- Firma del Rector con cargo.
+
+Formato Word:
+- Arial 12 (encabezado) y 11 (cuerpo), interlineado 1.15.
+- Negrita para VISTO, CONSIDERANDO y RESUELVE.
+- Artículos con sangría y numeración.<button class="cpy">Copiar</button></div>
+</div>
+</div>
+</div><!-- /resolucion -->
+
+<!-- PROPUESTA -->
+<div class="doc-panel" id="doc-propuesta">
+<div class="note blue" style="margin-top:4px"><b>🗂 Propuesta / Proyecto:</b> Documento para presentar una iniciativa y conseguir aprobación o financiamiento. Incluye diagnóstico, objetivos, metodología, cronograma y presupuesto.</div>
+<div class="two-col">
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Anatomía</p>
+  <div class="code">Actúa como gestor de proyectos institucionales.
+
+Genera una Propuesta de Proyecto.
+
+Título:
+[Nombre del proyecto].
+
+Institución:
+[Universidad / Dependencia].
+
+Problema:
+[Situación problemática que justifica el proyecto].
+
+Incluye:
+- Carátula y datos generales.
+- Diagnóstico de la situación actual.
+- Objetivos (general y específicos).
+- Justificación e impacto.
+- Metodología y actividades.
+- Cronograma (tabla o Gantt).
+- Presupuesto estimado.
+- Equipo responsable.
+- Indicadores de éxito.<button class="cpy">Copiar</button></div>
+</div>
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Ejemplo completo</p>
+  <div class="code">Actúa como gestor de proyectos de innovación educativa universitaria.
+
+Genera una Propuesta de Proyecto para un taller de capacitación.
+
+Título:
+"Taller de Inteligencia Artificial Generativa para Docentes Universitarios — Cohorte 2027-I".
+
+Institución:
+Universidad Nacional — Vicerrectorado Académico.
+
+Problema:
+El 78% de los docentes no utiliza herramientas de IA en sus clases pese a su disponibilidad, limitando la modernización de la enseñanza universitaria.
+
+Incluye:
+- Carátula con datos institucionales.
+- Diagnóstico basado en encuesta a docentes.
+- Objetivo general: capacitar a 60 docentes en IA generativa en 8 semanas.
+- Objetivos específicos (4).
+- Justificación e impacto esperado.
+- Metodología: talleres presenciales + plataforma online.
+- Cronograma semanal (tabla de 8 semanas).
+- Presupuesto por rubros (tabla).
+- Indicadores: % docentes certificados, N.° herramientas adoptadas.
+- Equipo: coordinador, 2 facilitadores, soporte TI.
+
+Tono:
+Técnico, propositivo y orientado a resultados.
+
+Formato Word:
+- Calibri 11, interlineado 1.15.
+- Título 1, 2 y 3. Tabla de contenido automática.
+- Tablas para cronograma y presupuesto.<button class="cpy">Copiar</button></div>
+</div>
+</div>
+</div><!-- /propuesta -->
+
+<!-- CONTRATO / CONVENIO -->
+<div class="doc-panel" id="doc-contrato">
+<div class="note blue" style="margin-top:4px"><b>🤝 Contrato / Convenio:</b> Documento legal que formaliza un acuerdo entre partes. Incluye cláusulas, obligaciones, vigencia y penalidades. Siempre revisar con asesoría legal antes de firmar.</div>
+<div class="two-col">
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Anatomía</p>
+  <div class="code">Actúa como asistente legal especializado en contratos institucionales.
+
+Genera un borrador de Convenio Marco de Cooperación.
+
+Partes:
+[Institución A y Institución B].
+
+Objeto:
+[Propósito del convenio].
+
+Incluye:
+- Encabezado con identificación de las partes.
+- Antecedentes.
+- Objeto del convenio.
+- Obligaciones de cada parte (cláusulas).
+- Vigencia y renovación.
+- Causales de resolución.
+- Jurisdicción aplicable.
+- Firmas con datos completos.
+
+Nota: solo para uso como borrador orientativo.
+Revisión legal obligatoria antes de firmar.<button class="cpy">Copiar</button></div>
+</div>
+<div>
+  <p style="font-size:12px;font-weight:800;color:#a5c4ff;text-transform:uppercase;letter-spacing:.5px;margin:0 0 7px">Ejemplo completo</p>
+  <div class="code">Actúa como asistente legal especializado en convenios interinstitucionales universitarios.
+
+Genera un borrador de Convenio Marco de Cooperación Interinstitucional.
+
+Partes:
+- Universidad Nacional del Centro (UNC), representada por el Rector Dr. Juan Pérez.
+- Empresa TechCorp Perú S.A.C., representada por su Gerente General Sr. Carlos López.
+
+Objeto:
+Establecer las bases de cooperación para el desarrollo conjunto de programas de capacitación en Inteligencia Artificial, pasantías para estudiantes y proyectos de investigación aplicada.
+
+Incluye:
+- Considerandos (3-4 párrafos de justificación).
+- Cláusula 1.ª: Objeto del convenio.
+- Cláusula 2.ª: Compromisos de la Universidad (3 ítems).
+- Cláusula 3.ª: Compromisos de la Empresa (3 ítems).
+- Cláusula 4.ª: Recursos y financiamiento.
+- Cláusula 5.ª: Vigencia (2 años, renovable).
+- Cláusula 6.ª: Causales de resolución anticipada.
+- Cláusula 7.ª: Jurisdicción y arbitraje.
+- Lugar, fecha y espacio para firmas con sello.
+
+Formato Word:
+- Times New Roman 12, interlineado 1.5.
+- Cláusulas en negrita, contenido en normal.
+- Numeración automática de cláusulas.
+
+ADVERTENCIA: borrador orientativo — revisión legal obligatoria.<button class="cpy">Copiar</button></div>
+</div>
+</div>
+</div><!-- /contrato -->
+
+</div><!-- /docPanels -->
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     05 · ESTILOS DE WORD
+══════════════════════════════════════════════════ -->
+<section class="section" id="estilos" aria-labelledby="esth">
+<span class="eyebrow">05 · Estilos de Word</span>
+<h2 id="esth">Estilos nativos de Word — ¿por qué usarlos?</h2>
+<p class="sub">Los estilos de Word son la diferencia entre un documento con formato manual (difícil de actualizar) y un documento profesional con tabla de contenido automática, panel de navegación y numeración multinivel.</p>
+
+<div style="overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:12px">
+<table class="ref-table">
+  <thead><tr><th>Estilo</th><th>Fuente recomendada</th><th>Cuándo usarlo</th><th>Qué habilita</th></tr></thead>
+  <tbody>
+    <tr><td>Título 1</td><td>Arial 16 pt / Calibri 16 pt, Negrita, color institucional</td><td>Capítulos principales: I. Introducción, II. Desarrollo…</td><td>Tabla de contenido, panel de navegación, numeración automática nivel 1</td></tr>
+    <tr><td>Título 2</td><td>Arial 14 pt / Calibri 14 pt, Negrita</td><td>Secciones dentro de un capítulo: 1.1, 1.2, 1.3…</td><td>Entrada en tabla de contenido nivel 2</td></tr>
+    <tr><td>Título 3</td><td>Arial 12 pt / Calibri 12 pt, Negrita</td><td>Subsecciones: 1.1.1, 1.1.2…</td><td>Entrada en tabla de contenido nivel 3</td></tr>
+    <tr><td>Normal</td><td>Arial 11 pt / Calibri 11 pt, interlineado 1.5, justificado</td><td>Todo el texto del cuerpo del documento</td><td>Coherencia visual en todo el documento</td></tr>
+    <tr><td>Cita</td><td>Arial 10 pt, cursiva, sangría 1.25 cm</td><td>Citas textuales de más de 40 palabras</td><td>Distinción visual de citas académicas</td></tr>
+    <tr><td>Énfasis</td><td>Cursiva</td><td>Términos técnicos, palabras en otro idioma</td><td>Resalte semántico sin usar formato manual</td></tr>
+    <tr><td>Énfasis intenso</td><td>Negrita + color de acento</td><td>Términos muy importantes, conceptos clave</td><td>Resalte consistente en todo el documento</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="two-col" style="margin-top:16px">
+<div>
+  <h3 style="font-size:16px">Prompt para aplicar estilos a un documento existente</h3>
+  <div class="code">Tengo este documento en Word. Aplica los estilos nativos de Word correctamente:
+
+- Título 1 (Arial 16, negrita, color azul institucional) para los capítulos principales.
+- Título 2 (Arial 14, negrita) para las secciones.
+- Título 3 (Arial 12, negrita) para las subsecciones.
+- Normal (Arial 11, interlineado 1.5, justificado) para el cuerpo.
+
+Después de aplicar los estilos:
+1. Inserta una tabla de contenido automática al inicio.
+2. Activa la numeración multinivel (1., 1.1., 1.1.1.).
+3. Añade numeración de páginas en el pie de página.<button class="cpy">Copiar</button></div>
+</div>
+<div>
+  <h3 style="font-size:16px">Prompt para configurar plantilla institucional</h3>
+  <div class="code">Actúa como diseñador de documentos corporativos.
+
+Configura una plantilla Word institucional para documentos oficiales de la universidad con estas características:
+
+Encabezado:
+- Logo a la izquierda, nombre de la institución centrado, código del documento a la derecha.
+
+Pie de página:
+- Número de página centrado, nombre del documento y versión a la derecha.
+
+Estilos:
+- Título 1: Calibri 16, negrita, color #003366.
+- Título 2: Calibri 14, negrita, color #003366.
+- Normal: Calibri 11, interlineado 1.15, justificado.
+
+Márgenes: 2.5 cm todos los lados.
+
+Genera el documento configurado listo para usar como plantilla (.dotx).<button class="cpy">Copiar</button></div>
+</div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     06 · PROMPT PREMIUM UNIVERSAL
+══════════════════════════════════════════════════ -->
+<section class="section" id="premium" aria-labelledby="preh">
+<span class="eyebrow">06 · Prompt Premium</span>
+<h2 id="preh">Prompt Premium Universal para Copilot en Word</h2>
+<p class="sub">Este es el prompt más completo. Funciona para cualquier tipo de documento. Rellena los corchetes con tu caso específico.</p>
+
+<div class="premium-box">
+<div class="code" style="background:#040c1a;border-color:rgba(91,156,246,.2)">Actúa como experto en redacción profesional e institucional.
+
+Genera un [OFICIO / MEMORÁNDUM / CARTA / INFORME / ACTA / RESOLUCIÓN].
+
+Objetivo:
+[OBJETIVO CONCRETO DEL DOCUMENTO].
+
+Dirigido a:
+[NOMBRE, CARGO E INSTITUCIÓN DEL DESTINATARIO].
+
+Remitente:
+[NOMBRE, CARGO E INSTITUCIÓN DEL EMISOR].
+
+Contexto:
+[ANTECEDENTES, SITUACIÓN Y DATOS RELEVANTES].
+
+Incluye obligatoriamente:
+- Introducción con el propósito del documento.
+- Desarrollo con los antecedentes y hechos relevantes.
+- Fundamentación técnica, legal o institucional.
+- Conclusiones o decisión.
+- Recomendaciones (si aplica).
+- Firma con cargo, institución y fecha.
+
+Tono:
+Formal y profesional. Lenguaje institucional. Sin expresiones coloquiales.
+
+Formato Word — aplica exactamente:
+- Fuente Arial 11 pt para el cuerpo.
+- Interlineado 1.5. Texto justificado. Márgenes normales (2.5 cm).
+- Título 1 (Arial 16, negrita): capítulos principales.
+- Título 2 (Arial 14, negrita): secciones.
+- Título 3 (Arial 12, negrita): subsecciones.
+- Estilo Normal para el contenido.
+- Tabla de contenido automática (documentos de más de 3 páginas).
+- Numeración automática de páginas en el pie de página.
+
+Instrucciones de redacción — sigue este orden:
+1. Analiza el objetivo y el destinatario.
+2. Genera una estructura jerárquica profesional.
+3. Aplica los estilos de Word indicados (no formato manual).
+4. Desarrolla cada sección con detalle y coherencia.
+5. Usa lenguaje institucional, preciso y sin ambigüedades.
+6. Evita relleno genérico — cada párrafo debe aportar contenido real.
+7. Verifica que el documento esté completo antes de entregarlo.
+8. Entrega el documento listo para revisión, firma e impresión.<button class="cpy">Copiar</button></div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     07 · FÓRMULA DE ORO
+══════════════════════════════════════════════════ -->
+<section class="section" id="formula" aria-labelledby="frh">
+<span class="eyebrow">07 · Fórmula de oro</span>
+<h2 id="frh">La Fórmula de Oro para Copilot en Word</h2>
+
+<div style="background:linear-gradient(135deg,#0a1628,#0c1e3a);border:1px solid rgba(252,211,77,.25);border-radius:20px;padding:24px;margin-top:14px">
+  <div style="display:grid;gap:10px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font:900 20px system-ui;color:#fcd34d;width:28px;text-align:center">R</span>
+      <div style="flex:1;background:#060f1e;border:1px solid rgba(252,211,77,.15);border-radius:8px;padding:10px 14px;font-size:13px;color:#e8d5a0">ROL — <em style="color:#9eb8cc">Actúa como especialista en redacción administrativa universitaria</em></div>
+    </div>
+    <div style="text-align:center;color:#fcd34d;font-size:18px">+</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font:900 20px system-ui;color:#a5c4ff;width:28px;text-align:center">D</span>
+      <div style="flex:1;background:#060f1e;border:1px solid rgba(91,156,246,.15);border-radius:8px;padding:10px 14px;font-size:13px;color:#c0d8f8">TIPO DE DOCUMENTO — <em style="color:#9eb8cc">Genera un Informe Ejecutivo / Oficio / Memorándum</em></div>
+    </div>
+    <div style="text-align:center;color:#fcd34d;font-size:18px">+</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font:900 20px system-ui;color:#38bdf8;width:28px;text-align:center">O</span>
+      <div style="flex:1;background:#060f1e;border:1px solid rgba(56,189,248,.15);border-radius:8px;padding:10px 14px;font-size:13px;color:#a0d4f0">OBJETIVO — <em style="color:#9eb8cc">Qué quieres lograr con este documento</em></div>
+    </div>
+    <div style="text-align:center;color:#fcd34d;font-size:18px">+</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font:900 20px system-ui;color:#86efac;width:28px;text-align:center">C</span>
+      <div style="flex:1;background:#060f1e;border:1px solid rgba(134,239,172,.15);border-radius:8px;padding:10px 14px;font-size:13px;color:#b0f0c0">CONTENIDO — <em style="color:#9eb8cc">Lista de secciones obligatorias que debe incluir</em></div>
+    </div>
+    <div style="text-align:center;color:#fcd34d;font-size:18px">+</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font:900 20px system-ui;color:#fcd34d;width:28px;text-align:center">T</span>
+      <div style="flex:1;background:#060f1e;border:1px solid rgba(252,211,77,.15);border-radius:8px;padding:10px 14px;font-size:13px;color:#e8d5a0">TONO — <em style="color:#9eb8cc">Formal / Ejecutivo / Técnico / Cordial / Institucional</em></div>
+    </div>
+    <div style="text-align:center;color:#fcd34d;font-size:18px">+</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font:900 20px system-ui;color:#c084fc;width:28px;text-align:center">F</span>
+      <div style="flex:1;background:#060f1e;border:1px solid rgba(192,132,252,.15);border-radius:8px;padding:10px 14px;font-size:13px;color:#d8b8f8">FORMATO WORD — <em style="color:#9eb8cc">Fuente, tamaño, interlineado, estilos Título 1/2/3</em></div>
+    </div>
+    <div style="text-align:center;color:#fcd34d;font-size:22px">+</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font:900 16px system-ui;color:#ecf6ff;width:28px;text-align:center">🎯</span>
+      <div style="flex:1;background:#060f1e;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;font-size:13px;color:#ecf6ff">INSTRUCCIÓN FINAL — <em style="color:#9eb8cc">Genera estructura → aplica estilos → desarrolla secciones → entrega listo para firma</em></div>
+    </div>
+    <div style="text-align:center;font-size:24px;padding:8px 0">＝</div>
+    <div style="background:linear-gradient(110deg,#5b9cf6,#818cf8,#c084fc);border-radius:12px;padding:14px;text-align:center;font:800 16px system-ui;color:#020c24;letter-spacing:-.01em">
+      📄 DOCUMENTO PROFESIONAL LISTO PARA FIRMA
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     08 · CONSEJOS
+══════════════════════════════════════════════════ -->
+<section class="section" id="consejos" aria-labelledby="conh">
+<span class="eyebrow">08 · Consejos</span>
+<h2 id="conh">Para mejores resultados con Copilot en Word</h2>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:14px">
+  <div style="background:#0a1a2e;border:1px solid var(--line);border-radius:14px;padding:16px">
+    <div style="font-size:22px;margin-bottom:7px">🎯</div>
+    <b style="font-size:14px;color:#a5c4ff;display:block;margin-bottom:5px">Sé específico con el contexto</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Cuanto más contexto des (nombres reales, fechas, montos, cargos), más preciso será el resultado. "Solicita 10 computadoras de S/ 3,500 cada una" es mejor que "solicita equipos".</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid var(--line);border-radius:14px;padding:16px">
+    <div style="font-size:22px;margin-bottom:7px">🔄</div>
+    <b style="font-size:14px;color:#a5c4ff;display:block;margin-bottom:5px">Itera en el mismo chat</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">"Acorta la sección 2 a 3 párrafos", "Haz el tono más formal", "Agrega una tabla de indicadores en la sección 4". No inicies una conversación nueva.</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid var(--line);border-radius:14px;padding:16px">
+    <div style="font-size:22px;margin-bottom:7px">🏛</div>
+    <b style="font-size:14px;color:#a5c4ff;display:block;margin-bottom:5px">Pide los estilos por nombre</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Di exactamente "Título 1", "Título 2", "Normal" — no "negrita grande" o "letra más chica". Los nombres nativos de Word activan los estilos automáticamente.</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid var(--line);border-radius:14px;padding:16px">
+    <div style="font-size:22px;margin-bottom:7px">👁</div>
+    <b style="font-size:14px;color:#a5c4ff;display:block;margin-bottom:5px">Siempre revisa antes de firmar</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Copilot puede inventar números, citas, normas o fechas. Verifica SIEMPRE los datos específicos (artículos de ley, montos, nombres) antes de entregar el documento.</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid var(--line);border-radius:14px;padding:16px">
+    <div style="font-size:22px;margin-bottom:7px">📋</div>
+    <b style="font-size:14px;color:#a5c4ff;display:block;margin-bottom:5px">Pide primero la estructura</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Antes de generar el documento completo, pide: "Genera solo el índice del informe". Revísalo y apruébalo. Luego di: "Ahora desarrolla sección por sección".</p>
+  </div>
+  <div style="background:#0a1a2e;border:1px solid var(--line);border-radius:14px;padding:16px">
+    <div style="font-size:22px;margin-bottom:7px">🔒</div>
+    <b style="font-size:14px;color:#a5c4ff;display:block;margin-bottom:5px">Privacidad institucional</b>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Si la institución no tiene Microsoft 365 Empresarial con protección de datos, usa datos ficticios o genéricos al escribir prompts. No pegues documentos confidenciales en versiones gratuitas.</p>
+  </div>
+</div>
+
+<h3 style="margin-top:24px">Referencia rápida: tipos de tono</h3>
+<div style="overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:10px">
+<table class="ref-table">
+  <thead><tr><th>Tono</th><th>Cuándo usarlo</th><th>Características</th><th>Ejemplo de documento</th></tr></thead>
+  <tbody>
+    <tr><td>Formal e institucional</td><td>Comunicaciones oficiales entre instituciones</td><td>Lenguaje objetivo, tercera persona, sin contracciones</td><td>Oficio, Resolución, Convenio</td></tr>
+    <tr><td>Ejecutivo</td><td>Informes para dirección o gerencia</td><td>Conciso, orientado a datos y resultados, sin relleno</td><td>Informe ejecutivo, Memorándum</td></tr>
+    <tr><td>Técnico</td><td>Especificaciones, manuales, propuestas técnicas</td><td>Precisión terminológica, puede incluir jargon técnico</td><td>Propuesta técnica, Informe técnico</td></tr>
+    <tr><td>Cordial y profesional</td><td>Comunicaciones con socios, clientes o aliados</td><td>Cálido pero formal, usa nombre del destinatario</td><td>Carta de agradecimiento, invitación</td></tr>
+    <tr><td>Académico</td><td>Artículos, ponencias, informes de investigación</td><td>Tercera persona, referenciado, impersonal, objetivo</td><td>Informe de investigación, ponencia</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+</main>
+
+<footer class="footer"><div class="shell">
+<p><b style="color:#eef7ff">ING. GREGORIO BAUTISTA OBLITAS</b><br>Maestro en Inteligencia Artificial</p>
+<p style="margin-top:8px">ExploraIA · Módulo Word + Copilot · Marco R·D·O·C·T·F para documentos institucionales profesionales. Los prompts son orientativos — siempre revisar el documento generado antes de firmar o distribuir.</p>
+</div></footer>
+
+<script>
+'use strict';
+
+// Tabs de tipos de documento
+document.querySelectorAll('.doc-tab').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.doc-tab').forEach(function(b){b.classList.remove('on');});
+    document.querySelectorAll('.doc-panel').forEach(function(p){p.classList.remove('on');});
+    btn.classList.add('on');
+    var panel = document.getElementById('doc-'+btn.dataset.doc);
+    if(panel) panel.classList.add('on');
+  });
+});
+
+// Event listener delegado para todos los botones .cpy
+// Lee el texto del bloque padre (.code) excluyendo el botón
+document.querySelectorAll('.cpy').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var parent = this.parentElement;
+    var clone = parent.cloneNode(true);
+    clone.querySelectorAll('button').forEach(function(b){b.remove();});
+    // Limpiar spans de colores (H, T, E, F markers)
+    navigator.clipboard.writeText(clone.textContent.trim()).catch(function(){});
+    this.textContent = '✓';
+    var self = this;
+    setTimeout(function(){self.textContent='Copiar';}, 1600);
+  });
+});
+</script>
+</body>
+</html>
