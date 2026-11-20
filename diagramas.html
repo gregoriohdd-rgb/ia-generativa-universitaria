@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -145,6 +145,7 @@ h1{font-size:clamp(32px,5vw,60px);line-height:1.07;letter-spacing:-.05em;margin:
 <a href="#drawio">🔷 Draw.io</a>
 <a href="#mindmap">🧠 Mind Maps</a>
 <a href="#ia-genera">🤖 IA genera</a>
+<a href="#anatomia">🧩 Anatomía H·T·E·F</a>
 <a href="#comparativa">📋 Comparativa</a>
 <a href="#universidad">🎓 Universidad</a>
 </nav>
@@ -256,7 +257,7 @@ h1{font-size:clamp(32px,5vw,60px);line-height:1.07;letter-spacing:-.05em;margin:
     B -->|No| D[Registrarse]
     D --> E[Verificar email]
     E --> C
-    C --> F([✅ Acceso al sistema])<button class="cpy" onclick="navigator.clipboard.writeText('flowchart TD\n    A([📋 Inicio]) --> B{¿Tiene cuenta?}\n    B -->|Sí| C[Iniciar sesión]\n    B -->|No| D[Registrarse]\n    D --> E[Verificar email]\n    E --> C\n    C --> F([✅ Acceso al sistema])').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+    C --> F([✅ Acceso al sistema])<button class="cpy">Copiar</button></div>
         <p style="font-size:12px;color:#9eb8cc;margin:8px 0 0"><b style="color:#9ff5eb">Sintaxis:</b> <code style="font-size:11px">TD</code>=arriba-abajo, <code style="font-size:11px">LR</code>=izquierda-derecha. Nodos: <code style="font-size:11px">[]</code>=rectángulo, <code style="font-size:11px">{}</code>=rombo (decisión), <code style="font-size:11px">([])</code>=óvalo</p>
       </div>
       <div>
@@ -294,7 +295,7 @@ C[Iniciar]  D[Registrar]
     S-->>E: Confirmación de recibo
     S->>P: Notifica nueva entrega
     P->>S: Califica (8.5/10)
-    S-->>E: Envía nota y comentarios<button class="cpy" onclick="navigator.clipboard.writeText('sequenceDiagram\n    actor E as Estudiante\n    participant S as Sistema\n    participant P as Profesor\n    E->>S: Envía tarea\n    S-->>E: Confirmación de recibo\n    S->>P: Notifica nueva entrega\n    P->>S: Califica (8.5/10)\n    S-->>E: Envía nota y comentarios').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+    S-->>E: Envía nota y comentarios<button class="cpy">Copiar</button></div>
         <p style="font-size:12px;color:#9eb8cc;margin:8px 0 0"><b style="color:#9ff5eb">Sintaxis:</b> <code style="font-size:11px">->></code>=flecha sólida, <code style="font-size:11px">-->></code>=flecha punteada (respuesta). <code style="font-size:11px">actor</code>=persona, <code style="font-size:11px">participant</code>=sistema</p>
       </div>
       <div>
@@ -328,7 +329,7 @@ C[Iniciar]  D[Registrar]
     Análisis estadístico     :b2, after b1, 15d
     section Fase 3 - Redacción
     Redacción del informe    :c1, after b2, 20d
-    Revisión y correcciones  :c2, after c1, 7d<button class="cpy" onclick="navigator.clipboard.writeText('gantt\n    title Proyecto de investigación universitaria\n    dateFormat  YYYY-MM-DD\n    section Fase 1 - Diseño\n    Revisión de literatura   :a1, 2026-11-01, 14d\n    Marco teórico            :a2, after a1, 10d\n    section Fase 2 - Campo\n    Recolección de datos     :b1, 2026-11-25, 20d\n    Análisis estadístico     :b2, after b1, 15d\n    section Fase 3 - Redacción\n    Redacción del informe    :c1, after b2, 20d\n    Revisión y correcciones  :c2, after c1, 7d').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+    Revisión y correcciones  :c2, after c1, 7d<button class="cpy">Copiar</button></div>
       </div>
       <div>
         <p class="diagram-label">Uso típico</p>
@@ -369,7 +370,7 @@ C[Iniciar]  D[Registrar]
     Usos universitarios
       Investigación
       Clases
-      Gestión<button class="cpy" onclick="navigator.clipboard.writeText('mindmap\n  root((IA Generativa))\n    ChatGPT\n      Texto\n      Imágenes DALL·E\n      Código\n    Claude\n      Análisis\n      Redacción larga\n      Código\n    Gemini\n      Búsqueda web\n      Imágenes\n      Documentos Google\n    Usos universitarios\n      Investigación\n      Clases\n      Gestión').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+      Gestión<button class="cpy">Copiar</button></div>
         <p style="font-size:12px;color:#9eb8cc;margin:8px 0 0"><b style="color:#9ff5eb">Sintaxis:</b> La indentación (espacios) define la jerarquía. <code style="font-size:11px">root(())</code> es el nodo central.</p>
       </div>
       <div>
@@ -409,7 +410,7 @@ C[Iniciar]  D[Registrar]
         string estado
     }
     ESTUDIANTE ||--o{ MATRICULA : "se inscribe"
-    CURSO ||--o{ MATRICULA : "contiene"<button class="cpy" onclick="navigator.clipboard.writeText('erDiagram\n    ESTUDIANTE {\n        int id_estudiante PK\n        string nombre\n        string email\n        string codigo\n    }\n    CURSO {\n        int id_curso PK\n        string nombre\n        int creditos\n        string ciclo\n    }\n    MATRICULA {\n        int id_matricula PK\n        date fecha\n        string estado\n    }\n    ESTUDIANTE ||--o{ MATRICULA : \"se inscribe\"\n    CURSO ||--o{ MATRICULA : \"contiene\"').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+    CURSO ||--o{ MATRICULA : "contiene"<button class="cpy">Copiar</button></div>
       </div>
       <div>
         <p class="diagram-label">Notación de relaciones ER</p>
@@ -453,7 +454,7 @@ ESTUDIANTE  ---[MATRICULA]---  CURSO
     }
     Persona <|-- Estudiante
     Persona <|-- Profesor
-    Estudiante "muchos" -- "muchos" Curso<button class="cpy" onclick="navigator.clipboard.writeText('classDiagram\n    class Persona {\n        +String nombre\n        +String email\n        +login() bool\n    }\n    class Estudiante {\n        +String codigo\n        +int ciclo\n        +matricular(Curso) void\n    }\n    class Profesor {\n        +String especialidad\n        +calificar(Entrega) void\n    }\n    class Curso {\n        +String nombre\n        +int creditos\n        +getEstudiantes() List\n    }\n    Persona <|-- Estudiante\n    Persona <|-- Profesor\n    Estudiante \"muchos\" -- \"muchos\" Curso').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+    Estudiante "muchos" -- "muchos" Curso<button class="cpy">Copiar</button></div>
       </div>
       <div>
         <p class="diagram-label">Notación de clases UML</p>
@@ -539,7 +540,7 @@ SIGA -> SIGA: Calcula promedio
 SIGA --> Profesor: Reporte generado
 Profesor -> SIGA: Cierra acta
 SIGA -> DB: Acta firmada
-@enduml<button class="cpy" onclick="navigator.clipboard.writeText('@startuml\nactor Profesor\nparticipant \"Sistema SIGA\" as SIGA\ndatabase \"BD Académica\" as DB\n\nProfesor -> SIGA: Ingresa calificaciones\nSIGA -> DB: Guarda calificaciones\nDB --> SIGA: Confirmación\nSIGA -> SIGA: Calcula promedio\nSIGA --> Profesor: Reporte generado\nProfesor -> SIGA: Cierra acta\nSIGA -> DB: Acta firmada\n@enduml').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+@enduml<button class="cpy">Copiar</button></div>
       </div>
       <div>
         <p class="diagram-label">Cómo ejecutarlo</p>
@@ -583,7 +584,7 @@ class Carrera {
 
 Universidad "1" *-- "1..*" Facultad : contiene
 Facultad "1" *-- "1..*" Carrera : ofrece
-@enduml<button class="cpy" onclick="navigator.clipboard.writeText('@startuml\nclass Universidad {\n  +String nombre\n  +String ruc\n  +List~Facultad~ facultades\n  +matricularEstudiante(e: Estudiante): void\n}\nclass Facultad {\n  +String nombre\n  +String decano\n  +List~Carrera~ carreras\n}\nclass Carrera {\n  +String nombre\n  +int duracion\n  +String grado\n  +getPensum(): List~Curso~\n}\nUniversidad \"1\" *-- \"1..*\" Facultad : contiene\nFacultad \"1\" *-- \"1..*\" Carrera : ofrece\n@enduml').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+@enduml<button class="cpy">Copiar</button></div>
   </div>
 
   <div class="tabpanel" id="puml-estados">
@@ -599,7 +600,7 @@ Egresado --> Bachiller : Sustenta tesis
 Rechazado --> [*]
 Inhabilitado --> [*]
 Bachiller --> [*]
-@enduml<button class="cpy" onclick="navigator.clipboard.writeText('@startuml\n[*] --> Postulante : Inscripción\nPostulante --> Admitido : Aprueba examen\nPostulante --> Rechazado : Reprueba examen\nAdmitido --> Matriculado : Paga matrícula\nMatriculado --> Regular : Aprueba cursos\nMatriculado --> Inhabilitado : Debe > 50% créditos\nRegular --> Egresado : Completa créditos\nEgresado --> Bachiller : Sustenta tesis\nRechazado --> [*]\nInhabilitado --> [*]\nBachiller --> [*]\n@enduml').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+@enduml<button class="cpy">Copiar</button></div>
   </div>
 
   <div class="tabpanel" id="puml-casosuso">
@@ -620,7 +621,7 @@ rectangle "Sistema Académico" {
   (Matricularse) ..> (Verificar pagos) : include
   SGA --> (Generar reporte)
 }
-@enduml<button class="cpy" onclick="navigator.clipboard.writeText('@startuml\nleft to right direction\nactor Estudiante\nactor Profesor\nactor \"Sistema SGA\" as SGA\n\nrectangle \"Sistema Académico\" {\n  Estudiante --> (Consultar notas)\n  Estudiante --> (Matricularse)\n  Estudiante --> (Descargar sílabo)\n  Profesor --> (Registrar asistencia)\n  Profesor --> (Ingresar calificaciones)\n  Profesor --> (Generar reporte)\n  (Ingresar calificaciones) ..> (Validar notas) : include\n  (Matricularse) ..> (Verificar pagos) : include\n  SGA --> (Generar reporte)\n}\n@enduml').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+@enduml<button class="cpy">Copiar</button></div>
   </div>
 
   <div class="tabpanel" id="puml-componentes">
@@ -642,7 +643,7 @@ API --> DB : SQL
 API --> S3 : Subir archivos
 API --> NOTIF
 NOTIF --> SMTP : Emails
-@enduml<button class="cpy" onclick="navigator.clipboard.writeText('@startuml\npackage \"Aplicación Web Universitaria\" {\n  [Frontend React] as FE\n  [API REST Spring Boot] as API\n  [Servicio de Autenticación] as AUTH\n  [Servicio de Notificaciones] as NOTIF\n}\ndatabase \"PostgreSQL\" as DB\ncloud \"Amazon S3\" as S3\n[Correo SMTP] as SMTP\nFE --> API : HTTP/JSON\nAPI --> AUTH : JWT\nAPI --> DB : SQL\nAPI --> S3 : Subir archivos\nAPI --> NOTIF\nNOTIF --> SMTP : Emails\n@enduml').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+@enduml<button class="cpy">Copiar</button></div>
   </div>
 
 </div>
@@ -700,7 +701,7 @@ NOTIF --> SMTP : Emails
       &lt;mxGeometry relative="1" as="geometry"/&gt;
     &lt;/mxCell&gt;
   &lt;/root&gt;
-&lt;/mxGraphModel&gt;<button class="cpy" onclick="navigator.clipboard.writeText('<mxGraphModel>\n  <root>\n    <mxCell id=\"0\"/>\n    <mxCell id=\"1\" parent=\"0\"/>\n    <mxCell id=\"2\" value=\"Inicio\" style=\"ellipse;fillColor=#d5e8d4;strokeColor=#82b366;\" vertex=\"1\" parent=\"1\">\n      <mxGeometry x=\"160\" y=\"40\" width=\"120\" height=\"60\" as=\"geometry\"/>\n    </mxCell>\n    <mxCell id=\"3\" value=\"Registrar matrícula\" style=\"rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\" vertex=\"1\" parent=\"1\">\n      <mxGeometry x=\"140\" y=\"140\" width=\"160\" height=\"60\" as=\"geometry\"/>\n    </mxCell>\n    <mxCell id=\"4\" edge=\"1\" source=\"2\" target=\"3\" parent=\"1\">\n      <mxGeometry relative=\"1\" as=\"geometry\"/>\n    </mxCell>\n  </root>\n</mxGraphModel>').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+&lt;/mxGraphModel&gt;<button class="cpy">Copiar</button></div>
 </section>
 
 <!-- ══════════════════════════════════════════════════
@@ -758,7 +759,7 @@ NOTIF --> SMTP : Emails
 formato Mermaid mindmap sobre
 "Inteligencia Artificial Generativa"
 con 4 ramas principales y 3 subramas
-cada una. En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera un mapa mental completo en formato Mermaid mindmap sobre \"Inteligencia Artificial Generativa\" con 4 ramas principales y 3 subramas cada una. En español.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+cada una. En español.<button class="cpy">Copiar</button></div>
   </div>
 </div>
 </section>
@@ -781,7 +782,7 @@ desde que el estudiante paga hasta que
 queda matriculado. Incluye decisiones
 (¿pago validado?, ¿hay cupo?) y los
 actores: Estudiante, Tesorería, Secretaría.
-En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera código Mermaid flowchart TD para el proceso de matrícula universitaria, desde que el estudiante paga hasta que queda matriculado. Incluye decisiones (¿pago validado?, ¿hay cupo?) y los actores: Estudiante, Tesorería, Secretaría. En español.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+En español.<button class="cpy">Copiar</button></div>
   </div>
 
   <div class="ai-prompt">
@@ -791,7 +792,7 @@ proyecto de tesis universitaria de 6 meses
 que empieza en enero de 2027. Incluye:
 revisión de literatura, marco teórico,
 trabajo de campo, análisis, redacción
-y sustentación. En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera código Mermaid gantt para un proyecto de tesis universitaria de 6 meses que empieza en enero de 2027. Incluye: revisión de literatura, marco teórico, trabajo de campo, análisis, redacción y sustentación. En español.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+y sustentación. En español.<button class="cpy">Copiar</button></div>
   </div>
 
   <div class="ai-prompt">
@@ -801,7 +802,7 @@ un sistema de gestión de biblioteca
 universitaria. Incluye las clases: Libro,
 Autor, Usuario, Préstamo, Reserva, Multa.
 Con sus atributos principales y relaciones.
-En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera código Mermaid classDiagram para un sistema de gestión de biblioteca universitaria. Incluye las clases: Libro, Autor, Usuario, Préstamo, Reserva, Multa. Con sus atributos principales y relaciones. En español.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+En español.<button class="cpy">Copiar</button></div>
   </div>
 
   <div class="ai-prompt">
@@ -811,7 +812,7 @@ En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera c
 Aprendizaje supervisado, No supervisado,
 Por refuerzo, Redes neuronales y
 Aplicaciones. Cada rama con 3 subramas.
-En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera código Mermaid mindmap sobre \"Machine Learning\" con 5 ramas principales: Aprendizaje supervisado, No supervisado, Por refuerzo, Redes neuronales y Aplicaciones. Cada rama con 3 subramas. En español.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+En español.<button class="cpy">Copiar</button></div>
   </div>
 
   <div class="ai-prompt">
@@ -821,7 +822,7 @@ de admisión universitaria: Postulación →
 Examen → Calificación → ¿Aprobó? →
 (Sí) Matrícula / (No) Segunda vuelta →
 Matrícula. Usa formas estándar de
-flowchart (rectángulos, rombos, flechas).<button class="cpy" onclick="navigator.clipboard.writeText('Genera el XML para Draw.io del proceso de admisión universitaria: Postulación → Examen → Calificación → ¿Aprobó? → (Sí) Matrícula / (No) Segunda vuelta → Matrícula. Usa formas estándar de flowchart (rectángulos, rombos, flechas).').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+flowchart (rectángulos, rombos, flechas).<button class="cpy">Copiar</button></div>
   </div>
 
   <div class="ai-prompt">
@@ -831,7 +832,7 @@ de secuencia del proceso de registro
 de asistencia en una clase universitaria.
 Actores: Profesor, App Móvil, API Backend,
 Base de Datos. Muestra la captura
-biométrica y la notificación automática.<button class="cpy" onclick="navigator.clipboard.writeText('Genera código PlantUML para un diagrama de secuencia del proceso de registro de asistencia en una clase universitaria. Actores: Profesor, App Móvil, API Backend, Base de Datos. Muestra la captura biométrica y la notificación automática.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+biométrica y la notificación automática.<button class="cpy">Copiar</button></div>
   </div>
 
 </div>
@@ -895,10 +896,489 @@ biométrica y la notificación automática.<button class="cpy" onclick="navigato
 </section>
 
 <!-- ══════════════════════════════════════════════════
-     08 · UNIVERSIDAD
+     08 · ANATOMÍA DE PROMPTS PARA DIAGRAMAS
+══════════════════════════════════════════════════ -->
+<section class="section" id="anatomia" aria-labelledby="anah">
+<span class="eyebrow">08 · Anatomía del prompt</span>
+<h2 id="anah">El marco <span style="color:#5fefdf">H · T · E · F</span> para diagramas</h2>
+<p class="sub">Cualquier prompt para generar un diagrama con IA tiene 4 partes. Si incluyes las cuatro, obtienes el diagrama correcto a la primera.</p>
+
+<!-- Marco H-T-E-F -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0 20px">
+  <div style="background:linear-gradient(145deg,#0a2535,#061c28);border:2px solid rgba(95,239,223,.35);border-radius:16px;padding:18px;text-align:center">
+    <div style="font-size:36px;font-weight:900;color:#5fefdf;letter-spacing:-.03em;line-height:1">H</div>
+    <div style="font:700 13px system-ui;color:#ecf6ff;margin:7px 0 4px">Herramienta</div>
+    <p style="font-size:12px;color:#8ab8cc;margin:0">¿En qué formato?<br>Mermaid · PlantUML · Draw.io XML</p>
+  </div>
+  <div style="background:linear-gradient(145deg,#0a2535,#061c28);border:2px solid rgba(98,212,247,.35);border-radius:16px;padding:18px;text-align:center">
+    <div style="font-size:36px;font-weight:900;color:#62d4f7;letter-spacing:-.03em;line-height:1">T</div>
+    <div style="font:700 13px system-ui;color:#ecf6ff;margin:7px 0 4px">Tipo</div>
+    <p style="font-size:12px;color:#8ab8cc;margin:0">¿Qué diagrama?<br>Flowchart · Gantt · Clases · Mindmap</p>
+  </div>
+  <div style="background:linear-gradient(145deg,#0a2535,#061c28);border:2px solid rgba(193,164,255,.35);border-radius:16px;padding:18px;text-align:center">
+    <div style="font-size:36px;font-weight:900;color:#c1a4ff;letter-spacing:-.03em;line-height:1">E</div>
+    <div style="font:700 13px system-ui;color:#ecf6ff;margin:7px 0 4px">Elementos</div>
+    <p style="font-size:12px;color:#8ab8cc;margin:0">¿Qué incluir?<br>Actores · Nodos · Entidades · Pasos</p>
+  </div>
+  <div style="background:linear-gradient(145deg,#0a2535,#061c28);border:2px solid rgba(133,239,176,.35);border-radius:16px;padding:18px;text-align:center">
+    <div style="font-size:36px;font-weight:900;color:#85efb0;letter-spacing:-.03em;line-height:1">F</div>
+    <div style="font:700 13px system-ui;color:#ecf6ff;margin:7px 0 4px">Formato</div>
+    <p style="font-size:12px;color:#8ab8cc;margin:0">¿Cómo entregarlo?<br>Idioma · Límite · Solo código</p>
+  </div>
+</div>
+<div style="display:none" id="anHide"></div>
+
+<!-- Fórmula visual -->
+<div style="background:#081e30;border:1px solid rgba(95,239,223,.2);border-radius:14px;padding:16px;margin-bottom:20px;font-size:13px;color:#9eb8cc">
+  <b style="color:#9ff5eb;font-size:12px;text-transform:uppercase;letter-spacing:.5px">Fórmula:</b><br style="margin-bottom:6px">
+  <span style="color:#5fefdf;font-weight:700">[H] Genera código Mermaid flowchart TD</span>
+  <span style="color:#62d4f7;font-weight:700"> · [T] para el proceso de matrícula</span>
+  <span style="color:#c1a4ff;font-weight:700"> · [E] con nodos: Estudiante, Tesorería, Secretaría y las decisiones ¿Pago OK? y ¿Hay cupo?</span>
+  <span style="color:#85efb0;font-weight:700"> · [F] etiquetas en español, máximo 10 nodos, solo el bloque de código sin explicaciones.</span>
+</div>
+
+<!-- Prompts con anatomía anotada -->
+<h3 style="margin-bottom:14px">30 prompts listos con anatomía H·T·E·F</h3>
+
+<div id="anatTabs" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px">
+  <button class="tab on" data-anat="procesos">🔄 Procesos</button>
+  <button class="tab" data-anat="investigacion">🔬 Investigación</button>
+  <button class="tab" data-anat="software">💻 Software</button>
+  <button class="tab" data-anat="clases">🎓 Para clase</button>
+  <button class="tab" data-anat="gestion">🏛 Gestión</button>
+  <button class="tab" data-anat="datos">🗃 Bases de datos</button>
+</div>
+
+<div id="anatPanels">
+
+<!-- PROCESOS -->
+<div class="tabpanel on" id="anat-procesos">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px">
+
+<div class="ai-prompt">
+<h4>Proceso de matrícula universitaria</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart TD
+<span style="color:#62d4f7">[T]</span> para el proceso de matrícula universitaria
+<span style="color:#c1a4ff">[E]</span> desde que el estudiante paga en Tesorería hasta
+     quedar matriculado; incluye las decisiones:
+     ¿Pago validado? y ¿Hay cupo en el curso?;
+     actores: Estudiante, Tesorería, Secretaría Académica
+<span style="color:#85efb0">[F]</span> etiquetas en español, máximo 12 nodos,
+     solo el bloque de código sin explicaciones.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Proceso de titulación / graduación</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart LR
+<span style="color:#62d4f7">[T]</span> para el proceso de titulación universitaria en Perú
+<span style="color:#c1a4ff">[E]</span> desde la solicitud de expedito hasta la entrega del
+     diploma; fases: Solicitud → Revisión de expediente →
+     Designación de jurado → Sustentación → Aprobación
+     → Trámite de diploma; incluir decisión ¿Expedito OK?
+<span style="color:#85efb0">[F]</span> colores por fase, etiquetas en español, solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Proceso de inscripción a un taller / evento</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart TD
+<span style="color:#62d4f7">[T]</span> para el proceso de inscripción a un taller universitario
+<span style="color:#c1a4ff">[E]</span> pasos: Publicación del taller → Estudiante se inscribe
+     online → ¿Cupo disponible? → (Sí) Confirmación por
+     email y pago → (No) Lista de espera → Recordatorio
+     48h antes → Asistencia registrada con QR
+<span style="color:#85efb0">[F]</span> fondo oscuro con style darkMode, etiquetas en español.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Proceso de solicitud de beca</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart TD
+<span style="color:#62d4f7">[T]</span> para el proceso de solicitud de beca socioeconómica
+<span style="color:#c1a4ff">[E]</span> etapas: Convocatoria → Postulación online → Revisión
+     de documentos → Evaluación socioeconómica →
+     ¿Cumple requisitos? → (Sí) Comité de becas → Adjudicación
+     → (No) Comunicación de rechazo con motivos
+<span style="color:#85efb0">[F]</span> decisiones en rombos, procesos en rectángulos redondeados,
+     solo el código Mermaid.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Ciclo de vida de una tarea académica</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código PlantUML @startuml diagrama de estados
+<span style="color:#62d4f7">[T]</span> para el ciclo de vida de una tarea académica
+<span style="color:#c1a4ff">[E]</span> estados: Pendiente → En proceso → Enviada →
+     En revisión → ¿Aprobada? → (Sí) Calificada /
+     (No) → Devolución con observaciones → En proceso
+     (ciclo); estado final: Calificada
+<span style="color:#85efb0">[F]</span> en español, incluye @enduml, solo el bloque de código.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Proceso de atención al estudiante (mesa de partes)</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid sequenceDiagram
+<span style="color:#62d4f7">[T]</span> para el proceso de atención de solicitudes en mesa de partes
+<span style="color:#c1a4ff">[E]</span> actores: Estudiante, Mesa de Partes, Área Responsable,
+     Secretaría General; flujo: recepción de solicitud →
+     registro → derivación al área → revisión → respuesta
+     → notificación al estudiante; tiempo estimado por etapa
+<span style="color:#85efb0">[F]</span> notas de tiempo entre mensajes, etiquetas en español.<button class="cpy">Copiar</button></div>
+</div>
+
+</div>
+</div><!-- /anat-procesos -->
+
+<!-- INVESTIGACIÓN -->
+<div class="tabpanel" id="anat-investigacion">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px">
+
+<div class="ai-prompt">
+<h4>Cronograma de tesis de maestría (Gantt)</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid gantt
+<span style="color:#62d4f7">[T]</span> cronograma de una tesis de maestría en Educación
+<span style="color:#c1a4ff">[E]</span> dateFormat YYYY-MM-DD, inicio 2027-02-01, 8 meses;
+     secciones: Fase 1-Diseño (revisión de literatura 3s,
+     marco teórico 3s, planteamiento del problema 2s),
+     Fase 2-Campo (instrumento de recolección 2s, aplicación 3s,
+     procesamiento 2s), Fase 3-Análisis (análisis de datos 3s,
+     discusión 2s), Fase 4-Redacción (capítulos 1-5 4s,
+     revisión asesor 2s, sustentación 1s)
+<span style="color:#85efb0">[F]</span> solo código Mermaid, sin explicaciones adicionales.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Mapa mental de marco teórico</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid mindmap
+<span style="color:#62d4f7">[T]</span> mapa mental del marco teórico de una tesis sobre
+     "Impacto de la IA generativa en la educación universitaria"
+<span style="color:#c1a4ff">[E]</span> nodo raíz: "IA Generativa en Educación"; 4 ramas
+     principales: Fundamentos Teóricos, Herramientas IA,
+     Impacto Pedagógico, Marco Ético; cada rama con
+     3 subramas específicas y relevantes
+<span style="color:#85efb0">[F]</span> etiquetas en español, solo el bloque de código.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Diseño metodológico de investigación</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart TD
+<span style="color:#62d4f7">[T]</span> para el diseño metodológico de una investigación cuantitativa
+<span style="color:#c1a4ff">[E]</span> fases: Formulación del problema → Revisión bibliográfica →
+     Hipótesis → Operacionalización de variables → Diseño
+     del instrumento → Validación → Recolección de datos →
+     Análisis estadístico → Interpretación → Conclusiones;
+     tipo de investigación: descriptivo-correlacional
+<span style="color:#85efb0">[F]</span> colores por fase (diseño, campo, análisis), solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Revisión sistemática de literatura (PRISMA)</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart TD
+<span style="color:#62d4f7">[T]</span> para el proceso de revisión sistemática de literatura PRISMA
+<span style="color:#c1a4ff">[E]</span> fases del diagrama PRISMA: Identificación (búsqueda en
+     bases de datos: n=350) → Screening (eliminar duplicados
+     n=80, revisar títulos n=270) → Elegibilidad (revisar
+     abstract n=120, leer texto completo n=45) → Incluidos
+     (estudios finales n=28); motivos de exclusión en cada fase
+<span style="color:#85efb0">[F]</span> números en cada nodo, estilo PRISMA, solo código Mermaid.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Comparación de metodologías de investigación</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid mindmap
+<span style="color:#62d4f7">[T]</span> comparación de enfoques metodológicos de investigación
+<span style="color:#c1a4ff">[E]</span> raíz: "Metodología de Investigación"; ramas: Cuantitativa
+     (encuestas, experimentos, estadística), Cualitativa
+     (entrevistas, etnografía, teoría fundamentada), Mixta
+     (secuencial, concurrente, transformativa), Acción
+     participativa (diagnóstico, intervención, evaluación)
+<span style="color:#85efb0">[F]</span> en español, incluir ejemplos de instrumentos en subramas.<button class="cpy">Copiar</button></div>
+</div>
+
+</div>
+</div><!-- /anat-investigacion -->
+
+<!-- SOFTWARE -->
+<div class="tabpanel" id="anat-software">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px">
+
+<div class="ai-prompt">
+<h4>Diagrama de clases: sistema de biblioteca</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid classDiagram
+<span style="color:#62d4f7">[T]</span> diagrama de clases UML para sistema de biblioteca universitaria
+<span style="color:#c1a4ff">[E]</span> clases: Libro (+isbn, +titulo, +autor, +disponible,
+     +reservar(), +prestar()), Usuario (+id, +nombre,
+     +email, +historial), Préstamo (+fechaInicio, +fechaFin,
+     +estado, +renovar()), Reserva (+fecha, +cancelar()),
+     Multa (+monto, +calcular()); relaciones de asociación,
+     dependencia y multiplicidad correctas
+<span style="color:#85efb0">[F]</span> notación UML estricta, en español, solo código Mermaid.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Arquitectura de un sistema web universitario</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código PlantUML @startuml
+<span style="color:#62d4f7">[T]</span> diagrama de componentes C4 de un sistema académico universitario
+<span style="color:#c1a4ff">[E]</span> componentes: Frontend React (SPA), API REST Spring Boot,
+     Servicio de Autenticación JWT, Servicio de Notificaciones
+     Email/SMS, Base de datos PostgreSQL, Caché Redis,
+     Almacenamiento S3 (archivos), CDN; relaciones y protocolos
+     entre componentes (HTTP, SQL, AMQP)
+<span style="color:#85efb0">[F]</span> incluir @enduml, anotaciones de protocolo en flechas, solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Diagrama de secuencia: autenticación JWT</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid sequenceDiagram
+<span style="color:#62d4f7">[T]</span> diagrama de secuencia del proceso de autenticación con JWT
+<span style="color:#c1a4ff">[E]</span> participantes: Usuario (actor), Frontend, API Gateway,
+     Auth Service, Base de Datos; flujo: login con credenciales
+     → verificación en BD → generación de access + refresh token
+     → respuesta al cliente → uso del token en requests
+     → refresh automático antes de expirar
+<span style="color:#85efb0">[F]</span> flechas sólidas para requests, punteadas para responses,
+     notas de seguridad, solo código Mermaid.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Diagrama ER: sistema de notas y calificaciones</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid erDiagram
+<span style="color:#62d4f7">[T]</span> diagrama entidad-relación para sistema de calificaciones universitarias
+<span style="color:#c1a4ff">[E]</span> entidades: ESTUDIANTE (id PK, codigo, nombre, email, ciclo),
+     CURSO (id PK, codigo, nombre, creditos, ciclo, id_docente FK),
+     DOCENTE (id PK, nombre, especialidad, email),
+     MATRICULA (id PK, id_estudiante FK, id_curso FK, fecha, estado),
+     CALIFICACION (id PK, id_matricula FK, tipo, nota, fecha),
+     PERIODO_ACADEMICO (id PK, año, semestre, fechaInicio, fechaFin)
+<span style="color:#85efb0">[F]</span> cardinalidades correctas, PK y FK marcados, solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Casos de uso: aplicación móvil universitaria</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código PlantUML @startuml
+<span style="color:#62d4f7">[T]</span> diagrama de casos de uso para aplicación móvil universitaria
+<span style="color:#c1a4ff">[E]</span> actores: Estudiante, Docente, Administrador, Sistema;
+     casos de uso del Estudiante: consultar notas, ver horario,
+     pagar matrícula, descargar constancias, reportar incidencias,
+     chatear con tutor IA; del Docente: registrar asistencia,
+     subir calificaciones, publicar material, generar reportes;
+     relaciones include/extend donde corresponda
+<span style="color:#85efb0">[F]</span> left to right direction, en español, incluye @enduml.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Diagrama de estados: expediente de grado</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código PlantUML @startuml
+<span style="color:#62d4f7">[T]</span> diagrama de estados del expediente de grado universitario
+<span style="color:#c1a4ff">[E]</span> estados: Iniciado → Documentos Incompletos / Completos →
+     En Revisión → Observado (retorna a Documentos Incompletos) /
+     Aprobado → Programado para Sustentación →
+     Sustentado → ¿Aprobado? → Aprobado con modificaciones
+     / Reprobado (retorna a Programado) / Título en Trámite
+     → Graduado (estado final)
+<span style="color:#85efb0">[F]</span> colores por etapa, incluye @enduml, solo código PlantUML.<button class="cpy">Copiar</button></div>
+</div>
+
+</div>
+</div><!-- /anat-software -->
+
+<!-- PARA CLASE -->
+<div class="tabpanel" id="anat-clases">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px">
+
+<div class="ai-prompt">
+<h4>Mapa mental de los ODS de la ONU para clase</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid mindmap
+<span style="color:#62d4f7">[T]</span> mapa mental de los Objetivos de Desarrollo Sostenible (ODS)
+<span style="color:#c1a4ff">[E]</span> raíz: "17 ODS · Agenda 2030"; 5 ramas por ejes temáticos:
+     Personas (ODS 1-6: pobreza, hambre, salud, educación, género,
+     agua), Planeta (ODS 13-15: clima, vida marina, terrestre),
+     Prosperidad (ODS 7-11: energía, trabajo, industria, ciudades),
+     Paz (ODS 16: instituciones), Alianzas (ODS 17);
+     cada rama con los ODS relevantes como subramas
+<span style="color:#85efb0">[F]</span> en español, nodos concisos, solo código Mermaid mindmap.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Diagrama de un sistema nervioso (Biología)</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart TD
+<span style="color:#62d4f7">[T]</span> diagrama jerárquico del sistema nervioso humano para clase de biología
+<span style="color:#c1a4ff">[E]</span> raíz: Sistema Nervioso → 2 ramas: Central (encéfalo:
+     cerebro→lóbulos frontales/parietales/temporales/occipitales,
+     cerebelo, tallo encefálico; médula espinal) y
+     Periférico (somático: nervios craneales, espinales;
+     autónomo: simpático, parasimpático, entérico)
+<span style="color:#85efb0">[F]</span> flowchart jerárquico (no mindmap), términos en español,
+     etiquetas concisas, solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Línea de tiempo: Historia de la Computación</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid timeline
+<span style="color:#62d4f7">[T]</span> línea de tiempo de la historia de la computación
+<span style="color:#c1a4ff">[E]</span> hitos clave: 1943 primera computadora electrónica ENIAC,
+     1947 transistor Bell Labs, 1958 circuito integrado,
+     1969 ARPANET, 1971 microprocesador Intel 4004,
+     1981 IBM PC, 1991 World Wide Web, 1998 Google,
+     2007 primer smartphone, 2012 deep learning AlexNet,
+     2022 ChatGPT; descripción breve de cada hito
+<span style="color:#85efb0">[F]</span> en español, hitos concisos, solo código Mermaid timeline.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Comparativa de paradigmas de programación</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid mindmap
+<span style="color:#62d4f7">[T]</span> comparativa de paradigmas de programación para curso de programación
+<span style="color:#c1a4ff">[E]</span> raíz: "Paradigmas de Programación"; ramas: Imperativo
+     (Procedural: C, Pascal; Orientado a Objetos: Java, Python,
+     C++), Declarativo (Funcional: Haskell, Erlang, F#;
+     Lógico: Prolog), Reactivo (RxJava, RxJS),
+     Concurrente (Go, Rust, Erlang);
+     para cada rama: lenguajes ejemplo y característica principal
+<span style="color:#85efb0">[F]</span> en español, lenguajes entre paréntesis, solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Proceso del método científico</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart TD
+<span style="color:#62d4f7">[T]</span> diagrama del método científico con sus pasos y retroalimentación
+<span style="color:#c1a4ff">[E]</span> pasos: Observación de un fenómeno → Formulación del
+     problema → Revisión bibliográfica → Formulación de hipótesis
+     → Diseño del experimento → Recolección de datos →
+     Análisis e interpretación → ¿Hipótesis confirmada? →
+     (Sí) Publicación de resultados / (No) Nueva hipótesis;
+     flechas de retroalimentación del ciclo científico
+<span style="color:#85efb0">[F]</span> en español, usa subgraphs para agrupar fases, solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+</div>
+</div><!-- /anat-clases -->
+
+<!-- GESTIÓN -->
+<div class="tabpanel" id="anat-gestion">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px">
+
+<div class="ai-prompt">
+<h4>Organigrama de una facultad universitaria</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart TD
+<span style="color:#62d4f7">[T]</span> organigrama jerárquico de una Facultad de Ingeniería universitaria
+<span style="color:#c1a4ff">[E]</span> estructura: Decano → Consejo de Facultad / Subdecano
+     Académico / Subdecano Administrativo; Subdecano Académico →
+     Departamento de Sistemas (Jefe + docentes), Departamento
+     de Civil (Jefe + docentes), Departamento de Industrial;
+     Subdecano Administrativo → Secretaría + Tesorería + OSUM;
+     órganos asesores: Comité de Calidad, Unidad de Posgrado
+<span style="color:#85efb0">[F]</span> cargos en rectángulos, órganos asesores en paralelos,
+     en español, solo código Mermaid.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Proceso de planificación curricular</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart LR
+<span style="color:#62d4f7">[T]</span> proceso de diseño y aprobación de un nuevo plan curricular universitario
+<span style="color:#c1a4ff">[E]</span> etapas: Diagnóstico de necesidades → Perfil del egresado →
+     Diseño de competencias → Malla curricular → Revisión interna
+     → ¿Aprobado comité? → (No) Ajustes → (Sí) Revisión SUNEDU
+     → ¿Licenciado? → Implementación → Evaluación (ciclo cada 5 años)
+<span style="color:#85efb0">[F]</span> subgraphs para agrupar fases, en español, solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Plan de acción institucional (Gantt)</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid gantt
+<span style="color:#62d4f7">[T]</span> plan de acción anual de una unidad académica universitaria
+<span style="color:#c1a4ff">[E]</span> dateFormat YYYY-MM-DD, 2027-01-01 a 2027-12-31;
+     secciones: Gestión Académica (actualización silabos feb,
+     capacitación docente mar, evaluación curricular jun),
+     Investigación (convocatoria proyectos ene, seguimiento
+     may-ago, publicaciones oct), Extensión (talleres a la
+     comunidad abr y set), Calidad (autoevaluación mar-may,
+     plan de mejora jun, seguimiento nov)
+<span style="color:#85efb0">[F]</span> solo código Mermaid gantt, sin comentarios.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Proceso de acreditación universitaria</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid flowchart TD
+<span style="color:#62d4f7">[T]</span> proceso de acreditación de una carrera universitaria en Perú (SINEACE)
+<span style="color:#c1a4ff">[E]</span> fases SINEACE: Autoevaluación (2 años) → Elaboración
+     del Informe → Solicitud de acreditación a SINEACE →
+     Revisión documental → Visita de evaluadores externos →
+     ¿Cumple estándares? → (Sí) Acreditación por 6 años →
+     (No) Plan de mejora → Nueva autoevaluación (ciclo)
+<span style="color:#85efb0">[F]</span> tiempos estimados en nodos, en español, solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+</div>
+</div><!-- /anat-gestion -->
+
+<!-- BASES DE DATOS -->
+<div class="tabpanel" id="anat-datos">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px">
+
+<div class="ai-prompt">
+<h4>ER: Sistema de gestión hospitalaria</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid erDiagram
+<span style="color:#62d4f7">[T]</span> diagrama ER de un sistema de gestión hospitalaria universitaria
+<span style="color:#c1a4ff">[E]</span> entidades: PACIENTE (id, dni, nombre, fechaNac, seguro),
+     MEDICO (id, cmp, nombre, especialidad, turno),
+     CONSULTA (id, fecha, hora, diagnostico, tratamiento),
+     CITA (id, fecha, estado, motivoConsulta),
+     RECETA (id, medicamento, dosis, duracion),
+     LABORATORIO (id, tipoExamen, resultado, fecha);
+     relaciones con cardinalidades correctas
+<span style="color:#85efb0">[F]</span> PK y FK etiquetados, solo código Mermaid erDiagram.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>ER: Plataforma de aprendizaje online (LMS)</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid erDiagram
+<span style="color:#62d4f7">[T]</span> diagrama ER de una plataforma LMS (Learning Management System)
+<span style="color:#c1a4ff">[E]</span> entidades: USUARIO, CURSO, MODULO, LECCION, EVALUACION,
+     PREGUNTA, RESPUESTA, INSCRIPCION, PROGRESO, CERTIFICADO,
+     FORO, COMENTARIO; para cada entidad: 4-5 atributos
+     principales con tipos de dato (int, varchar, datetime, bool);
+     todas las relaciones y cardinalidades (1:1, 1:N, M:N)
+<span style="color:#85efb0">[F]</span> solo código Mermaid, sin explicaciones adicionales.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Diagrama de clases: patrón Repository</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código PlantUML @startuml
+<span style="color:#62d4f7">[T]</span> diagrama de clases del patrón de diseño Repository + Service layer
+<span style="color:#c1a4ff">[E]</span> capas: Controller (EstudianteController métodos REST CRUD),
+     Service layer (EstudianteService + IEstudianteService),
+     Repository (EstudianteRepository + IEstudianteRepository),
+     Model (Estudiante entidad JPA), DTO (EstudianteDTO,
+     CreateEstudianteRequest, UpdateEstudianteRequest);
+     dependencias entre capas con estereotipos «interface»
+<span style="color:#85efb0">[F]</span> incluye @enduml, estereotipos UML, en español, solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+<div class="ai-prompt">
+<h4>Comparativa SQL vs NoSQL (mindmap)</h4>
+<div class="code" style="margin:0;font-size:12px"><span style="color:#5fefdf">[H]</span> Genera código Mermaid mindmap
+<span style="color:#62d4f7">[T]</span> mapa mental comparativo de bases de datos SQL vs NoSQL
+<span style="color:#c1a4ff">[E]</span> raíz: "Bases de Datos"; ramas: SQL Relacional (MySQL,
+     PostgreSQL, SQL Server; características: ACID, esquema fijo,
+     relaciones, transacciones; casos de uso: ERP, banca,
+     e-commerce), NoSQL (Documento: MongoDB; Clave-Valor: Redis;
+     Columnar: Cassandra; Grafo: Neo4j; características: escalabilidad
+     horizontal, esquema flexible, alta disponibilidad)
+<span style="color:#85efb0">[F]</span> en español, ejemplos de BD entre paréntesis, solo código.<button class="cpy">Copiar</button></div>
+</div>
+
+</div>
+</div><!-- /anat-datos -->
+
+</div><!-- /anatPanels -->
+
+<div class="note teal" style="margin-top:16px"><b>🔁 El marco H·T·E·F en la práctica:</b> Cuando el primer resultado no sea exactamente lo que necesitas, ajusta solo la parte <b style="color:#85efb0">[F] Formato</b>: "hazlo más simple", "sin colores de estilo", "con subgraphs agrupados", "máximo 8 nodos". No tienes que reescribir todo el prompt.</div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     10 · UNIVERSIDAD
 ══════════════════════════════════════════════════ -->
 <section class="section" id="universidad" aria-labelledby="unih">
-<span class="eyebrow">08 · Uso universitario</span>
+<span class="eyebrow">10 · Uso universitario</span>
 <h2 id="unih">Casos de uso en la universidad</h2>
 <div class="usecase-grid">
   <div class="usecase-card">
@@ -1011,6 +1491,30 @@ document.getElementById('clearMer').addEventListener('click',()=>{
 document.getElementById('mermaidInput').addEventListener('input',()=>{
   document.getElementById('mermaidOutput').textContent = document.getElementById('mermaidInput').value;
 });
-</script>
+
+// Pestañas de anatomía H·T·E·F
+document.querySelectorAll('[data-anat]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('[data-anat]').forEach(function(b){b.classList.remove('on');});
+    document.querySelectorAll('#anatPanels .tabpanel').forEach(function(p){p.classList.remove('on');});
+    btn.classList.add('on');
+    var panel = document.getElementById('anat-'+btn.dataset.anat);
+    if(panel) panel.classList.add('on');
+  });
+});
+
+// ═══ Event listener para todos los botones .cpy ═══
+// Lee el texto del bloque padre (.code) y lo copia al portapapeles
+document.querySelectorAll('.cpy').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var parent = this.parentElement;
+    var clone = parent.cloneNode(true);
+    clone.querySelectorAll('button').forEach(function(b){b.remove();});
+    navigator.clipboard.writeText(clone.textContent.trim()).catch(function(){});
+    this.textContent = '✓';
+    var self = this;
+    setTimeout(function(){self.textContent='Copiar';}, 1600);
+  });
+});</script>
 </body>
 </html>
