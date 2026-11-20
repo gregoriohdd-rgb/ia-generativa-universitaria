@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Guía completa de agentes de código con IA: Google Antigravity, Claude Code, Codex CLI, GitHub Copilot, Cursor y más. Para qué sirven, ventajas y cómo elegir.">
+<title>Agentes de Código IA · ExploraIA</title>
+<style>
+:root{color-scheme:dark;--bg:#07111f;--line:rgba(169,205,237,.17);--txt:#ecf6ff;--muted:#a8bacf;--mint:#67ecd0;--blue:#6dbff7;--violet:#c1a4ff;--yellow:#f8cb80;--red:#ff969c;--orange:#ffaa6e}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:66px}
+body{margin:0;background:radial-gradient(ellipse 60% 20% at 85% 2%,rgba(66,133,244,.18),transparent 70%),radial-gradient(ellipse 35% 22% at 2% 14%,rgba(94,47,148,.14),transparent 80%),var(--bg);color:var(--txt);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+p{margin:0 0 12px}h2,h3{letter-spacing:-.03em}h2{font-size:clamp(22px,3vw,34px);margin:0 0 10px}h3{font-size:19px;margin:0 0 8px}
+
+/* Nav */
+.coursenav{position:sticky;top:0;z-index:10;display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:9px 22px;background:#07111f;border-bottom:1px solid var(--line);font-size:12px;font-weight:700}
+.coursenav a{color:#c9d6e8;border:1px solid var(--line);border-radius:99px;padding:5px 11px;white-space:nowrap}
+.coursenav a[aria-current=page]{background:linear-gradient(110deg,#78e6d0,#63b8f1);color:#082238;border-color:transparent}
+.coursenav a:hover{color:#fff}
+
+/* Layout */
+.shell{max-width:1120px;margin:auto;padding:0 22px}
+.section{padding:52px 0;border-top:1px solid var(--line)}
+.sub{color:var(--muted);max-width:720px;margin:0 0 20px;font-size:15px}
+
+/* Hero */
+.hero{padding:56px 0 32px}
+.eyebrow{display:inline-flex;gap:8px;font-size:11px;font-weight:800;color:#91ffe2;border:1px solid rgba(103,236,208,.25);padding:5px 11px;border-radius:99px;background:rgba(103,236,208,.06);letter-spacing:1px;text-transform:uppercase}
+h1{font-size:clamp(32px,5vw,60px);line-height:1.07;letter-spacing:-.05em;margin:14px 0 12px}
+.grad{background:linear-gradient(100deg,#79e7d3,#70bfff,#c7a8ff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:16px;max-width:680px;margin:0 0 16px}
+.author{font-weight:800;font-size:13px;letter-spacing:.02em;margin:12px 0 0}
+.author span{display:block;font-weight:500;color:var(--muted)}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.pillrow span{font-size:12px;color:#b6cbdd;background:#12243a;border:1px solid var(--line);border-radius:30px;padding:5px 11px}
+
+/* Page strip nav */
+.navstrip{display:flex;overflow-x:auto;gap:7px;padding:10px 0 16px;scrollbar-width:thin}
+.navstrip a{white-space:nowrap;color:#c7d4e4;border:1px solid var(--line);border-radius:25px;padding:7px 12px;font-size:12px;font-weight:700}
+.navstrip a:hover{background:#14304e}
+
+/* Agent hero cards */
+.agents-top{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.agent-card{border-radius:22px;padding:24px;border:1px solid var(--line);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px}
+.agent-card::before{content:'';position:absolute;inset:0;opacity:.07;z-index:0}
+.agent-card>*{position:relative;z-index:1}
+.ac-google{background:linear-gradient(135deg,#0d1f35,#0b1829);border-color:rgba(66,133,244,.35)}
+.ac-google::before{background:radial-gradient(circle at 80% 20%,#4285f4,transparent 70%)}
+.ac-claude{background:linear-gradient(135deg,#1a1012,#0f1820);border-color:rgba(204,120,92,.35)}
+.ac-claude::before{background:radial-gradient(circle at 80% 20%,#cc785c,transparent 70%)}
+.ac-codex{background:linear-gradient(135deg,#0d1a14,#0b1620);border-color:rgba(16,163,127,.35)}
+.ac-codex::before{background:radial-gradient(circle at 80% 20%,#10a37f,transparent 70%)}
+.ac-logo{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:24px;font-weight:900;flex-shrink:0}
+.ac-company{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin:0}
+.ac-name{font-size:22px;font-weight:900;margin:0;line-height:1.1}
+.ac-desc{font-size:13px;color:#b8cfe0;margin:0;flex:1}
+.ac-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.ac-tags span{font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.07);color:#c0d4e6;border:1px solid rgba(255,255,255,.1)}
+.ac-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:9px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);margin-top:4px;width:fit-content}
+.ac-link:hover{background:rgba(255,255,255,.1)}
+
+/* Feature list */
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:10px 0 0}
+.feat{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#c0d8ea;line-height:1.4}
+.feat-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+
+/* Surface chips */
+.surfaces{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 4px}
+.surf{font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;border:1px solid;background:rgba(255,255,255,.04)}
+
+/* Others grid */
+.others-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:12px}
+.other-card{background:linear-gradient(135deg,#102238,#0b1b2d);border:1px solid var(--line);border-radius:17px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.oc-head{display:flex;align-items:center;gap:11px}
+.oc-logo{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.oc-name{font-weight:900;font-size:16px;margin:0}
+.oc-by{font-size:11px;color:var(--muted);margin:0}
+.oc-desc{font-size:13px;color:#b8cfe0;margin:0;flex:1}
+.oc-pros{padding-left:14px;margin:4px 0 0;font-size:12px;color:#9af5df}
+.oc-pros li{margin:3px 0}
+.oc-link{font-size:11px;font-weight:700;color:var(--blue);padding:5px 10px;border:1px solid rgba(109,191,247,.25);border-radius:7px;width:fit-content;margin-top:4px}
+.oc-link:hover{background:rgba(109,191,247,.1)}
+
+/* Comparison table */
+.comp-wrap{overflow-x:auto;margin-top:16px;border-radius:16px;border:1px solid var(--line)}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px;min-width:720px}
+.comp-table th{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#83e8d2;background:#0a1e32;white-space:nowrap}
+.comp-table td{padding:11px 14px;border-bottom:1px solid rgba(169,205,237,.07);color:#c6d7e5;vertical-align:middle}
+.comp-table tr:last-child td{border-bottom:0}
+.comp-table tr:hover td{background:rgba(109,191,247,.04)}
+.ck{color:#67ecd0;font-weight:700}
+.cx{color:#a8bacf}
+.cbeta{color:#f8cb80;font-size:11px}
+
+/* Badge */
+.badge{display:inline-block;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:800}
+.badge.free{background:rgba(103,236,208,.13);color:#a2ffe8;border:1px solid rgba(103,236,208,.3)}
+.badge.paid{background:rgba(248,203,128,.12);color:#ffe1a0;border:1px solid rgba(248,203,128,.3)}
+.badge.oss{background:rgba(193,164,255,.12);color:#e0d4ff;border:1px solid rgba(193,164,255,.3)}
+
+/* Use case guide */
+.ucgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:14px}
+.uccard{background:#0d2033;border:1px solid var(--line);border-radius:15px;padding:17px}
+.uccard h4{font-size:14px;margin:0 0 8px;color:#ecf6ff}
+.uccard .rec{font-size:12px;color:#83e8d2;font-weight:700;margin:4px 0}
+.uccard p{font-size:12px;color:#9eb8cc;margin:0}
+
+/* Notes */
+.note{padding:13px 16px;border-left:3px solid var(--c,var(--yellow));border-radius:0 11px 11px 0;background:rgba(248,203,128,.07);color:#e8d9bc;font-size:13px;margin:12px 0}
+.note.safe{--c:var(--mint);background:rgba(103,236,208,.07);color:#caeadf}
+.note.info{--c:var(--blue);background:rgba(109,191,247,.07);color:#cce5fa}
+.note.danger{--c:var(--red);background:rgba(255,150,156,.07);color:#f4d8dd}
+
+/* Tabs for detailed sections */
+.dtabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 10px}
+.dtab{font:700 12px system-ui;border:1px solid var(--line);background:#102239;color:#cfe0f0;border-radius:8px;padding:8px 13px}
+.dtab.on{background:var(--mint);color:#082238;border-color:var(--mint)}
+.dpanel{display:none}.dpanel.on{display:block}
+.code{background:#081728;border:1px solid var(--line);border-radius:9px;padding:13px;font:12.5px/1.6 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;margin:9px 0}
+
+/* Footer */
+.footer{margin-top:44px;padding:30px 0 44px;border-top:1px solid var(--line);color:#91a6bc;font-size:12px}
+
+@media(max-width:900px){.agents-top{grid-template-columns:1fr}}
+@media(max-width:600px){.shell{padding:0 15px}.feat-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="coursenav" aria-label="Sitio">
+<a href="index.html">Inicio</a>
+<a href="historia.html">Historia</a>
+<a href="aprende.html">Aprende IA</a>
+<a href="prompts.html">Arte del Prompt</a>
+<a href="agentes.html" aria-current="page">Agentes de Código</a>
+<a href="gestion.html">Gestión universitaria</a>
+<a href="directorio.html">Directorio</a>
+</nav>
+
+<main class="shell">
+
+<!-- HERO -->
+<section class="hero">
+<span class="eyebrow">✦ Módulo · Agentes de código con IA</span>
+<h1>El código ya no<br><span class="grad">lo escribes tú solo.</span></h1>
+<p class="lead">Los agentes de código con IA leen tu repositorio, editan archivos, corren pruebas, crean commits y abren pull requests. Esta guía compara las plataformas líderes: qué hacen, en qué se diferencian y cuándo usar cada una.</p>
+<p class="author">ING. GREGORIO BAUTISTA OBLITAS<span>Maestro en Inteligencia Artificial</span></p>
+<div class="pillrow">
+<span>🤖 Google Antigravity</span>
+<span>🟠 Claude Code</span>
+<span>🟢 OpenAI Codex</span>
+<span>🐙 GitHub Copilot</span>
+<span>🖱 Cursor</span>
+<span>+ más herramientas</span>
+</div>
+</section>
+
+<nav class="navstrip" aria-label="Secciones">
+<a href="#bigthree">🏆 Los 3 grandes</a>
+<a href="#otros">🛠 Otras herramientas</a>
+<a href="#comparativa">📊 Comparativa</a>
+<a href="#cuando">🎯 ¿Cuándo usar cuál?</a>
+<a href="#universidad">🎓 En la universidad</a>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════
+     01 · LOS 3 GRANDES
+══════════════════════════════════════════════════════ -->
+<section class="section" id="bigthree" aria-labelledby="bth">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">01 · Los 3 grandes agentes</span>
+<h2 id="bth">Antigravity, Claude Code y Codex</h2>
+<p class="sub">Las tres plataformas de agentes de código más completas en 2026, desarrolladas por Google, Anthropic y OpenAI respectivamente.</p>
+
+<div class="agents-top">
+
+<!-- GOOGLE ANTIGRAVITY -->
+<div class="agent-card ac-google">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="ac-logo" style="background:linear-gradient(135deg,#4285f4,#34a853)">🚀</div>
+    <div>
+      <p class="ac-company" style="color:#8ab4f8">Google</p>
+      <p class="ac-name">Antigravity</p>
+    </div>
+  </div>
+  <p class="ac-desc">Plataforma de desarrollo agentivo de Google, impulsada por los modelos Gemini 4. Permite correr múltiples agentes en paralelo sobre Git worktrees aislados, con una app de escritorio, CLI, extensiones de IDE y SDK en Python.</p>
+  <div class="surfaces">
+    <span class="surf" style="color:#8ab4f8;border-color:rgba(138,180,248,.3)">🖥 App escritorio</span>
+    <span class="surf" style="color:#81c995;border-color:rgba(129,201,149,.3)">⌨ CLI (agy)</span>
+    <span class="surf" style="color:#fdd663;border-color:rgba(253,214,99,.3)">🧩 IDE (VS Code, JetBrains, Zed, Xcode)</span>
+    <span class="surf" style="color:#c58af9;border-color:rgba(197,138,249,.3)">🐍 SDK Python</span>
+  </div>
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-icon">⚡</span><span>Agentes paralelos en Git worktrees aislados</span></div>
+    <div class="feat"><span class="feat-icon">🧠</span><span>Gemini 4 Neon, Carbon, Argon, Hydrogen</span></div>
+    <div class="feat"><span class="feat-icon">🔒</span><span>Permisos granulares y VPC Enterprise</span></div>
+    <div class="feat"><span class="feat-icon">🔌</span><span>MCP, Skills, Rules y hooks personalizables</span></div>
+    <div class="feat"><span class="feat-icon">⏰</span><span>Tareas programadas (cron) en segundo plano</span></div>
+    <div class="feat"><span class="feat-icon">🔁</span><span>Bucles de verificación automáticos</span></div>
+  </div>
+  <div class="ac-tags">
+    <span>Gemini 4 & 3.8</span><span>Paralelo</span><span>Multi-IDE</span><span>Enterprise</span>
+  </div>
+  <a class="ac-link" href="https://antigravity.google" target="_blank" rel="noopener">↗ antigravity.google</a>
+</div>
+
+<!-- CLAUDE CODE -->
+<div class="agent-card ac-claude">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="ac-logo" style="background:linear-gradient(135deg,#cc785c,#e8926e)">🟠</div>
+    <div>
+      <p class="ac-company" style="color:#e8926e">Anthropic</p>
+      <p class="ac-name">Claude Code</p>
+    </div>
+  </div>
+  <p class="ac-desc">Agente de código terminal-first de Anthropic. Lee toda la codebase, edita archivos en múltiples lenguajes, corre comandos de shell, crea commits y abre PRs en GitHub/GitLab. Destaca en razonamiento complejo.</p>
+  <div class="surfaces">
+    <span class="surf" style="color:#e8926e;border-color:rgba(232,146,110,.3)">⌨ CLI (claude)</span>
+    <span class="surf" style="color:#8ab4f8;border-color:rgba(138,180,248,.3)">🧩 VS Code</span>
+    <span class="surf" style="color:#fdd663;border-color:rgba(253,214,99,.3)">🖥 App escritorio</span>
+    <span class="surf" style="color:#81c995;border-color:rgba(129,201,149,.3)">🌐 Browser</span>
+  </div>
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-icon">📁</span><span>Lee toda la codebase y edita múltiples archivos</span></div>
+    <div class="feat"><span class="feat-icon">🔀</span><span>Commits, branches y pull requests automáticos</span></div>
+    <div class="feat"><span class="feat-icon">📄</span><span>CLAUDE.md para instrucciones persistentes</span></div>
+    <div class="feat"><span class="feat-icon">🤖</span><span>Subagentes en paralelo y flujos dinámicos</span></div>
+    <div class="feat"><span class="feat-icon">🔌</span><span>MCP, Skills, Hooks y Plugin marketplace</span></div>
+    <div class="feat"><span class="feat-icon">🔬</span><span>Code intelligence (LSP) para navegación precisa</span></div>
+  </div>
+  <div class="ac-tags">
+    <span>Claude 4+</span><span>Terminal-first</span><span>Git integrado</span><span>Multi-agente</span>
+  </div>
+  <a class="ac-link" href="https://code.claude.com" target="_blank" rel="noopener">↗ code.claude.com</a>
+</div>
+
+<!-- CODEX CLI -->
+<div class="agent-card ac-codex">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="ac-logo" style="background:linear-gradient(135deg,#10a37f,#1abc9c)">🟢</div>
+    <div>
+      <p class="ac-company" style="color:#2ed8b2">OpenAI</p>
+      <p class="ac-name">Codex CLI</p>
+    </div>
+  </div>
+  <p class="ac-desc">Agente de código terminal de OpenAI. Opera en un sandbox de seguridad configurable que restringe filesystem y red. Excelente para revisión de código, CI/CD y pipelines de automatización con modo headless.</p>
+  <div class="surfaces">
+    <span class="surf" style="color:#2ed8b2;border-color:rgba(46,216,178,.3)">⌨ CLI (codex)</span>
+    <span class="surf" style="color:#8ab4f8;border-color:rgba(138,180,248,.3)">🧩 VS Code / Cursor</span>
+    <span class="surf" style="color:#fdd663;border-color:rgba(253,214,99,.3)">🖥 App escritorio</span>
+    <span class="surf" style="color:#c58af9;border-color:rgba(197,138,249,.3)">☁ Codex Web</span>
+  </div>
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-icon">🔒</span><span>Sandbox OS-enforced: filesystem + red configurable</span></div>
+    <div class="feat"><span class="feat-icon">🔍</span><span>Revisión de cambios sin modificar el working tree</span></div>
+    <div class="feat"><span class="feat-icon">🤖</span><span>Subagentes especializados por dominio</span></div>
+    <div class="feat"><span class="feat-icon">⚙</span><span>Modo headless para CI/CD y scripts</span></div>
+    <div class="feat"><span class="feat-icon">🌐</span><span>Búsqueda web en vivo durante la sesión</span></div>
+    <div class="feat"><span class="feat-icon">🔌</span><span>MCP y perfiles de permisos por proyecto</span></div>
+  </div>
+  <div class="ac-tags">
+    <span>o3 / o4-mini</span><span>Sandbox</span><span>CI/CD</span><span>Headless</span>
+  </div>
+  <a class="ac-link" href="https://github.com/openai/codex" target="_blank" rel="noopener">↗ github.com/openai/codex</a>
+</div>
+
+</div><!-- /agents-top -->
+
+<!-- DETALLE CON TABS -->
+<div style="margin-top:28px">
+<h3>Comparación detallada: flujo de trabajo</h3>
+<div class="dtabs" id="agTabs">
+  <button type="button" class="dtab on" data-t="0">🚀 Antigravity</button>
+  <button type="button" class="dtab" data-t="1">🟠 Claude Code</button>
+  <button type="button" class="dtab" data-t="2">🟢 Codex CLI</button>
+</div>
+
+<div class="dpanel on" id="dp0">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:8px"><b style="color:#8ab4f8">Instalación rápida</b></p>
+      <div class="code">curl -fsSL https://antigravity.google/cli/install.sh | bash
+# O instala desde antigravity.google/download
+
+# Inicio de sesión
+agy auth login
+
+# Iniciar sesión interactiva
+agy</div>
+      <p style="color:var(--muted);font-size:13px;margin:10px 0 6px"><b style="color:#8ab4f8">SDK Python</b></p>
+      <div class="code">pip install google-antigravity
+
+# O con uv
+uv add google-antigravity</div>
+    </div>
+    <div>
+      <p style="font-size:13px;color:#c0d8ea;margin:0 0 8px"><b style="color:#8ab4f8">Capacidades destacadas</b></p>
+      <ul style="font-size:13px;color:#b8cfe0;padding-left:17px;margin:0 0 12px">
+        <li style="margin:5px 0">Modos: <b>Local</b> (carpeta activa) o <b>New worktree</b> (Git worktree aislado)</li>
+        <li style="margin:5px 0">Gestiona múltiples agentes desde la <b>Antigravity App</b> como centro de control</li>
+        <li style="margin:5px 0">Tareas programadas (cron) que corren <b>sin que tu computadora esté encendida</b></li>
+        <li style="margin:5px 0">Verificación visual con planes de implementación, diffs unificados y grabaciones de sesiones de navegador</li>
+        <li style="margin:5px 0">Integración nativa con <b>VS Code, JetBrains, Xcode, Zed, Eclipse y Visual Studio</b></li>
+      </ul>
+      <div class="note info" style="margin:0;font-size:12px"><b>Modelos disponibles:</b> Gemini 4 Neon · Gemini 4 Carbon · Gemini 4 Argon · Gemini 4 Hydrogen · Gemini 3.8 Flash · Gemini 3.1 Pro</div>
+    </div>
+  </div>
+</div>
+
+<div class="dpanel" id="dp1">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:8px"><b style="color:#e8926e">Instalación rápida</b></p>
+      <div class="code">npm install -g @anthropic-ai/claude-code
+
+# Iniciar sesión
+claude auth login
+
+# Inicio en tu repositorio
+cd mi-proyecto
+claude</div>
+      <p style="color:var(--muted);font-size:13px;margin:10px 0 6px"><b style="color:#e8926e">Ejemplo de tarea</b></p>
+      <div class="code">claude "escribe pruebas para el módulo auth,
+        ejecútalas y corrige los errores"
+
+claude "crea un PR con mis cambios y
+        redacta una descripción detallada"</div>
+    </div>
+    <div>
+      <p style="font-size:13px;color:#c0d8ea;margin:0 0 8px"><b style="color:#e8926e">Capacidades destacadas</b></p>
+      <ul style="font-size:13px;color:#b8cfe0;padding-left:17px;margin:0 0 12px">
+        <li style="margin:5px 0"><b>CLAUDE.md</b>: archivo en la raíz del proyecto con estándares de código, librerías preferidas y reglas que Claude sigue en cada sesión</li>
+        <li style="margin:5px 0"><b>Skills</b>: workflows reutilizables del equipo como <code style="font-size:11px;background:#081728;padding:1px 5px;border-radius:4px">/review-pr</code> o <code style="font-size:11px;background:#081728;padding:1px 5px;border-radius:4px">/deploy-staging</code></li>
+        <li style="margin:5px 0"><b>Hooks</b>: ejecuta comandos antes/después de acciones (ej. ESLint después de cada edición)</li>
+        <li style="margin:5px 0">Integración con <b>GitHub Actions y GitLab CI/CD</b> para revisión automatizada</li>
+        <li style="margin:5px 0"><b>Artifacts</b>: publica la salida de la sesión como página web interactiva privada</li>
+      </ul>
+      <div class="note" style="margin:0;border-color:rgba(232,146,110,.5);background:rgba(232,146,110,.06);color:#f0cbb8;font-size:12px"><b>Composable:</b> sigue la filosofía Unix. Puedes componer Claude Code con pipes, scripts y CI pipelines.</div>
+    </div>
+  </div>
+</div>
+
+<div class="dpanel" id="dp2">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:8px"><b style="color:#2ed8b2">Instalación rápida</b></p>
+      <div class="code">npm install -g @openai/codex
+
+# Inicio de sesión
+codex auth login
+
+# Iniciar en tu repositorio
+cd mi-proyecto
+codex</div>
+      <p style="color:var(--muted);font-size:13px;margin:10px 0 6px"><b style="color:#2ed8b2">Modo headless (CI/CD)</b></p>
+      <div class="code"># Revisar cambios antes de un commit
+codex review --changes
+
+# Ejecutar tarea no interactiva
+codex exec -p "actualiza las dependencias
+  desactualizadas y corre los tests"</div>
+    </div>
+    <div>
+      <p style="font-size:13px;color:#c0d8ea;margin:0 0 8px"><b style="color:#2ed8b2">El sandbox de seguridad</b></p>
+      <p style="font-size:13px;color:#b8cfe0;margin:0 0 10px">Por defecto, el sandbox de Codex:</p>
+      <ul style="font-size:13px;color:#b8cfe0;padding-left:17px;margin:0 0 12px">
+        <li style="margin:5px 0">✅ Permite escrituras dentro del workspace</li>
+        <li style="margin:5px 0">✅ Permite lecturas amplias del filesystem (librerías, SDKs)</li>
+        <li style="margin:5px 0">🔒 Deshabilita el acceso a red por defecto</li>
+        <li style="margin:5px 0">🔒 Mantiene <code style="font-size:11px;background:#081728;padding:1px 5px;border-radius:4px">.git</code> y <code style="font-size:11px;background:#081728;padding:1px 5px;border-radius:4px">.codex</code> en modo solo lectura</li>
+      </ul>
+      <div class="note safe" style="margin:0;font-size:12px"><b>Perfiles de permisos:</b> configura exactamente qué carpetas y qué acceso a red tiene el agente por proyecto. Ideal para entornos corporativos.</div>
+    </div>
+  </div>
+</div>
+</div><!-- /detalle tabs -->
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     02 · OTRAS HERRAMIENTAS
+══════════════════════════════════════════════════════ -->
+<section class="section" id="otros" aria-labelledby="oth">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">02 · Otras herramientas destacadas</span>
+<h2 id="oth">El ecosistema completo</h2>
+<p class="sub">Más allá de los tres grandes, existe un ecosistema rico de herramientas especializadas para distintos flujos de trabajo.</p>
+
+<div class="others-grid">
+
+  <div class="other-card">
+    <div class="oc-head">
+      <div class="oc-logo" style="background:linear-gradient(135deg,#24292e,#3d444d)">🐙</div>
+      <div>
+        <p class="oc-name">GitHub Copilot</p>
+        <p class="oc-by">Microsoft / GitHub · desde 2021</p>
+      </div>
+    </div>
+    <p class="oc-desc">El asistente de código más usado del mundo. Autocompletado inteligente, chat con la codebase, Copilot Workspace para tareas multi-archivo y revisión automática de PRs.</p>
+    <ul class="oc-pros">
+      <li>Integración nativa en VS Code, JetBrains, Neovim, CLI</li>
+      <li>Copilot Chat: preguntas sobre cualquier parte del código</li>
+      <li>Revisión automática de pull requests</li>
+      <li>Plan gratuito disponible para estudiantes</li>
+    </ul>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px"><span class="badge free">Gratis (estudiantes)</span><span class="badge paid">Pro desde $10/mes</span></div>
+    <a class="oc-link" href="https://github.com/features/copilot" target="_blank" rel="noopener">↗ github.com/features/copilot</a>
+  </div>
+
+  <div class="other-card">
+    <div class="oc-head">
+      <div class="oc-logo" style="background:linear-gradient(135deg,#1a1a2e,#2d2d5e)">🖱</div>
+      <div>
+        <p class="oc-name">Cursor</p>
+        <p class="oc-by">Anysphere · editor IA-nativo</p>
+      </div>
+    </div>
+    <p class="oc-desc">Editor de código construido sobre VS Code con IA integrada profundamente. El chat conoce toda tu codebase, el Composer reescribe múltiples archivos y el Tab predice el siguiente bloque de código.</p>
+    <ul class="oc-pros">
+      <li>Funciona con Claude, GPT-4o, Gemini (tú eliges)</li>
+      <li>Composer: edita múltiples archivos a la vez</li>
+      <li>Tab: autocompletado que predice bloques completos</li>
+      <li>Agentes en paralelo desde el IDE</li>
+    </ul>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px"><span class="badge free">Gratis (limitado)</span><span class="badge paid">Pro $20/mes</span></div>
+    <a class="oc-link" href="https://cursor.com" target="_blank" rel="noopener">↗ cursor.com</a>
+  </div>
+
+  <div class="other-card">
+    <div class="oc-head">
+      <div class="oc-logo" style="background:linear-gradient(135deg,#1a0a3e,#2d1a6e)">🧠</div>
+      <div>
+        <p class="oc-name">Devin</p>
+        <p class="oc-by">Cognition AI · "El primer ingeniero IA"</p>
+      </div>
+    </div>
+    <p class="oc-desc">El primer agente autónomo que actúa como un ingeniero de software completo: planifica, busca documentación, escribe código, depura errores y hace deployment. Opera de forma asíncrona.</p>
+    <ul class="oc-pros">
+      <li>Puede trabajar durante horas sin intervención humana</li>
+      <li>Integración con Slack (asígnale tareas desde mensajes)</li>
+      <li>Revisa y corrige sus propios errores en bucle</li>
+      <li>Ideal para tareas largas y bien definidas</li>
+    </ul>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px"><span class="badge paid">Enterprise</span></div>
+    <a class="oc-link" href="https://cognition.ai" target="_blank" rel="noopener">↗ cognition.ai</a>
+  </div>
+
+  <div class="other-card">
+    <div class="oc-head">
+      <div class="oc-logo" style="background:linear-gradient(135deg,#1a2e1a,#2d5e2d)">🌊</div>
+      <div>
+        <p class="oc-name">Windsurf</p>
+        <p class="oc-by">Codeium · editor con "Flows"</p>
+      </div>
+    </div>
+    <p class="oc-desc">Editor basado en VS Code con el sistema Cascade que crea "flows" agentivos. Ve más allá del chat: el agente actúa, navega archivos y ejecuta comandos de forma fluida.</p>
+    <ul class="oc-pros">
+      <li>Cascade: modo agentivo que combina acciones y chat</li>
+      <li>Supercomplete: autocompletado ultra-contextual</li>
+      <li>Gratuito con un generoso tier de uso</li>
+      <li>Funciona con múltiples modelos de IA</li>
+    </ul>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px"><span class="badge free">Gratis (generoso)</span><span class="badge paid">Pro $15/mes</span></div>
+    <a class="oc-link" href="https://windsurf.com" target="_blank" rel="noopener">↗ windsurf.com</a>
+  </div>
+
+  <div class="other-card">
+    <div class="oc-head">
+      <div class="oc-logo" style="background:linear-gradient(135deg,#0f0f0f,#2d2d2d)">▲</div>
+      <div>
+        <p class="oc-name">v0</p>
+        <p class="oc-by">Vercel · generador de interfaces</p>
+      </div>
+    </div>
+    <p class="oc-desc">Genera interfaces de usuario completas en React/Next.js desde una descripción en texto. Perfecto para crear prototipos rápidos, paneles de administración o dashboards sin escribir código manualmente.</p>
+    <ul class="oc-pros">
+      <li>Del texto a un componente React en segundos</li>
+      <li>Exporta código listo para producción</li>
+      <li>Integrado con el ecosistema Vercel/Next.js</li>
+      <li>Versión gratuita disponible</li>
+    </ul>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px"><span class="badge free">Gratis (limitado)</span><span class="badge paid">Pro $20/mes</span></div>
+    <a class="oc-link" href="https://v0.dev" target="_blank" rel="noopener">↗ v0.dev</a>
+  </div>
+
+  <div class="other-card">
+    <div class="oc-head">
+      <div class="oc-logo" style="background:linear-gradient(135deg,#0d2137,#0d3758)">⚡</div>
+      <div>
+        <p class="oc-name">Bolt</p>
+        <p class="oc-by">StackBlitz · apps full-stack desde cero</p>
+      </div>
+    </div>
+    <p class="oc-desc">Genera aplicaciones web completas (frontend + backend) desde una descripción, directamente en el navegador. No requiere instalación local. Ideal para MVPs rápidos y demostraciones.</p>
+    <ul class="oc-pros">
+      <li>Corre un entorno Node.js completo en el browser</li>
+      <li>Genera apps React, Vue, Svelte, etc. desde texto</li>
+      <li>Deployment directo desde la misma interfaz</li>
+      <li>Sin configuración de entorno local</li>
+    </ul>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px"><span class="badge free">Gratis (limitado)</span><span class="badge paid">Pro desde $20/mes</span></div>
+    <a class="oc-link" href="https://bolt.new" target="_blank" rel="noopener">↗ bolt.new</a>
+  </div>
+
+  <div class="other-card">
+    <div class="oc-head">
+      <div class="oc-logo" style="background:linear-gradient(135deg,#1a1a1a,#333)">⬛</div>
+      <div>
+        <p class="oc-name">Aider</p>
+        <p class="oc-by">Paul Gauthier · open source</p>
+      </div>
+    </div>
+    <p class="oc-desc">Agente de código open source y gratuito que corre en la terminal. Se integra con Git de forma nativa, edita múltiples archivos y soporta más de 100 modelos de IA (OpenAI, Anthropic, Gemini, locales).</p>
+    <ul class="oc-pros">
+      <li>100% open source (MIT) y gratuito</li>
+      <li>Funciona con cualquier modelo, incluso locales (Ollama)</li>
+      <li>Commits automáticos con mensajes descriptivos</li>
+      <li>Mapea toda la arquitectura del proyecto</li>
+    </ul>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px"><span class="badge oss">Open Source</span><span class="badge free">Gratis</span></div>
+    <a class="oc-link" href="https://aider.chat" target="_blank" rel="noopener">↗ aider.chat</a>
+  </div>
+
+  <div class="other-card">
+    <div class="oc-head">
+      <div class="oc-logo" style="background:linear-gradient(135deg,#c41200,#e02213)">🔴</div>
+      <div>
+        <p class="oc-name">Replit Agent</p>
+        <p class="oc-by">Replit · desde el navegador</p>
+      </div>
+    </div>
+    <p class="oc-desc">Agente integrado en Replit que crea y depura aplicaciones completas desde el navegador, sin instalación. Ideal para educación y prototipado colaborativo en tiempo real.</p>
+    <ul class="oc-pros">
+      <li>Sin instalaciones: todo en el browser</li>
+      <li>Deployment instantáneo con URL pública</li>
+      <li>Colaboración en tiempo real (como Google Docs para código)</li>
+      <li>Perfecto para estudiantes y docentes</li>
+    </ul>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px"><span class="badge free">Gratis (limitado)</span><span class="badge paid">Core $25/mes</span></div>
+    <a class="oc-link" href="https://replit.com/agent" target="_blank" rel="noopener">↗ replit.com/agent</a>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     03 · COMPARATIVA
+══════════════════════════════════════════════════════ -->
+<section class="section" id="comparativa" aria-labelledby="cmph">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">03 · Comparativa</span>
+<h2 id="cmph">Tabla comparativa completa</h2>
+<p class="sub">Las características más importantes de cada herramienta, de un vistazo.</p>
+<div class="comp-wrap">
+<table class="comp-table" aria-label="Comparativa de agentes de código IA">
+<thead>
+<tr>
+  <th>Herramienta</th>
+  <th>Empresa</th>
+  <th>Modelo IA</th>
+  <th>CLI</th>
+  <th>IDE propio</th>
+  <th>Paralelo</th>
+  <th>Sandbox</th>
+  <th>MCP</th>
+  <th>Open Source</th>
+  <th>Precio base</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><b>🚀 Antigravity</b></td>
+  <td>Google</td>
+  <td>Gemini 4 / 3.8</td>
+  <td><span class="ck">✓ agy</span></td>
+  <td><span class="ck">✓ Standalone + extensiones</span></td>
+  <td><span class="ck">✓ worktrees</span></td>
+  <td><span class="ck">✓ granular</span></td>
+  <td><span class="ck">✓</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="badge free">Gratis</span> <span class="badge paid">Pro/Ultra</span></td>
+</tr>
+<tr>
+  <td><b>🟠 Claude Code</b></td>
+  <td>Anthropic</td>
+  <td>Claude 4+</td>
+  <td><span class="ck">✓ claude</span></td>
+  <td><span class="ck">✓ Standalone + VS Code</span></td>
+  <td><span class="ck">✓ subagentes</span></td>
+  <td><span class="ck">✓</span></td>
+  <td><span class="ck">✓</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="badge paid">Pro desde $20/mes</span></td>
+</tr>
+<tr>
+  <td><b>🟢 Codex CLI</b></td>
+  <td>OpenAI</td>
+  <td>o3 / o4-mini</td>
+  <td><span class="ck">✓ codex</span></td>
+  <td><span class="ck">✓ Standalone + VS Code</span></td>
+  <td><span class="ck">✓ subagentes</span></td>
+  <td><span class="ck">✓ OS-enforced</span></td>
+  <td><span class="ck">✓</span></td>
+  <td><span class="ck">✓ CLI</span></td>
+  <td><span class="badge paid">ChatGPT Plus/Pro</span></td>
+</tr>
+<tr>
+  <td><b>🐙 GitHub Copilot</b></td>
+  <td>Microsoft</td>
+  <td>GPT-4o / Claude</td>
+  <td><span class="ck">✓ gh copilot</span></td>
+  <td><span class="cx">— (extensión)</span></td>
+  <td><span class="cbeta">◐ Workspace</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="cbeta">◐ beta</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="badge free">Gratis (estudiantes)</span></td>
+</tr>
+<tr>
+  <td><b>🖱 Cursor</b></td>
+  <td>Anysphere</td>
+  <td>Claude / GPT / Gemini</td>
+  <td><span class="cx">—</span></td>
+  <td><span class="ck">✓ IDE completo</span></td>
+  <td><span class="ck">✓ agentes en paralelo</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="ck">✓</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="badge free">Gratis</span> <span class="badge paid">Pro $20/mes</span></td>
+</tr>
+<tr>
+  <td><b>🧠 Devin</b></td>
+  <td>Cognition</td>
+  <td>Propio</td>
+  <td><span class="cx">—</span></td>
+  <td><span class="cx">— (web app)</span></td>
+  <td><span class="ck">✓ async</span></td>
+  <td><span class="ck">✓</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="badge paid">Enterprise</span></td>
+</tr>
+<tr>
+  <td><b>🌊 Windsurf</b></td>
+  <td>Codeium</td>
+  <td>Claude / GPT / Gemini</td>
+  <td><span class="cx">—</span></td>
+  <td><span class="ck">✓ IDE completo</span></td>
+  <td><span class="cbeta">◐ limitado</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="cbeta">◐ beta</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="badge free">Gratis</span> <span class="badge paid">Pro $15/mes</span></td>
+</tr>
+<tr>
+  <td><b>⬛ Aider</b></td>
+  <td>Comunidad</td>
+  <td>Cualquiera (100+)</td>
+  <td><span class="ck">✓ aider</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="cx">—</span></td>
+  <td><span class="ck">✓ MIT</span></td>
+  <td><span class="badge oss">Open Source</span> <span class="badge free">Gratis</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:11px;color:var(--muted);margin-top:7px">✓ = disponible · — = no disponible · ◐ = en desarrollo / limitado</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     04 · ¿CUÁNDO USAR CUÁL?
+══════════════════════════════════════════════════════ -->
+<section class="section" id="cuando" aria-labelledby="cuch">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">04 · ¿Cuándo usar cuál?</span>
+<h2 id="cuch">Guía de elección según la tarea</h2>
+<p class="sub">No existe "la mejor herramienta". Existe la herramienta correcta para cada situación.</p>
+<div class="ucgrid">
+
+  <div class="uccard">
+    <h4>🎓 Estoy aprendiendo a programar</h4>
+    <p class="rec">→ GitHub Copilot · Cursor · Replit Agent</p>
+    <p>Integración suave en el editor, sugerencias en tiempo real y un entorno que no requiere configuración previa (Replit).</p>
+  </div>
+
+  <div class="uccard">
+    <h4>🔨 Proyecto grande y complejo</h4>
+    <p class="rec">→ Google Antigravity · Claude Code</p>
+    <p>Ambos razonan sobre toda la codebase, editan múltiples archivos, lanzan pruebas y trabajan en paralelo sobre ramas independientes.</p>
+  </div>
+
+  <div class="uccard">
+    <h4>🔁 CI/CD y automatización</h4>
+    <p class="rec">→ Codex CLI · Claude Code · Antigravity CLI</p>
+    <p>Los tres ofrecen modo headless y se pueden integrar en pipelines de GitHub Actions o GitLab CI con un solo comando.</p>
+  </div>
+
+  <div class="uccard">
+    <h4>🎨 Crear una interfaz rápido</h4>
+    <p class="rec">→ v0 · Bolt · Replit Agent</p>
+    <p>Del texto a un componente visual en segundos. Perfectos para prototipos, dashboards y MVPs sin configuración de entorno.</p>
+  </div>
+
+  <div class="uccard">
+    <h4>🏢 Entorno corporativo con seguridad estricta</h4>
+    <p class="rec">→ Codex CLI · Antigravity Enterprise</p>
+    <p>Codex ofrece sandbox OS-enforced. Antigravity Enterprise incluye VPC Service Controls. Ambos permiten definir exactamente qué puede tocar el agente.</p>
+  </div>
+
+  <div class="uccard">
+    <h4>🤝 Delegar una tarea larga sin supervisión</h4>
+    <p class="rec">→ Devin · Antigravity (cron) · Claude Code (background)</p>
+    <p>Devin trabaja de forma asíncrona por horas. Antigravity puede programar tareas que corren incluso con la computadora apagada.</p>
+  </div>
+
+  <div class="uccard">
+    <h4>💸 Sin presupuesto (gratis o casi)</h4>
+    <p class="rec">→ Aider · Windsurf · GitHub Copilot (estudiantes)</p>
+    <p>Aider es completamente open source. Windsurf tiene un generoso tier gratuito. Copilot es gratis para estudiantes verificados.</p>
+  </div>
+
+  <div class="uccard">
+    <h4>⚙ Integrar con mis propias herramientas (MCP)</h4>
+    <p class="rec">→ Antigravity · Claude Code · Codex CLI · Cursor</p>
+    <p>Los cuatro soportan el Model Context Protocol (MCP), que conecta el agente con bases de datos, APIs, Slack, Jira y cualquier servicio externo.</p>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     05 · EN LA UNIVERSIDAD
+══════════════════════════════════════════════════════ -->
+<section class="section" id="universidad" aria-labelledby="unih">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">05 · En la universidad</span>
+<h2 id="unih">Uso académico responsable</h2>
+<p class="sub">Los agentes de código multiplican la productividad, pero su uso en contextos académicos requiere criterios claros.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+  <div>
+    <h3 style="color:#a2ffe8;font-size:16px">✅ Usos recomendados</h3>
+    <ul style="font-size:13px;color:#c6d7e5;padding-left:16px;margin:8px 0">
+      <li style="margin:6px 0">Explorar y entender código existente ("¿qué hace esta función?")</li>
+      <li style="margin:6px 0">Generar código de prueba (tests unitarios) para funciones que ya escribiste</li>
+      <li style="margin:6px 0">Detectar errores y vulnerabilidades en tu propio código</li>
+      <li style="margin:6px 0">Automatizar tareas repetitivas: formateo, refactoring, documentación</li>
+      <li style="margin:6px 0">Prototipado rápido de ideas para después implementarlas tú</li>
+      <li style="margin:6px 0">Aprender explicando: "¿por qué falla este código?"</li>
+    </ul>
+  </div>
+  <div>
+    <h3 style="color:#ffd5d8;font-size:16px">⚠ Precauciones importantes</h3>
+    <ul style="font-size:13px;color:#c6d7e5;padding-left:16px;margin:8px 0">
+      <li style="margin:6px 0">Verifica siempre el código generado antes de ejecutarlo en producción</li>
+      <li style="margin:6px 0">Los agentes pueden inventar funciones de librerías que no existen ("alucinaciones de API")</li>
+      <li style="margin:6px 0">No copies código generado en entregas académicas sin entenderlo primero</li>
+      <li style="margin:6px 0">Nunca incluyas credenciales, tokens ni contraseñas en el contexto del agente</li>
+      <li style="margin:6px 0">Consulta la política de tu universidad sobre el uso de IA en trabajos académicos</li>
+    </ul>
+  </div>
+</div>
+
+<div class="note danger"><b>🔒 Datos confidenciales:</b> Nunca envíes a un agente de código información personal de estudiantes, datos de sistemas institucionales o credenciales de acceso. Trabaja siempre con datos ficticios o anonimizados en entornos de prueba.</div>
+
+<div class="note safe" style="margin-top:12px"><b>💡 Regla de oro para aprender:</b> Un agente de código es un tutor, no un sustituto. Úsalo para entender el "¿por qué?" detrás del código que genera. Si no puedes explicar lo que hizo el agente, aún no lo has aprendido.</div>
+
+<h3 style="margin-top:24px">¿Cómo presentar estas herramientas a tus estudiantes?</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:12px">
+  <div style="background:#0d2033;border:1px solid var(--line);border-radius:13px;padding:16px">
+    <p style="font-size:14px;font-weight:800;color:#83e8d2;margin:0 0 7px">1. Demostraciones en vivo</p>
+    <p style="font-size:12px;color:#9eb8cc;margin:0">Muestra en tiempo real cómo el agente lee un proyecto, detecta un error y propone una solución. Usa código ficticio.</p>
+  </div>
+  <div style="background:#0d2033;border:1px solid var(--line);border-radius:13px;padding:16px">
+    <p style="font-size:14px;font-weight:800;color:#83e8d2;margin:0 0 7px">2. Comparar con y sin IA</p>
+    <p style="font-size:12px;color:#9eb8cc;margin:0">Asigna la misma tarea a mitad del grupo con agente y la otra mitad sin él. Compara la calidad y el tiempo invertido.</p>
+  </div>
+  <div style="background:#0d2033;border:1px solid var(--line);border-radius:13px;padding:16px">
+    <p style="font-size:14px;font-weight:800;color:#83e8d2;margin:0 0 7px">3. Pedir que expliquen el código</p>
+    <p style="font-size:12px;color:#9eb8cc;margin:0">Después de usar el agente, el estudiante debe exponer oralmente qué hace el código. Esto valida la comprensión real.</p>
+  </div>
+  <div style="background:#0d2033;border:1px solid var(--line);border-radius:13px;padding:16px">
+    <p style="font-size:14px;font-weight:800;color:#83e8d2;margin:0 0 7px">4. Comenzar con Aider o Replit</p>
+    <p style="font-size:12px;color:#9eb8cc;margin:0">Son gratuitos, fáciles de configurar y no requieren cuenta de pago. Perfectos para un primer contacto en clase.</p>
+  </div>
+</div>
+</section>
+
+</main>
+
+<footer class="footer"><div class="shell">
+<p><b style="color:#eef7ff">ING. GREGORIO BAUTISTA OBLITAS</b><br>Maestro en Inteligencia Artificial</p>
+<p style="margin-top:8px">ExploraIA · Módulo de Agentes de Código con IA · Información basada en documentación oficial de Google Antigravity, Anthropic Claude Code, OpenAI Codex y herramientas del ecosistema, actualizada a noviembre 2026.</p>
+</div></footer>
+
+<script>
+'use strict';
+/* Tabs de detalle */
+document.querySelectorAll('.dtab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=Number(btn.dataset.t);
+    document.querySelectorAll('.dtab').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.dpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('dp'+t).classList.add('on');
+  });
+});
+</script>
+</body>
+</html>
