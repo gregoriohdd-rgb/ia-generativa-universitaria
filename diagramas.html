@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Mermaid, PlantUML, Draw.io y mapas mentales con IA: crea diagramas profesionales desde texto con ayuda de ChatGPT, Claude y Gemini para la universidad.">
+<title>Diagramas con IA · ExploraIA</title>
+<style>
+:root{color-scheme:dark;--bg:#07131f;--line:rgba(130,220,220,.14);--txt:#ecf6ff;--muted:#a0bfcc;--teal:#5fefdf;--cyan:#62d4f7;--violet:#c1a4ff;--yellow:#f8cb80;--red:#ff969c;--green:#85efb0;--orange:#ffbe6e}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:66px}
+body{margin:0;background:radial-gradient(ellipse 55% 20% at 85% 2%,rgba(0,220,200,.1),transparent 70%),radial-gradient(ellipse 30% 20% at 2% 14%,rgba(20,80,120,.18),transparent 80%),var(--bg);color:var(--txt);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+p{margin:0 0 12px}h2,h3{letter-spacing:-.03em}h2{font-size:clamp(22px,3vw,34px);margin:0 0 10px}h3{font-size:19px;margin:0 0 8px}
+
+/* Nav */
+.coursenav{position:sticky;top:0;z-index:10;display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:9px 22px;background:#07131f;border-bottom:1px solid var(--line);font-size:12px;font-weight:700}
+.coursenav a{color:#c0d8e8;border:1px solid var(--line);border-radius:99px;padding:5px 11px;white-space:nowrap}
+.coursenav a[aria-current=page]{background:linear-gradient(110deg,#5fefdf,#62d4f7);color:#021820;border-color:transparent}
+.coursenav a:hover{color:#fff}
+
+.shell{max-width:1120px;margin:auto;padding:0 22px}
+.section{padding:52px 0;border-top:1px solid var(--line)}
+.sub{color:var(--muted);max-width:720px;margin:0 0 20px;font-size:15px}
+.eyebrow{display:inline-flex;gap:8px;font-size:11px;font-weight:800;color:#9ff5eb;border:1px solid rgba(95,239,223,.3);padding:5px 11px;border-radius:99px;background:rgba(95,239,223,.07);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+h1{font-size:clamp(32px,5vw,60px);line-height:1.07;letter-spacing:-.05em;margin:14px 0 12px}
+.grad{background:linear-gradient(100deg,#5fefdf,#62d4f7,#c1a4ff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:16px;max-width:680px;margin:0 0 16px}
+.author{font-weight:800;font-size:13px;letter-spacing:.02em;margin:12px 0 0}
+.author span{display:block;font-weight:500;color:var(--muted)}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.pillrow span{font-size:12px;color:#b6cbdd;background:#112233;border:1px solid var(--line);border-radius:30px;padding:5px 11px}
+
+/* Navstrip */
+.navstrip{display:flex;overflow-x:auto;gap:7px;padding:10px 0 16px;scrollbar-width:thin}
+.navstrip a{white-space:nowrap;color:#c0d8e8;border:1px solid var(--line);border-radius:25px;padding:7px 12px;font-size:12px;font-weight:700}
+.navstrip a:hover{background:#0d2538}
+
+/* Code */
+.code{background:#071e30;border:1px solid var(--line);border-radius:10px;padding:13px 15px;font:12.5px/1.6 'SFMono-Regular',Consolas,monospace;color:#b4e8ff;white-space:pre-wrap;margin:9px 0;position:relative}
+.cpy{position:absolute;top:8px;right:9px;font:700 10px system-ui;background:rgba(95,239,223,.1);border:1px solid rgba(95,239,223,.3);color:#9ff5eb;border-radius:5px;padding:3px 8px;cursor:pointer}
+.cpy:hover{background:rgba(95,239,223,.2)}
+
+/* Notes */
+.note{padding:13px 16px;border-left:3px solid var(--c,var(--yellow));border-radius:0 11px 11px 0;background:rgba(248,203,128,.07);color:#e8d9bc;font-size:13px;margin:12px 0}
+.note.teal{--c:var(--teal);background:rgba(95,239,223,.07);color:#caeadf}
+.note.info{--c:var(--cyan);background:rgba(98,212,247,.07);color:#cce5fa}
+.note.green{--c:var(--green);background:rgba(133,239,176,.07);color:#c5f5d8}
+
+/* Tool cards */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:16px}
+.tool-card{background:linear-gradient(145deg,#0c2235,#081a28);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:9px}
+.tool-icon{font-size:34px}
+.tool-name{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.tool-badge{font-size:11px;font-weight:700;border-radius:6px;padding:3px 8px;display:inline-block;margin-left:7px}
+.free{background:rgba(133,239,176,.12);color:#85efb0;border:1px solid rgba(133,239,176,.25)}
+.browser{background:rgba(95,239,223,.1);color:#9ff5eb;border:1px solid rgba(95,239,223,.22)}
+.install{background:rgba(255,190,110,.1);color:#ffd08c;border:1px solid rgba(255,190,110,.22)}
+.tool-desc{font-size:13px;color:#9eb8cc;margin:0;line-height:1.55}
+.tool-link{font-size:12px;font-weight:700;color:var(--teal);border:1px solid rgba(95,239,223,.25);border-radius:8px;padding:6px 12px;text-align:center;background:rgba(95,239,223,.07);display:block}
+.tool-link:hover{background:rgba(95,239,223,.14)}
+
+/* Tab system */
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 10px}
+.tab{font:700 12px system-ui;border:1px solid var(--line);background:#0d2538;color:#cfe0f0;border-radius:8px;padding:7px 12px;white-space:nowrap}
+.tab.on{background:linear-gradient(110deg,#5fefdf,#62d4f7);color:#021820;border-color:transparent}
+.tabpanel{display:none}.tabpanel.on{display:block}
+
+/* Mermaid preview */
+.mermaid-box{background:#071e30;border:1px solid rgba(95,239,223,.2);border-radius:14px;padding:20px;margin-top:12px}
+.mermaid-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:680px){.mermaid-cols{grid-template-columns:1fr}}
+.mermaid-diagram{background:#0a2a3a;border:1px solid var(--line);border-radius:10px;padding:14px;font:12px/1.5 'SFMono-Regular',Consolas,monospace;color:#a4d4e8;overflow-x:auto}
+.diagram-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#5fefdf;margin-bottom:7px}
+
+/* Use case cards */
+.usecase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:14px}
+.usecase-card{background:#0c2235;border:1px solid var(--line);border-radius:14px;padding:16px}
+.usecase-card h4{font-size:14px;color:#9ff5eb;margin:0 0 7px}
+.usecase-card p{font-size:12px;color:#9eb8cc;margin:0 0 8px}
+
+/* Comparison table */
+.comp-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+.comp-table th{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#9ff5eb;background:#081e30}
+.comp-table td{padding:9px 12px;border-bottom:1px solid rgba(130,220,220,.06);vertical-align:top}
+.comp-table tr:hover td{background:rgba(95,239,223,.03)}
+.comp-table td:first-child{font-weight:700;color:#c0d8e8}
+.check{color:#85efb0}
+.cross{color:#ff9699}
+.partial{color:#f8cb80}
+
+/* AI prompt box */
+.ai-prompt{background:linear-gradient(135deg,#0c1f30,#0d1529);border:1px solid rgba(95,239,223,.2);border-radius:14px;padding:18px;margin:12px 0}
+.ai-prompt h4{font-size:13px;font-weight:800;color:#9ff5eb;margin:0 0 8px;text-transform:uppercase;letter-spacing:.5px}
+
+/* Live editor */
+.editor-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:700px){.editor-wrap{grid-template-columns:1fr}}
+.editor-pane{background:#071e30;border:1px solid var(--line);border-radius:12px;padding:14px}
+.editor-pane label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#5fefdf;display:block;margin-bottom:7px}
+#mermaidInput{width:100%;background:#04131e;border:1px solid var(--line);border-radius:8px;color:#b4e8ff;padding:11px;font:13px/1.5 'SFMono-Regular',Consolas,monospace;min-height:200px;resize:vertical}
+#mermaidInput:focus{outline:0;border-color:var(--teal)}
+#mermaidOutput{min-height:200px;overflow-x:auto}
+#mermaidOutput svg{max-width:100%;height:auto}
+.editor-btns{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+.btn{font:700 12px system-ui;border:1px solid var(--line);background:#0d2538;color:#cfe0f0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.btn:hover{background:#143553;color:#fff}
+.btn.primary{background:linear-gradient(110deg,#5fefdf,#62d4f7);color:#021820;border-color:transparent}
+.btn.primary:hover{opacity:.9}
+.error-msg{color:#ff969c;font-size:12px;margin-top:5px}
+
+/* Footer */
+.footer{margin-top:44px;padding:30px 0 44px;border-top:1px solid var(--line);color:#91a6bc;font-size:12px}
+</style>
+</head>
+<body>
+
+<nav class="coursenav" aria-label="Sitio">
+<a href="index.html">Inicio</a>
+<a href="prompts.html">Arte del Prompt</a>
+<a href="agentes.html">Agentes de Código</a>
+<a href="markdown.html">Markdown</a>
+<a href="codigos-imagen.html">Códigos de Imagen IA</a>
+<a href="diagramas.html" aria-current="page">Diagramas con IA</a>
+<a href="gestion.html">Gestión universitaria</a>
+<a href="directorio.html">Directorio</a>
+</nav>
+
+<main class="shell">
+
+<!-- HERO -->
+<section class="hero" style="padding:56px 0 32px">
+<span class="eyebrow">✦ Módulo · Diagramas con IA</span>
+<h1>Diagrama todo<br><span class="grad">con texto.</span></h1>
+<p class="lead">Mermaid, PlantUML, Draw.io y mapas mentales: aprende a generar diagramas profesionales escribiendo texto o usando IA para escribir el código por ti.</p>
+<p class="author">ING. GREGORIO BAUTISTA OBLITAS<span>Maestro en Inteligencia Artificial</span></p>
+<div class="pillrow">
+<span>📊 Mermaid</span><span>🌿 PlantUML</span><span>🔷 Draw.io</span><span>🧠 Mind Maps</span><span>🤖 IA genera el código</span><span>🎓 Uso universitario</span>
+</div>
+</section>
+
+<nav class="navstrip" aria-label="Secciones">
+<a href="#herramientas">🛠 Herramientas</a>
+<a href="#mermaid">📊 Mermaid</a>
+<a href="#plantuml">🌿 PlantUML</a>
+<a href="#drawio">🔷 Draw.io</a>
+<a href="#mindmap">🧠 Mind Maps</a>
+<a href="#ia-genera">🤖 IA genera</a>
+<a href="#comparativa">📋 Comparativa</a>
+<a href="#universidad">🎓 Universidad</a>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     01 · HERRAMIENTAS
+══════════════════════════════════════════════════ -->
+<section class="section" id="herramientas" aria-labelledby="herh">
+<span class="eyebrow">01 · Herramientas</span>
+<h2 id="herh">Las 5 herramientas que necesitas conocer</h2>
+<p class="sub">Cada herramienta tiene un punto fuerte. Las de texto (Mermaid, PlantUML) se integran con Markdown y la IA puede generarlas. Las visuales (Draw.io) no requieren aprender sintaxis.</p>
+
+<div class="tools-grid">
+
+  <div class="tool-card" style="border-color:rgba(95,239,223,.25)">
+    <div class="tool-icon">📊</div>
+    <div><span class="tool-name" style="color:#5fefdf">Mermaid</span><span class="tool-badge free">Gratis</span><span class="tool-badge browser">En el navegador</span></div>
+    <p class="tool-desc">Diagramas desde texto en Markdown. Funciona en GitHub, GitLab, Notion, Obsidian y muchas plataformas. Claude y ChatGPT generan código Mermaid excelente con un solo prompt.</p>
+    <ul style="font-size:12px;color:#8ab8cc;padding-left:16px;margin:0">
+      <li>Flowcharts, secuencia, Gantt, Mindmap, ER</li>
+      <li>Integrado en GitHub README directamente</li>
+      <li>Editor oficial en <strong style="color:#9ff5eb">mermaid.live</strong></li>
+      <li>Plugin para VS Code, Obsidian, Confluence</li>
+    </ul>
+    <a href="https://mermaid.live" target="_blank" rel="noopener" class="tool-link">→ mermaid.live</a>
+  </div>
+
+  <div class="tool-card" style="border-color:rgba(133,239,176,.25)">
+    <div class="tool-icon">🌿</div>
+    <div><span class="tool-name" style="color:#85efb0">PlantUML</span><span class="tool-badge free">Gratis</span><span class="tool-badge install">Java requerido</span></div>
+    <p class="tool-desc">El estándar para diagramas UML técnicos en ingeniería de software. Sintaxis más compleja que Mermaid pero más potente para diagramas de clase, secuencia y arquitectura.</p>
+    <ul style="font-size:12px;color:#8ab8cc;padding-left:16px;margin:0">
+      <li>Diagramas UML: clase, secuencia, estado, caso de uso</li>
+      <li>Diagramas C4 de arquitectura de software</li>
+      <li>Editor online en <strong style="color:#9ff5eb">plantuml.com</strong></li>
+      <li>Integración con IntelliJ, Eclipse, VS Code</li>
+    </ul>
+    <a href="https://www.plantuml.com/plantuml/uml/" target="_blank" rel="noopener" class="tool-link">→ plantuml.com</a>
+  </div>
+
+  <div class="tool-card" style="border-color:rgba(98,212,247,.25)">
+    <div class="tool-icon">🔷</div>
+    <div><span class="tool-name" style="color:#62d4f7">Draw.io</span><span class="tool-badge free">Gratis</span><span class="tool-badge browser">Sin login</span></div>
+    <p class="tool-desc">El Canva de los diagramas. Interfaz visual drag-and-drop, sin cuenta necesaria, guarda en Google Drive. Formato .drawio es XML que la IA puede generar y editar directamente.</p>
+    <ul style="font-size:12px;color:#8ab8cc;padding-left:16px;margin:0">
+      <li>Interfaz visual: arrastra y suelta formas</li>
+      <li>Integración con Google Drive y Confluence</li>
+      <li>Exporta a PNG, SVG, PDF, XML</li>
+      <li>Extension para VS Code (edita .drawio en el IDE)</li>
+    </ul>
+    <a href="https://app.diagrams.net" target="_blank" rel="noopener" class="tool-link">→ app.diagrams.net</a>
+  </div>
+
+  <div class="tool-card" style="border-color:rgba(193,164,255,.25)">
+    <div class="tool-icon">🧠</div>
+    <div><span class="tool-name" style="color:#c1a4ff">Mind Maps IA</span><span class="tool-badge free">Gratis / Freemium</span></div>
+    <p class="tool-desc">Mapas mentales generados por IA en segundos. Herramientas como Napkin AI, Miro AI, Coggle y la función mindmap de Mermaid crean mapas completos desde un párrafo de texto.</p>
+    <ul style="font-size:12px;color:#8ab8cc;padding-left:16px;margin:0">
+      <li><strong style="color:#c1a4ff">Napkin AI</strong>: sube texto → genera diagramas automáticamente</li>
+      <li><strong style="color:#c1a4ff">Coggle</strong>: mapas mentales colaborativos en el navegador</li>
+      <li><strong style="color:#c1a4ff">Mermaid mindmap</strong>: desde código en Markdown</li>
+      <li><strong style="color:#c1a4ff">Miro AI</strong>: tablero con IA incorporada</li>
+    </ul>
+    <a href="https://napkin.ai" target="_blank" rel="noopener" class="tool-link">→ napkin.ai (IA automática)</a>
+  </div>
+
+  <div class="tool-card" style="border-color:rgba(255,190,110,.25)">
+    <div class="tool-icon">🗂</div>
+    <div><span class="tool-name" style="color:#ffbe6e">Editor XML/SVG</span><span class="tool-badge free">Gratis</span><span class="tool-badge browser">En el navegador</span></div>
+    <p class="tool-desc">Draw.io guarda los diagramas como XML. Con la IA puedes generar ese XML directamente y pegarlo. También puedes editar diagramas SVG con VS Code o herramientas online.</p>
+    <ul style="font-size:12px;color:#8ab8cc;padding-left:16px;margin:0">
+      <li>Pide al agente: <em>"genera el XML para Draw.io de este proceso"</em></li>
+      <li>Pega el XML en Extras → Edit Diagram en Draw.io</li>
+      <li>Exporta a SVG para incrustar en Word o presentaciones</li>
+      <li>XML Editor online: <strong style="color:#ffbe6e">xmlgrid.net</strong></li>
+    </ul>
+    <a href="https://xmlgrid.net" target="_blank" rel="noopener" class="tool-link">→ xmlgrid.net</a>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     02 · MERMAID
+══════════════════════════════════════════════════ -->
+<section class="section" id="mermaid" aria-labelledby="merh">
+<span class="eyebrow">02 · Mermaid</span>
+<h2 id="merh">Mermaid: diagramas en texto</h2>
+<p class="sub">Mermaid usa una sintaxis simple. Escribes las relaciones en texto y la herramienta genera el diagrama automáticamente. La IA puede generar este código por ti.</p>
+
+<div class="tabs" id="merTabs">
+  <button class="tab on" data-mer="flowchart">📊 Flowchart</button>
+  <button class="tab" data-mer="sequence">↔ Secuencia</button>
+  <button class="tab" data-mer="gantt">📅 Gantt</button>
+  <button class="tab" data-mer="mindmap">🧠 Mind Map</button>
+  <button class="tab" data-mer="er">🗃 Entidades</button>
+  <button class="tab" data-mer="classd">📐 Clases UML</button>
+</div>
+
+<div id="merPanels">
+
+  <div class="tabpanel on" id="mer-flowchart">
+    <div class="mermaid-cols">
+      <div>
+        <p class="diagram-label">Código Mermaid</p>
+        <div class="code" style="font-size:11.5px">flowchart TD
+    A([📋 Inicio]) --> B{¿Tiene cuenta?}
+    B -->|Sí| C[Iniciar sesión]
+    B -->|No| D[Registrarse]
+    D --> E[Verificar email]
+    E --> C
+    C --> F([✅ Acceso al sistema])<button class="cpy" onclick="navigator.clipboard.writeText('flowchart TD\n    A([📋 Inicio]) --> B{¿Tiene cuenta?}\n    B -->|Sí| C[Iniciar sesión]\n    B -->|No| D[Registrarse]\n    D --> E[Verificar email]\n    E --> C\n    C --> F([✅ Acceso al sistema])').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+        <p style="font-size:12px;color:#9eb8cc;margin:8px 0 0"><b style="color:#9ff5eb">Sintaxis:</b> <code style="font-size:11px">TD</code>=arriba-abajo, <code style="font-size:11px">LR</code>=izquierda-derecha. Nodos: <code style="font-size:11px">[]</code>=rectángulo, <code style="font-size:11px">{}</code>=rombo (decisión), <code style="font-size:11px">([])</code>=óvalo</p>
+      </div>
+      <div>
+        <p class="diagram-label">Vista previa</p>
+        <div class="mermaid-diagram">
+<pre style="color:#7bd5e8;font-size:11px">flowchart TD
+  A([📋 Inicio])
+     ↓
+  B{¿Tiene cuenta?}
+   /         \
+Sí            No
+  ↓            ↓
+C[Iniciar]  D[Registrar]
+              ↓
+           E[Verificar]
+              ↓
+  ←←←←←←←←←←
+     ↓
+  F([✅ Acceso])</pre>
+<p style="font-size:11px;color:#5fefdf;margin:8px 0 0">→ Pega el código en mermaid.live para ver el diagrama renderizado</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="mer-sequence">
+    <div class="mermaid-cols">
+      <div>
+        <p class="diagram-label">Código Mermaid</p>
+        <div class="code" style="font-size:11.5px">sequenceDiagram
+    actor E as Estudiante
+    participant S as Sistema
+    participant P as Profesor
+    E->>S: Envía tarea
+    S-->>E: Confirmación de recibo
+    S->>P: Notifica nueva entrega
+    P->>S: Califica (8.5/10)
+    S-->>E: Envía nota y comentarios<button class="cpy" onclick="navigator.clipboard.writeText('sequenceDiagram\n    actor E as Estudiante\n    participant S as Sistema\n    participant P as Profesor\n    E->>S: Envía tarea\n    S-->>E: Confirmación de recibo\n    S->>P: Notifica nueva entrega\n    P->>S: Califica (8.5/10)\n    S-->>E: Envía nota y comentarios').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+        <p style="font-size:12px;color:#9eb8cc;margin:8px 0 0"><b style="color:#9ff5eb">Sintaxis:</b> <code style="font-size:11px">->></code>=flecha sólida, <code style="font-size:11px">-->></code>=flecha punteada (respuesta). <code style="font-size:11px">actor</code>=persona, <code style="font-size:11px">participant</code>=sistema</p>
+      </div>
+      <div>
+        <p class="diagram-label">Vista previa</p>
+        <div class="mermaid-diagram">
+<pre style="color:#7bd5e8;font-size:11px">Estudiante  Sistema    Profesor
+    |          |          |
+    |--Envía-->|          |
+    |<--Conf.--|          |
+    |          |--Notif.->|
+    |          |<--Nota---|
+    |<--Nota y comentarios|</pre>
+<p style="font-size:11px;color:#5fefdf;margin:8px 0 0">→ Pega el código en mermaid.live para ver el diagrama renderizado</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="mer-gantt">
+    <div class="mermaid-cols">
+      <div>
+        <p class="diagram-label">Código Mermaid</p>
+        <div class="code" style="font-size:11.5px">gantt
+    title Proyecto de investigación universitaria
+    dateFormat  YYYY-MM-DD
+    section Fase 1 - Diseño
+    Revisión de literatura   :a1, 2026-11-01, 14d
+    Marco teórico            :a2, after a1, 10d
+    section Fase 2 - Campo
+    Recolección de datos     :b1, 2026-11-25, 20d
+    Análisis estadístico     :b2, after b1, 15d
+    section Fase 3 - Redacción
+    Redacción del informe    :c1, after b2, 20d
+    Revisión y correcciones  :c2, after c1, 7d<button class="cpy" onclick="navigator.clipboard.writeText('gantt\n    title Proyecto de investigación universitaria\n    dateFormat  YYYY-MM-DD\n    section Fase 1 - Diseño\n    Revisión de literatura   :a1, 2026-11-01, 14d\n    Marco teórico            :a2, after a1, 10d\n    section Fase 2 - Campo\n    Recolección de datos     :b1, 2026-11-25, 20d\n    Análisis estadístico     :b2, after b1, 15d\n    section Fase 3 - Redacción\n    Redacción del informe    :c1, after b2, 20d\n    Revisión y correcciones  :c2, after c1, 7d').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+      </div>
+      <div>
+        <p class="diagram-label">Uso típico</p>
+        <div class="mermaid-diagram">
+<pre style="color:#7bd5e8;font-size:11px">■ Fase 1 - Diseño
+  ████░░░░░░░  Rev. Literatura (14d)
+       █████░  Marco teórico (10d)
+■ Fase 2 - Campo
+            ████████  Recolección (20d)
+                    ██████  Análisis (15d)
+■ Fase 3 - Redacción
+                          ████████  Redacción (20d)
+                                  ███  Revisión (7d)</pre>
+<p style="font-size:11px;color:#5fefdf;margin:8px 0 0">Ideal para cronogramas de tesis, proyectos de investigación y planificación de semestre</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="mer-mindmap">
+    <div class="mermaid-cols">
+      <div>
+        <p class="diagram-label">Código Mermaid</p>
+        <div class="code" style="font-size:11.5px">mindmap
+  root((IA Generativa))
+    ChatGPT
+      Texto
+      Imágenes DALL·E
+      Código
+    Claude
+      Análisis
+      Redacción larga
+      Código
+    Gemini
+      Búsqueda web
+      Imágenes
+      Documentos Google
+    Usos universitarios
+      Investigación
+      Clases
+      Gestión<button class="cpy" onclick="navigator.clipboard.writeText('mindmap\n  root((IA Generativa))\n    ChatGPT\n      Texto\n      Imágenes DALL·E\n      Código\n    Claude\n      Análisis\n      Redacción larga\n      Código\n    Gemini\n      Búsqueda web\n      Imágenes\n      Documentos Google\n    Usos universitarios\n      Investigación\n      Clases\n      Gestión').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+        <p style="font-size:12px;color:#9eb8cc;margin:8px 0 0"><b style="color:#9ff5eb">Sintaxis:</b> La indentación (espacios) define la jerarquía. <code style="font-size:11px">root(())</code> es el nodo central.</p>
+      </div>
+      <div>
+        <p class="diagram-label">Estructura del mapa mental</p>
+        <div class="mermaid-diagram">
+<pre style="color:#7bd5e8;font-size:11px">         IA Generativa
+        /    |    |     \
+  ChatGPT Claude Gemini  Usos
+   / | \   / | \  / | \   / | \
+  T  I  C  A  R  C  B  I  D  I  C  G</pre>
+<p style="font-size:11px;color:#5fefdf;margin:8px 0 0">La indentación = profundidad del nodo en el árbol</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="mer-er">
+    <div class="mermaid-cols">
+      <div>
+        <p class="diagram-label">Código Mermaid</p>
+        <div class="code" style="font-size:11.5px">erDiagram
+    ESTUDIANTE {
+        int id_estudiante PK
+        string nombre
+        string email
+        string codigo
+    }
+    CURSO {
+        int id_curso PK
+        string nombre
+        int creditos
+        string ciclo
+    }
+    MATRICULA {
+        int id_matricula PK
+        date fecha
+        string estado
+    }
+    ESTUDIANTE ||--o{ MATRICULA : "se inscribe"
+    CURSO ||--o{ MATRICULA : "contiene"<button class="cpy" onclick="navigator.clipboard.writeText('erDiagram\n    ESTUDIANTE {\n        int id_estudiante PK\n        string nombre\n        string email\n        string codigo\n    }\n    CURSO {\n        int id_curso PK\n        string nombre\n        int creditos\n        string ciclo\n    }\n    MATRICULA {\n        int id_matricula PK\n        date fecha\n        string estado\n    }\n    ESTUDIANTE ||--o{ MATRICULA : \"se inscribe\"\n    CURSO ||--o{ MATRICULA : \"contiene\"').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+      </div>
+      <div>
+        <p class="diagram-label">Notación de relaciones ER</p>
+        <div class="mermaid-diagram">
+<pre style="color:#7bd5e8;font-size:11px">||--o{  = uno a muchos (obligatorio-opcional)
+||--||  = uno a uno
+}o--o{  = muchos a muchos
+
+ESTUDIANTE  ---[MATRICULA]---  CURSO
+   (1)         (tabla pivot)    (1)
+    |               |
+    └─── muchas ────┘</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="mer-classd">
+    <div class="mermaid-cols">
+      <div>
+        <p class="diagram-label">Código Mermaid</p>
+        <div class="code" style="font-size:11.5px">classDiagram
+    class Persona {
+        +String nombre
+        +String email
+        +login() bool
+    }
+    class Estudiante {
+        +String codigo
+        +int ciclo
+        +matricular(Curso) void
+    }
+    class Profesor {
+        +String especialidad
+        +calificar(Entrega) void
+    }
+    class Curso {
+        +String nombre
+        +int creditos
+        +getEstudiantes() List
+    }
+    Persona <|-- Estudiante
+    Persona <|-- Profesor
+    Estudiante "muchos" -- "muchos" Curso<button class="cpy" onclick="navigator.clipboard.writeText('classDiagram\n    class Persona {\n        +String nombre\n        +String email\n        +login() bool\n    }\n    class Estudiante {\n        +String codigo\n        +int ciclo\n        +matricular(Curso) void\n    }\n    class Profesor {\n        +String especialidad\n        +calificar(Entrega) void\n    }\n    class Curso {\n        +String nombre\n        +int creditos\n        +getEstudiantes() List\n    }\n    Persona <|-- Estudiante\n    Persona <|-- Profesor\n    Estudiante \"muchos\" -- \"muchos\" Curso').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+      </div>
+      <div>
+        <p class="diagram-label">Notación de clases UML</p>
+        <div class="mermaid-diagram">
+<pre style="color:#7bd5e8;font-size:11px">+  = público
+-  = privado
+#  = protegido
+~  = paquete
+
+<|--  = herencia (extiende)
+*--   = composición
+o--   = agregación
+-->   = dependencia
+
+Persona
+  ↑        ↑
+Estudiante Profesor
+  ↕
+Curso (relación many-many)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Editor en vivo -->
+<h3 style="margin-top:28px">Editor en vivo (Mermaid)</h3>
+<p class="sub" style="margin-bottom:10px">Escribe o pega código Mermaid y haz clic en "Renderizar" para verlo. O copia y pega en <a href="https://mermaid.live" target="_blank" rel="noopener" style="color:var(--teal)">mermaid.live</a> para verlo renderizado de verdad.</p>
+<div class="editor-wrap">
+  <div class="editor-pane">
+    <label for="mermaidInput">Código Mermaid</label>
+    <textarea id="mermaidInput" spellcheck="false">flowchart LR
+    A[👩‍🎓 Estudiante] --> B{¿Aprobó?}
+    B -->|Sí ≥ 11| C[✅ Siguiente ciclo]
+    B -->|No < 11| D[🔄 Subsanar]
+    D --> E[📝 Examen adicional]
+    E --> B</textarea>
+    <div class="editor-btns">
+      <button class="btn primary" id="renderBtn">▶ Renderizar en mermaid.live</button>
+      <button class="btn" id="copyMer">📋 Copiar código</button>
+      <button class="btn" id="clearMer">🗑 Limpiar</button>
+    </div>
+    <div id="merError" class="error-msg"></div>
+  </div>
+  <div class="editor-pane">
+    <label>Vista previa (texto)</label>
+    <div id="mermaidOutput" style="background:#04131e;border:1px solid var(--line);border-radius:8px;padding:14px;font:12px/1.6 'SFMono-Regular',Consolas,monospace;color:#a4d4e8;min-height:200px;white-space:pre-wrap">Haz clic en "Renderizar" para abrir mermaid.live con tu diagrama.</div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     03 · PLANTUML
+══════════════════════════════════════════════════ -->
+<section class="section" id="plantuml" aria-labelledby="plah">
+<span class="eyebrow">03 · PlantUML</span>
+<h2 id="plah">PlantUML: el estándar UML técnico</h2>
+<p class="sub">PlantUML es más potente que Mermaid para diagramas UML estrictos. Ideal para cursos de ingeniería de software, arquitectura de sistemas y bases de datos.</p>
+
+<div class="tabs" id="pumlTabs">
+  <button class="tab on" data-puml="secuencia">↔ Secuencia</button>
+  <button class="tab" data-puml="clases">📐 Clases</button>
+  <button class="tab" data-puml="estados">🔄 Estados</button>
+  <button class="tab" data-puml="casosuso">👤 Casos de uso</button>
+  <button class="tab" data-puml="componentes">⚙ Componentes</button>
+</div>
+<div id="pumlPanels">
+
+  <div class="tabpanel on" id="puml-secuencia">
+    <div class="mermaid-cols">
+      <div>
+        <p class="diagram-label">Código PlantUML</p>
+        <div class="code" style="font-size:11.5px">@startuml
+actor Profesor
+participant "Sistema SIGA" as SIGA
+database "BD Académica" as DB
+
+Profesor -> SIGA: Ingresa calificaciones
+SIGA -> DB: Guarda calificaciones
+DB --> SIGA: Confirmación
+SIGA -> SIGA: Calcula promedio
+SIGA --> Profesor: Reporte generado
+Profesor -> SIGA: Cierra acta
+SIGA -> DB: Acta firmada
+@enduml<button class="cpy" onclick="navigator.clipboard.writeText('@startuml\nactor Profesor\nparticipant \"Sistema SIGA\" as SIGA\ndatabase \"BD Académica\" as DB\n\nProfesor -> SIGA: Ingresa calificaciones\nSIGA -> DB: Guarda calificaciones\nDB --> SIGA: Confirmación\nSIGA -> SIGA: Calcula promedio\nSIGA --> Profesor: Reporte generado\nProfesor -> SIGA: Cierra acta\nSIGA -> DB: Acta firmada\n@enduml').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+      </div>
+      <div>
+        <p class="diagram-label">Cómo ejecutarlo</p>
+        <div class="mermaid-diagram" style="font-size:12px;color:#9eb8cc;line-height:1.7">
+<strong style="color:#85efb0">Opción 1 · Online (más fácil)</strong><br>
+1. Ve a plantuml.com/plantuml/uml/<br>
+2. Pega el código y renderiza<br><br>
+<strong style="color:#85efb0">Opción 2 · VS Code</strong><br>
+1. Instala la extensión "PlantUML"<br>
+2. Abre un archivo .puml<br>
+3. Alt+D para previsualizar<br><br>
+<strong style="color:#85efb0">Opción 3 · Con Java local</strong><br>
+<code style="font-size:11px;color:#b4e8ff">java -jar plantuml.jar diagrama.puml</code><br>
+Genera diagrama.png
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="puml-clases">
+    <div class="code" style="font-size:11.5px">@startuml
+class Universidad {
+  +String nombre
+  +String ruc
+  +List~Facultad~ facultades
+  +matricularEstudiante(e: Estudiante): void
+}
+
+class Facultad {
+  +String nombre
+  +String decano
+  +List~Carrera~ carreras
+}
+
+class Carrera {
+  +String nombre
+  +int duracion
+  +String grado
+  +getPensum(): List~Curso~
+}
+
+Universidad "1" *-- "1..*" Facultad : contiene
+Facultad "1" *-- "1..*" Carrera : ofrece
+@enduml<button class="cpy" onclick="navigator.clipboard.writeText('@startuml\nclass Universidad {\n  +String nombre\n  +String ruc\n  +List~Facultad~ facultades\n  +matricularEstudiante(e: Estudiante): void\n}\nclass Facultad {\n  +String nombre\n  +String decano\n  +List~Carrera~ carreras\n}\nclass Carrera {\n  +String nombre\n  +int duracion\n  +String grado\n  +getPensum(): List~Curso~\n}\nUniversidad \"1\" *-- \"1..*\" Facultad : contiene\nFacultad \"1\" *-- \"1..*\" Carrera : ofrece\n@enduml').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+
+  <div class="tabpanel" id="puml-estados">
+    <div class="code" style="font-size:11.5px">@startuml
+[*] --> Postulante : Inscripción
+Postulante --> Admitido : Aprueba examen
+Postulante --> Rechazado : Reprueba examen
+Admitido --> Matriculado : Paga matrícula
+Matriculado --> Regular : Aprueba cursos
+Matriculado --> Inhabilitado : Debe > 50% créditos
+Regular --> Egresado : Completa créditos
+Egresado --> Bachiller : Sustenta tesis
+Rechazado --> [*]
+Inhabilitado --> [*]
+Bachiller --> [*]
+@enduml<button class="cpy" onclick="navigator.clipboard.writeText('@startuml\n[*] --> Postulante : Inscripción\nPostulante --> Admitido : Aprueba examen\nPostulante --> Rechazado : Reprueba examen\nAdmitido --> Matriculado : Paga matrícula\nMatriculado --> Regular : Aprueba cursos\nMatriculado --> Inhabilitado : Debe > 50% créditos\nRegular --> Egresado : Completa créditos\nEgresado --> Bachiller : Sustenta tesis\nRechazado --> [*]\nInhabilitado --> [*]\nBachiller --> [*]\n@enduml').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+
+  <div class="tabpanel" id="puml-casosuso">
+    <div class="code" style="font-size:11.5px">@startuml
+left to right direction
+actor Estudiante
+actor Profesor
+actor "Sistema SGA" as SGA
+
+rectangle "Sistema Académico" {
+  Estudiante --> (Consultar notas)
+  Estudiante --> (Matricularse)
+  Estudiante --> (Descargar sílabo)
+  Profesor --> (Registrar asistencia)
+  Profesor --> (Ingresar calificaciones)
+  Profesor --> (Generar reporte)
+  (Ingresar calificaciones) ..> (Validar notas) : include
+  (Matricularse) ..> (Verificar pagos) : include
+  SGA --> (Generar reporte)
+}
+@enduml<button class="cpy" onclick="navigator.clipboard.writeText('@startuml\nleft to right direction\nactor Estudiante\nactor Profesor\nactor \"Sistema SGA\" as SGA\n\nrectangle \"Sistema Académico\" {\n  Estudiante --> (Consultar notas)\n  Estudiante --> (Matricularse)\n  Estudiante --> (Descargar sílabo)\n  Profesor --> (Registrar asistencia)\n  Profesor --> (Ingresar calificaciones)\n  Profesor --> (Generar reporte)\n  (Ingresar calificaciones) ..> (Validar notas) : include\n  (Matricularse) ..> (Verificar pagos) : include\n  SGA --> (Generar reporte)\n}\n@enduml').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+
+  <div class="tabpanel" id="puml-componentes">
+    <div class="code" style="font-size:11.5px">@startuml
+package "Aplicación Web Universitaria" {
+  [Frontend React] as FE
+  [API REST Spring Boot] as API
+  [Servicio de Autenticación] as AUTH
+  [Servicio de Notificaciones] as NOTIF
+}
+
+database "PostgreSQL" as DB
+cloud "Amazon S3" as S3
+[Correo SMTP] as SMTP
+
+FE --> API : HTTP/JSON
+API --> AUTH : JWT
+API --> DB : SQL
+API --> S3 : Subir archivos
+API --> NOTIF
+NOTIF --> SMTP : Emails
+@enduml<button class="cpy" onclick="navigator.clipboard.writeText('@startuml\npackage \"Aplicación Web Universitaria\" {\n  [Frontend React] as FE\n  [API REST Spring Boot] as API\n  [Servicio de Autenticación] as AUTH\n  [Servicio de Notificaciones] as NOTIF\n}\ndatabase \"PostgreSQL\" as DB\ncloud \"Amazon S3\" as S3\n[Correo SMTP] as SMTP\nFE --> API : HTTP/JSON\nAPI --> AUTH : JWT\nAPI --> DB : SQL\nAPI --> S3 : Subir archivos\nAPI --> NOTIF\nNOTIF --> SMTP : Emails\n@enduml').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     04 · DRAW.IO
+══════════════════════════════════════════════════ -->
+<section class="section" id="drawio" aria-labelledby="drwh">
+<span class="eyebrow">04 · Draw.io / diagrams.net</span>
+<h2 id="drwh">Draw.io: el editor visual definitivo</h2>
+<p class="sub">Draw.io es completamente gratuito, sin cuenta, funciona en el navegador y guarda en Google Drive. También puedes pedirle a la IA que genere el XML del diagrama y pegarlo directamente.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px">
+  <div>
+    <h3 style="font-size:16px;color:#62d4f7">Uso visual (sin código)</h3>
+    <ol style="font-size:13px;color:#9eb8cc;padding-left:16px;line-height:1.9;margin:0">
+      <li>Abre <a href="https://app.diagrams.net" target="_blank" style="color:var(--teal)">app.diagrams.net</a></li>
+      <li>Elige guardar en "Google Drive" o "Este dispositivo"</li>
+      <li>Arrastra formas desde el panel izquierdo</li>
+      <li>Conecta formas con flechas arrastrando desde los bordes</li>
+      <li>Doble clic en cualquier elemento para editar texto</li>
+      <li>Exporta con <kbd style="background:#081e30;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:11px">Archivo → Exportar → PNG/PDF/SVG</kbd></li>
+    </ol>
+  </div>
+  <div>
+    <h3 style="font-size:16px;color:#62d4f7">Uso con IA → XML (avanzado)</h3>
+    <ol style="font-size:13px;color:#9eb8cc;padding-left:16px;line-height:1.9;margin:0">
+      <li>Pide al agente: "genera el XML para Draw.io de este proceso"</li>
+      <li>Copia el XML que te devuelve</li>
+      <li>En Draw.io: <kbd style="background:#081e30;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:11px">Extras → Edit Diagram</kbd></li>
+      <li>Pega el XML y haz clic en OK</li>
+      <li>El diagrama aparece listo para editar</li>
+      <li>Ajusta posiciones arrastrando los nodos</li>
+    </ol>
+  </div>
+</div>
+
+<h3 style="margin-top:20px">XML de Draw.io generado por IA</h3>
+<p style="font-size:13px;color:var(--muted)">Este es el formato XML que espera Draw.io. Puedes pedirle a ChatGPT o Claude que genere esto:</p>
+<div class="code" style="font-size:11px">&lt;mxGraphModel&gt;
+  &lt;root&gt;
+    &lt;mxCell id="0"/&gt;
+    &lt;mxCell id="1" parent="0"/&gt;
+    &lt;!-- Nodo inicio --&gt;
+    &lt;mxCell id="2" value="Inicio" style="ellipse;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1"&gt;
+      &lt;mxGeometry x="160" y="40" width="120" height="60" as="geometry"/&gt;
+    &lt;/mxCell&gt;
+    &lt;!-- Nodo proceso --&gt;
+    &lt;mxCell id="3" value="Registrar matrícula" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"&gt;
+      &lt;mxGeometry x="140" y="140" width="160" height="60" as="geometry"/&gt;
+    &lt;/mxCell&gt;
+    &lt;!-- Flecha de inicio a proceso --&gt;
+    &lt;mxCell id="4" edge="1" source="2" target="3" parent="1"&gt;
+      &lt;mxGeometry relative="1" as="geometry"/&gt;
+    &lt;/mxCell&gt;
+  &lt;/root&gt;
+&lt;/mxGraphModel&gt;<button class="cpy" onclick="navigator.clipboard.writeText('<mxGraphModel>\n  <root>\n    <mxCell id=\"0\"/>\n    <mxCell id=\"1\" parent=\"0\"/>\n    <mxCell id=\"2\" value=\"Inicio\" style=\"ellipse;fillColor=#d5e8d4;strokeColor=#82b366;\" vertex=\"1\" parent=\"1\">\n      <mxGeometry x=\"160\" y=\"40\" width=\"120\" height=\"60\" as=\"geometry\"/>\n    </mxCell>\n    <mxCell id=\"3\" value=\"Registrar matrícula\" style=\"rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\" vertex=\"1\" parent=\"1\">\n      <mxGeometry x=\"140\" y=\"140\" width=\"160\" height=\"60\" as=\"geometry\"/>\n    </mxCell>\n    <mxCell id=\"4\" edge=\"1\" source=\"2\" target=\"3\" parent=\"1\">\n      <mxGeometry relative=\"1\" as=\"geometry\"/>\n    </mxCell>\n  </root>\n</mxGraphModel>').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     05 · MIND MAPS
+══════════════════════════════════════════════════ -->
+<section class="section" id="mindmap" aria-labelledby="mmh">
+<span class="eyebrow">05 · Mind Maps</span>
+<h2 id="mmh">Mapas mentales con IA</h2>
+<p class="sub">Las herramientas modernas generan mapas mentales completos en segundos desde un texto o tema. Perfectas para resumir lecturas, planificar proyectos y preparar clases.</p>
+
+<div class="tools-grid">
+  <div style="background:#0c2235;border:1px solid rgba(193,164,255,.2);border-radius:16px;padding:18px">
+    <div style="font-size:28px;margin-bottom:8px">⚡</div>
+    <h3 style="font-size:15px;color:#c1a4ff;margin:0 0 7px">Napkin AI — El más rápido</h3>
+    <p style="font-size:13px;color:#9eb8cc;margin:0 0 10px">Pega cualquier texto y genera automáticamente diagramas, mapas mentales y visualizaciones. Sin prompts necesarios.</p>
+    <div class="code" style="font-size:12px;margin:0">1. Ve a napkin.ai
+2. Pega tu texto (apuntes, resumen, etc.)
+3. Haz clic en el ícono ✦ que aparece
+4. Elige el tipo de diagrama
+5. Exporta a PNG o SVG</div>
+    <a href="https://napkin.ai" target="_blank" rel="noopener" style="display:block;margin-top:9px;font:700 12px system-ui;color:#c1a4ff;border:1px solid rgba(193,164,255,.25);border-radius:8px;padding:6px 12px;text-align:center;background:rgba(193,164,255,.07)">→ napkin.ai</a>
+  </div>
+
+  <div style="background:#0c2235;border:1px solid rgba(95,239,223,.2);border-radius:16px;padding:18px">
+    <div style="font-size:28px;margin-bottom:8px">🧊</div>
+    <h3 style="font-size:15px;color:#5fefdf;margin:0 0 7px">Coggle — Colaborativo</h3>
+    <p style="font-size:13px;color:#9eb8cc;margin:0 0 10px">Mapas mentales colaborativos en el navegador. Gratis para 3 diagramas, ilimitados en modo solo. Interfaz muy intuitiva.</p>
+    <div class="code" style="font-size:12px;margin:0">1. Ve a coggle.it
+2. Crea cuenta (Google)
+3. Nuevo diagrama → empieza
+4. Haz clic y escribe nodos
+5. Tab = hijo, Enter = hermano</div>
+    <a href="https://coggle.it" target="_blank" rel="noopener" style="display:block;margin-top:9px;font:700 12px system-ui;color:#5fefdf;border:1px solid rgba(95,239,223,.25);border-radius:8px;padding:6px 12px;text-align:center;background:rgba(95,239,223,.07)">→ coggle.it</a>
+  </div>
+
+  <div style="background:#0c2235;border:1px solid rgba(98,212,247,.2);border-radius:16px;padding:18px">
+    <div style="font-size:28px;margin-bottom:8px">📐</div>
+    <h3 style="font-size:15px;color:#62d4f7;margin:0 0 7px">Mermaid mindmap — En Markdown</h3>
+    <p style="font-size:13px;color:#9eb8cc;margin:0 0 10px">La función mindmap de Mermaid se integra directamente en GitHub, Notion y Obsidian. La IA puede generar el código con un prompt.</p>
+    <div class="code" style="font-size:12px;margin:0">mindmap
+  root((Mi tema))
+    Rama 1
+      Sub 1.1
+      Sub 1.2
+    Rama 2
+      Sub 2.1
+    Rama 3</div>
+  </div>
+
+  <div style="background:#0c2235;border:1px solid rgba(133,239,176,.2);border-radius:16px;padding:18px">
+    <div style="font-size:28px;margin-bottom:8px">🤖</div>
+    <h3 style="font-size:15px;color:#85efb0;margin:0 0 7px">ChatGPT / Claude → Mapa</h3>
+    <p style="font-size:13px;color:#9eb8cc;margin:0 0 10px">Pide al agente que genere el mapa mental en formato Mermaid o como lista jerárquica de Markdown.</p>
+    <div class="code" style="font-size:12px;margin:0">Genera un mapa mental completo en
+formato Mermaid mindmap sobre
+"Inteligencia Artificial Generativa"
+con 4 ramas principales y 3 subramas
+cada una. En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera un mapa mental completo en formato Mermaid mindmap sobre \"Inteligencia Artificial Generativa\" con 4 ramas principales y 3 subramas cada una. En español.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     06 · IA GENERA EL CÓDIGO
+══════════════════════════════════════════════════ -->
+<section class="section" id="ia-genera" aria-labelledby="iagh">
+<span class="eyebrow">06 · IA genera el código</span>
+<h2 id="iagh">Prompts para que la IA haga el diagrama</h2>
+<p class="sub">La clave: pedirle a Claude, ChatGPT o Gemini que genere el código Mermaid o PlantUML. Luego tú solo lo pegas y renderizas. La IA conoce la sintaxis perfectamente.</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:14px">
+
+  <div class="ai-prompt">
+    <h4>📊 Flowchart de un proceso universitario</h4>
+    <div class="code" style="margin:0;font-size:12px">Genera código Mermaid flowchart TD para
+el proceso de matrícula universitaria,
+desde que el estudiante paga hasta que
+queda matriculado. Incluye decisiones
+(¿pago validado?, ¿hay cupo?) y los
+actores: Estudiante, Tesorería, Secretaría.
+En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera código Mermaid flowchart TD para el proceso de matrícula universitaria, desde que el estudiante paga hasta que queda matriculado. Incluye decisiones (¿pago validado?, ¿hay cupo?) y los actores: Estudiante, Tesorería, Secretaría. En español.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+
+  <div class="ai-prompt">
+    <h4>📅 Gantt de tesis o proyecto</h4>
+    <div class="code" style="margin:0;font-size:12px">Genera código Mermaid gantt para un
+proyecto de tesis universitaria de 6 meses
+que empieza en enero de 2027. Incluye:
+revisión de literatura, marco teórico,
+trabajo de campo, análisis, redacción
+y sustentación. En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera código Mermaid gantt para un proyecto de tesis universitaria de 6 meses que empieza en enero de 2027. Incluye: revisión de literatura, marco teórico, trabajo de campo, análisis, redacción y sustentación. En español.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+
+  <div class="ai-prompt">
+    <h4>📐 Diagrama de clases UML</h4>
+    <div class="code" style="margin:0;font-size:12px">Genera código Mermaid classDiagram para
+un sistema de gestión de biblioteca
+universitaria. Incluye las clases: Libro,
+Autor, Usuario, Préstamo, Reserva, Multa.
+Con sus atributos principales y relaciones.
+En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera código Mermaid classDiagram para un sistema de gestión de biblioteca universitaria. Incluye las clases: Libro, Autor, Usuario, Préstamo, Reserva, Multa. Con sus atributos principales y relaciones. En español.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+
+  <div class="ai-prompt">
+    <h4>🧠 Mapa mental de un tema</h4>
+    <div class="code" style="margin:0;font-size:12px">Genera código Mermaid mindmap sobre
+"Machine Learning" con 5 ramas principales:
+Aprendizaje supervisado, No supervisado,
+Por refuerzo, Redes neuronales y
+Aplicaciones. Cada rama con 3 subramas.
+En español.<button class="cpy" onclick="navigator.clipboard.writeText('Genera código Mermaid mindmap sobre \"Machine Learning\" con 5 ramas principales: Aprendizaje supervisado, No supervisado, Por refuerzo, Redes neuronales y Aplicaciones. Cada rama con 3 subramas. En español.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+
+  <div class="ai-prompt">
+    <h4>🔷 XML para Draw.io</h4>
+    <div class="code" style="margin:0;font-size:12px">Genera el XML para Draw.io del proceso
+de admisión universitaria: Postulación →
+Examen → Calificación → ¿Aprobó? →
+(Sí) Matrícula / (No) Segunda vuelta →
+Matrícula. Usa formas estándar de
+flowchart (rectángulos, rombos, flechas).<button class="cpy" onclick="navigator.clipboard.writeText('Genera el XML para Draw.io del proceso de admisión universitaria: Postulación → Examen → Calificación → ¿Aprobó? → (Sí) Matrícula / (No) Segunda vuelta → Matrícula. Usa formas estándar de flowchart (rectángulos, rombos, flechas).').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+
+  <div class="ai-prompt">
+    <h4>🌿 PlantUML secuencia</h4>
+    <div class="code" style="margin:0;font-size:12px">Genera código PlantUML para un diagrama
+de secuencia del proceso de registro
+de asistencia en una clase universitaria.
+Actores: Profesor, App Móvil, API Backend,
+Base de Datos. Muestra la captura
+biométrica y la notificación automática.<button class="cpy" onclick="navigator.clipboard.writeText('Genera código PlantUML para un diagrama de secuencia del proceso de registro de asistencia en una clase universitaria. Actores: Profesor, App Móvil, API Backend, Base de Datos. Muestra la captura biométrica y la notificación automática.').catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>
+  </div>
+
+</div>
+
+<div class="note teal" style="margin-top:16px"><b>💡 Marco R-C-T-F-R para diagramas:</b> <strong>Rol:</strong> "Eres un ingeniero de software" · <strong>Contexto:</strong> "Para un sistema universitario peruano" · <strong>Tarea:</strong> "Genera código Mermaid flowchart" · <strong>Formato:</strong> "Solo el bloque de código, sin explicaciones" · <strong>Restricciones:</strong> "Máximo 15 nodos, en español"</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     07 · COMPARATIVA
+══════════════════════════════════════════════════ -->
+<section class="section" id="comparativa" aria-labelledby="comph">
+<span class="eyebrow">07 · Comparativa</span>
+<h2 id="comph">¿Cuál usar en cada situación?</h2>
+
+<div style="overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:14px">
+<table class="comp-table">
+  <thead><tr>
+    <th>Situación</th>
+    <th>Mermaid</th>
+    <th>PlantUML</th>
+    <th>Draw.io</th>
+    <th>Napkin AI</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>Readme de GitHub</td><td class="check">✅ Nativo</td><td class="partial">⚠ Con plugin</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+    <tr><td>Sin aprender sintaxis</td><td class="cross">❌</td><td class="cross">❌</td><td class="check">✅</td><td class="check">✅ Automático</td></tr>
+    <tr><td>Diagrama UML estricto</td><td class="partial">⚠ Básico</td><td class="check">✅ Completo</td><td class="check">✅</td><td class="partial">⚠ Simple</td></tr>
+    <tr><td>Colaboración en tiempo real</td><td class="partial">⚠ Via Live</td><td class="cross">❌</td><td class="check">✅</td><td class="cross">❌</td></tr>
+    <tr><td>IA genera el código</td><td class="check">✅ Excelente</td><td class="check">✅ Bueno</td><td class="check">✅ XML</td><td class="check">✅ Automático</td></tr>
+    <tr><td>Integración con Notion/Obsidian</td><td class="check">✅ Nativo</td><td class="partial">⚠ Plugin</td><td class="partial">⚠ Embebido</td><td class="cross">❌</td></tr>
+    <tr><td>Exportar a Word/PowerPoint</td><td class="partial">⚠ Via SVG</td><td class="partial">⚠ Via PNG</td><td class="check">✅ Directo</td><td class="check">✅ PNG/SVG</td></tr>
+    <tr><td>Sin internet</td><td class="partial">⚠ Con CLI</td><td class="check">✅ Java local</td><td class="check">✅ Escritorio</td><td class="cross">❌</td></tr>
+    <tr><td>Diagramas de arquitectura C4</td><td class="partial">⚠ Básico</td><td class="check">✅ Completo</td><td class="check">✅</td><td class="partial">⚠</td></tr>
+    <tr><td>Mapa mental desde texto</td><td class="check">✅ mindmap</td><td class="partial">⚠ wbs</td><td class="partial">⚠ Manual</td><td class="check">✅ Automático</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:16px">
+  <div style="background:#071e30;border:1px solid rgba(95,239,223,.2);border-radius:12px;padding:14px;text-align:center">
+    <div style="font:800 13px system-ui;color:#5fefdf;margin-bottom:5px">Para README y Markdown</div>
+    <div style="font-size:22px">📊</div>
+    <div style="font-size:13px;color:#ecf6ff;font-weight:700;margin-top:4px">Mermaid</div>
+  </div>
+  <div style="background:#071e30;border:1px solid rgba(133,239,176,.2);border-radius:12px;padding:14px;text-align:center">
+    <div style="font:800 13px system-ui;color:#85efb0;margin-bottom:5px">Para ingeniería UML</div>
+    <div style="font-size:22px">🌿</div>
+    <div style="font-size:13px;color:#ecf6ff;font-weight:700;margin-top:4px">PlantUML</div>
+  </div>
+  <div style="background:#071e30;border:1px solid rgba(98,212,247,.2);border-radius:12px;padding:14px;text-align:center">
+    <div style="font:800 13px system-ui;color:#62d4f7;margin-bottom:5px">Sin código, visual</div>
+    <div style="font-size:22px">🔷</div>
+    <div style="font-size:13px;color:#ecf6ff;font-weight:700;margin-top:4px">Draw.io</div>
+  </div>
+  <div style="background:#071e30;border:1px solid rgba(193,164,255,.2);border-radius:12px;padding:14px;text-align:center">
+    <div style="font:800 13px system-ui;color:#c1a4ff;margin-bottom:5px">Desde texto automático</div>
+    <div style="font-size:22px">⚡</div>
+    <div style="font-size:13px;color:#ecf6ff;font-weight:700;margin-top:4px">Napkin AI</div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     08 · UNIVERSIDAD
+══════════════════════════════════════════════════ -->
+<section class="section" id="universidad" aria-labelledby="unih">
+<span class="eyebrow">08 · Uso universitario</span>
+<h2 id="unih">Casos de uso en la universidad</h2>
+<div class="usecase-grid">
+  <div class="usecase-card">
+    <h4>📚 Resumir bibliografía</h4>
+    <p>Pide a la IA: "Lee este texto y genera un Mermaid mindmap con los conceptos clave". Luego pégalo en Notion o GitHub.</p>
+    <div class="code" style="font-size:11px;margin:0">Lee este resumen de artículo y genera un
+mindmap Mermaid con tema central, 4 ramas
+de conceptos y 2 subramas por rama.</div>
+  </div>
+  <div class="usecase-card">
+    <h4>🎓 Planificar tesis</h4>
+    <p>Diagrama de Gantt para el cronograma completo de la tesis desde la propuesta hasta la sustentación.</p>
+    <div class="code" style="font-size:11px;margin:0">Genera Mermaid gantt para tesis de
+maestría en IA, 8 meses, inicio
+febrero 2027, 5 capítulos + sustentación.</div>
+  </div>
+  <div class="usecase-card">
+    <h4>⚙ Modelar sistemas</h4>
+    <p>Diagramas de clases, secuencia y estado para proyectos de software en cursos de Ingeniería de Sistemas.</p>
+    <div class="code" style="font-size:11px;margin:0">PlantUML classDiagram del sistema
+de ventas de la tienda universitaria.
+Clases: Producto, Venta, Cliente, Pago.</div>
+  </div>
+  <div class="usecase-card">
+    <h4>📋 Documentar procesos</h4>
+    <p>Mapea el proceso de admisión, matrícula, inscripción a talleres o solicitud de certificados en un flowchart.</p>
+    <div class="code" style="font-size:11px;margin:0">Draw.io flowchart del proceso de
+solicitud de beca universitaria.
+Incluye aprobaciones y rechazos.</div>
+  </div>
+  <div class="usecase-card">
+    <h4>🏗 Arquitectura de software</h4>
+    <p>Diagramas C4 de arquitectura: contexto, contenedores, componentes y código. Ideal para proyectos de fin de carrera.</p>
+    <div class="code" style="font-size:11px;margin:0">PlantUML C4 contexto de un sistema
+de gestión académica universitaria.
+Actores externos e internos.</div>
+  </div>
+  <div class="usecase-card">
+    <h4>📊 Presentaciones</h4>
+    <p>Exporta diagramas como PNG o SVG e incrústalos en PowerPoint, Google Slides o en documentos Word/Pandoc.</p>
+    <div class="code" style="font-size:11px;margin:0">En Draw.io: Archivo → Exportar → PNG
+(resolución 300 dpi para impresión)
+Luego inserta en PowerPoint/Word.</div>
+  </div>
+</div>
+
+<div class="note green" style="margin-top:16px"><b>🔒 Privacidad:</b> Para diagramas con datos académicos reales (nóminas, procesos internos confidenciales), usa Draw.io en modo escritorio (sin internet) o la extensión de VS Code que trabaja localmente. Nunca pegues datos personales de estudiantes en herramientas online públicas.</div>
+</section>
+
+</main>
+
+<footer class="footer"><div class="shell">
+<p><b style="color:#eef7ff">ING. GREGORIO BAUTISTA OBLITAS</b><br>Maestro en Inteligencia Artificial</p>
+<p style="margin-top:8px">ExploraIA · Módulo de Diagramas con IA · Herramientas: <a href="https://mermaid.live" style="color:var(--teal)" target="_blank" rel="noopener">Mermaid</a> · <a href="https://plantuml.com" style="color:var(--teal)" target="_blank" rel="noopener">PlantUML</a> · <a href="https://app.diagrams.net" style="color:var(--teal)" target="_blank" rel="noopener">Draw.io</a> · <a href="https://napkin.ai" style="color:var(--teal)" target="_blank" rel="noopener">Napkin AI</a></p>
+</div></footer>
+
+<script>
+'use strict';
+
+// Mermaid tabs
+document.querySelectorAll('[data-mer]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-mer]').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('#merPanels .tabpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    const panel = document.getElementById('mer-'+btn.dataset.mer);
+    if(panel) panel.classList.add('on');
+  });
+});
+
+// PlantUML tabs
+document.querySelectorAll('[data-puml]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-puml]').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('#pumlPanels .tabpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    const panel = document.getElementById('puml-'+btn.dataset.puml);
+    if(panel) panel.classList.add('on');
+  });
+});
+
+// Editor Mermaid → abre mermaid.live
+document.getElementById('renderBtn').addEventListener('click',()=>{
+  const code = document.getElementById('mermaidInput').value.trim();
+  if(!code){document.getElementById('merError').textContent='Escribe algo de código Mermaid primero';return;}
+  document.getElementById('merError').textContent='';
+  // Encode for mermaid.live URL
+  try {
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify({code:code,mermaid:{theme:'default'}}))));
+    window.open('https://mermaid.live/edit#base64:'+encoded, '_blank');
+  } catch(e) {
+    // Fallback: copy code
+    navigator.clipboard.writeText(code).catch(()=>{});
+    document.getElementById('mermaidOutput').textContent = 'URL demasiado larga. Código copiado — pégalo en mermaid.live manualmente.';
+  }
+});
+
+document.getElementById('copyMer').addEventListener('click',function(){
+  const code = document.getElementById('mermaidInput').value;
+  navigator.clipboard.writeText(code).catch(()=>{});
+  this.textContent='✅ Copiado'; setTimeout(()=>this.textContent='📋 Copiar código',1600);
+});
+
+document.getElementById('clearMer').addEventListener('click',()=>{
+  document.getElementById('mermaidInput').value='';
+  document.getElementById('mermaidOutput').textContent='Escribe código Mermaid y haz clic en Renderizar.';
+  document.getElementById('merError').textContent='';
+});
+
+document.getElementById('mermaidInput').addEventListener('input',()=>{
+  document.getElementById('mermaidOutput').textContent = document.getElementById('mermaidInput').value;
+});
+</script>
+</body>
+</html>
