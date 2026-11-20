@@ -631,10 +631,33 @@ const tc = document.getElementById('techCards');
 TECH_CARDS.forEach(card=>{
   const d = document.createElement('div');
   d.style.cssText='background:linear-gradient(135deg,#102238,#0b1b2d);border:1px solid rgba(255,126,179,.15);border-radius:14px;padding:16px';
-  d.innerHTML=`<div style="font-size:22px;margin-bottom:7px">${card.icon}</div>
-<b style="font:700 14px system-ui;color:#ffc8e0;display:block;margin-bottom:5px">${card.code}</b>
-<p style="font-size:12px;color:#9eb8cc;margin:0 0 8px">${card.desc}</p>
-<div style="background:#081728;border:1px solid var(--line);border-radius:8px;padding:10px;font:11.5px/1.5 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;position:relative">${card.prompt}<button style="position:absolute;top:6px;right:6px;font:700 9px system-ui;background:rgba(255,126,179,.13);border:1px solid rgba(255,126,179,.28);color:#ffc8e0;border-radius:4px;padding:2px 6px;cursor:pointer" onclick="navigator.clipboard.writeText(this.previousSibling.textContent.trim()).catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>`;
+
+  const iconEl = document.createElement('div');
+  iconEl.style.cssText='font-size:22px;margin-bottom:7px';
+  iconEl.textContent = card.icon;
+
+  const codeEl = document.createElement('b');
+  codeEl.style.cssText='font:700 14px system-ui;color:#ffc8e0;display:block;margin-bottom:5px';
+  codeEl.textContent = card.code;
+
+  const descEl = document.createElement('p');
+  descEl.style.cssText='font-size:12px;color:#9eb8cc;margin:0 0 8px';
+  descEl.textContent = card.desc;
+
+  const promptBox = document.createElement('div');
+  promptBox.style.cssText="background:#081728;border:1px solid var(--line);border-radius:8px;padding:10px;font:11.5px/1.5 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;position:relative";
+  promptBox.textContent = card.prompt;
+
+  const cpyBtn = document.createElement('button');
+  cpyBtn.textContent='Copiar';
+  cpyBtn.style.cssText='position:absolute;top:6px;right:6px;font:700 9px system-ui;background:rgba(255,126,179,.13);border:1px solid rgba(255,126,179,.28);color:#ffc8e0;border-radius:4px;padding:2px 6px;cursor:pointer';
+  cpyBtn.addEventListener('click', function(){
+    navigator.clipboard.writeText(card.prompt).catch(()=>{});
+    this.textContent='✓'; setTimeout(()=>this.textContent='Copiar',1600);
+  });
+  promptBox.appendChild(cpyBtn);
+
+  d.append(iconEl, codeEl, descEl, promptBox);
   tc.appendChild(d);
 });
 
@@ -643,14 +666,30 @@ const searchBody = document.getElementById('searchBody');
 const searchInput = document.getElementById('searchInput');
 const searchCount = document.getElementById('searchCount');
 
+function makeCpyBtn(prompt){
+  const btn = document.createElement('button');
+  btn.className='cpy-row'; btn.textContent='Copiar';
+  btn.addEventListener('click', function(){
+    navigator.clipboard.writeText(prompt).catch(()=>{});
+    this.textContent='✓'; setTimeout(()=>this.textContent='Copiar',1600);
+  });
+  return btn;
+}
+
 function buildSearchTable(filter=''){
   const q = filter.toLowerCase();
   const matches = ALL_CODES.filter(c=> !q || c.c.toLowerCase().includes(q) || c.d.toLowerCase().includes(q));
-  searchBody.innerHTML = matches.map(c=>`<tr>
-    <td>${c.c}</td>
-    <td>${c.d}</td>
-    <td>${c.p.slice(0,80)}... <button class="cpy-row" onclick="navigator.clipboard.writeText(${JSON.stringify(c.p)}).catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></td>
-  </tr>`).join('');
+  searchBody.innerHTML = '';
+  matches.forEach(c=>{
+    const tr = document.createElement('tr');
+    const td1 = document.createElement('td'); td1.textContent = c.c;
+    const td2 = document.createElement('td'); td2.textContent = c.d;
+    const td3 = document.createElement('td');
+    td3.textContent = c.p.slice(0,80) + '... ';
+    td3.appendChild(makeCpyBtn(c.p));
+    tr.append(td1, td2, td3);
+    searchBody.appendChild(tr);
+  });
   searchCount.textContent = q ? `${matches.length} resultados para "${filter}"` : `${matches.length} códigos en total`;
 }
 
@@ -676,12 +715,26 @@ CATEGORIES.forEach((cat,i)=>{
   const panel = document.createElement('div');
   panel.className='cat-panel'+(i===0?' on':'');
   panel.id='cp'+cat.id;
-  const rows = cat.codes.map(c=>`<tr>
-    <td>${c.c}</td>
-    <td>${c.d}</td>
-    <td>${c.p.slice(0,90)}... <button class="cpy-row" onclick="navigator.clipboard.writeText(${JSON.stringify(c.p)}).catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></td>
-  </tr>`).join('');
-  panel.innerHTML=`<div style="overflow-x:auto;border:1px solid var(--line);border-radius:14px"><table class="code-table"><thead><tr><th>Código</th><th>Qué hace</th><th>Prompt de ejemplo</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText='overflow-x:auto;border:1px solid var(--line);border-radius:14px';
+  const tbl = document.createElement('table');
+  tbl.className='code-table';
+  tbl.innerHTML='<thead><tr><th>Código</th><th>Qué hace</th><th>Prompt de ejemplo</th></tr></thead>';
+  const tbody = document.createElement('tbody');
+  cat.codes.forEach(c=>{
+    const tr = document.createElement('tr');
+    const td1 = document.createElement('td'); td1.textContent = c.c;
+    const td2 = document.createElement('td'); td2.textContent = c.d;
+    const td3 = document.createElement('td');
+    td3.textContent = c.p.slice(0,90) + '... ';
+    td3.appendChild(makeCpyBtn(c.p));
+    tr.append(td1, td2, td3);
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
+  wrapper.appendChild(tbl);
+  panel.appendChild(wrapper);
   catPanels.appendChild(panel);
 });
 
@@ -690,10 +743,33 @@ const cg = document.getElementById('comboGrid');
 COMBOS.forEach(combo=>{
   const d = document.createElement('div');
   d.className='combo-card';
-  d.innerHTML=`<h4>${combo.title}</h4>
-<p>${combo.desc}</p>
-<div style="font:700 11px 'SFMono-Regular',Consolas,monospace;color:#ff7eb3;background:rgba(255,126,179,.08);border:1px solid rgba(255,126,179,.2);border-radius:7px;padding:5px 10px;margin-bottom:8px">${combo.codes}</div>
-<div style="background:#081728;border:1px solid var(--line);border-radius:9px;padding:11px;font:12px/1.55 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;position:relative">${combo.prompt}<button style="position:absolute;top:7px;right:7px;font:700 10px system-ui;background:rgba(255,126,179,.13);border:1px solid rgba(255,126,179,.28);color:#ffc8e0;border-radius:5px;padding:3px 7px;cursor:pointer" onclick="navigator.clipboard.writeText(${JSON.stringify(combo.prompt)}).catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>`;
+
+  // Codes badge
+  const badge = document.createElement('div');
+  badge.style.cssText='font:700 11px \'SFMono-Regular\',Consolas,monospace;color:#ff7eb3;background:rgba(255,126,179,.08);border:1px solid rgba(255,126,179,.2);border-radius:7px;padding:5px 10px;margin-bottom:8px';
+  badge.textContent = combo.codes;
+
+  // Prompt box
+  const promptBox = document.createElement('div');
+  promptBox.style.cssText='background:#081728;border:1px solid var(--line);border-radius:9px;padding:11px;font:12px/1.55 \'SFMono-Regular\',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;position:relative';
+  promptBox.textContent = combo.prompt;
+
+  // Copy button (created separately to avoid innerHTML injection)
+  const cpyBtn = document.createElement('button');
+  cpyBtn.textContent = 'Copiar';
+  cpyBtn.style.cssText='position:absolute;top:7px;right:7px;font:700 10px system-ui;background:rgba(255,126,179,.13);border:1px solid rgba(255,126,179,.28);color:#ffc8e0;border-radius:5px;padding:3px 7px;cursor:pointer';
+  cpyBtn.addEventListener('click', function(){
+    navigator.clipboard.writeText(combo.prompt).catch(()=>{});
+    this.textContent='✓'; setTimeout(()=>this.textContent='Copiar',1600);
+  });
+  promptBox.appendChild(cpyBtn);
+
+  const h4 = document.createElement('h4');
+  h4.textContent = combo.title;
+  const p = document.createElement('p');
+  p.textContent = combo.desc;
+
+  d.append(h4, p, badge, promptBox);
   cg.appendChild(d);
 });
 </script>
