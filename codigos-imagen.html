@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="200+ códigos para editar y crear imágenes con ChatGPT y Gemini. Cada código con ejemplo de prompt listo para copiar. Incluye códigos técnicos, educativos, fotográficos y artísticos.">
+<title>Códigos para imágenes IA · ExploraIA</title>
+<style>
+:root{color-scheme:dark;--bg:#07111f;--line:rgba(169,205,237,.17);--txt:#ecf6ff;--muted:#a8bacf;--mint:#67ecd0;--blue:#6dbff7;--violet:#c1a4ff;--yellow:#f8cb80;--red:#ff969c;--orange:#ffaa6e;--pink:#ff7eb3}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:66px}
+body{margin:0;background:radial-gradient(ellipse 55% 18% at 90% 2%,rgba(255,126,179,.12),transparent 70%),radial-gradient(ellipse 30% 20% at 2% 12%,rgba(94,47,148,.14),transparent 80%),var(--bg);color:var(--txt);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+p{margin:0 0 12px}h2,h3{letter-spacing:-.03em}h2{font-size:clamp(22px,3vw,34px);margin:0 0 10px}h3{font-size:19px;margin:0 0 8px}
+
+/* Nav */
+.coursenav{position:sticky;top:0;z-index:10;display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:9px 22px;background:#07111f;border-bottom:1px solid var(--line);font-size:12px;font-weight:700}
+.coursenav a{color:#c9d6e8;border:1px solid var(--line);border-radius:99px;padding:5px 11px;white-space:nowrap}
+.coursenav a[aria-current=page]{background:linear-gradient(110deg,#ff7eb3,#ffaa6e);color:#1a0010;border-color:transparent}
+.coursenav a:hover{color:#fff}
+
+.shell{max-width:1120px;margin:auto;padding:0 22px}
+.section{padding:52px 0;border-top:1px solid var(--line)}
+.sub{color:var(--muted);max-width:720px;margin:0 0 20px;font-size:15px}
+
+/* Hero */
+.hero{padding:56px 0 32px}
+.eyebrow{display:inline-flex;gap:8px;font-size:11px;font-weight:800;color:#ffb6d9;border:1px solid rgba(255,126,179,.3);padding:5px 11px;border-radius:99px;background:rgba(255,126,179,.07);letter-spacing:1px;text-transform:uppercase}
+h1{font-size:clamp(32px,5vw,60px);line-height:1.07;letter-spacing:-.05em;margin:14px 0 12px}
+.grad{background:linear-gradient(100deg,#ff7eb3,#ffaa6e,#f8d060);background-clip:text;-webkit-background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:16px;max-width:680px;margin:0 0 16px}
+.author{font-weight:800;font-size:13px;letter-spacing:.02em;margin:12px 0 0}
+.author span{display:block;font-weight:500;color:var(--muted)}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.pillrow span{font-size:12px;color:#b6cbdd;background:#12243a;border:1px solid var(--line);border-radius:30px;padding:5px 11px}
+
+/* Navstrip */
+.navstrip{display:flex;overflow-x:auto;gap:7px;padding:10px 0 16px;scrollbar-width:thin}
+.navstrip a{white-space:nowrap;color:#c7d4e4;border:1px solid var(--line);border-radius:25px;padding:7px 12px;font-size:12px;font-weight:700}
+.navstrip a:hover{background:#14304e}
+
+/* Code block */
+.code{background:#081728;border:1px solid var(--line);border-radius:10px;padding:13px 15px;font:12.5px/1.6 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;margin:9px 0;position:relative}
+.cpy{position:absolute;top:8px;right:9px;font:700 10px system-ui;background:rgba(255,126,179,.13);border:1px solid rgba(255,126,179,.28);color:#ffc8e0;border-radius:5px;padding:3px 8px;cursor:pointer}
+.cpy:hover{background:rgba(255,126,179,.22)}
+
+/* Notes */
+.note{padding:13px 16px;border-left:3px solid var(--c,var(--yellow));border-radius:0 11px 11px 0;background:rgba(248,203,128,.07);color:#e8d9bc;font-size:13px;margin:12px 0}
+.note.safe{--c:var(--mint);background:rgba(103,236,208,.07);color:#caeadf}
+.note.info{--c:var(--blue);background:rgba(109,191,247,.07);color:#cce5fa}
+.note.pink{--c:var(--pink);background:rgba(255,126,179,.07);color:#ffd5ea}
+
+/* Featured code */
+.featured{background:linear-gradient(135deg,#1a0d1f,#0d1f30);border:1px solid rgba(255,126,179,.3);border-radius:20px;padding:24px;margin-top:14px}
+.feat-code{display:inline-flex;align-items:center;gap:8px;font:900 20px 'SFMono-Regular',Consolas,monospace;color:#ff7eb3;background:rgba(255,126,179,.1);border:1px solid rgba(255,126,179,.3);border-radius:11px;padding:7px 15px;margin-bottom:12px}
+.feat-desc{font-size:13px;color:#c0d8ea;margin:0 0 12px}
+.feat-example{background:#081728;border:1px solid rgba(255,126,179,.2);border-radius:11px;padding:14px;font:12.5px/1.6 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;position:relative}
+.variations{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.var-pill{font-size:11px;font-weight:700;background:#0d2033;border:1px solid var(--line);border-radius:7px;padding:4px 10px;color:#c0d8ea;cursor:pointer}
+.var-pill:hover{border-color:var(--pink);color:#ff7eb3}
+.var-pill.active{background:rgba(255,126,179,.12);border-color:rgba(255,126,179,.4);color:#ff7eb3}
+
+/* Search */
+.search-wrap{position:relative;max-width:420px;margin-bottom:16px}
+.search-input{width:100%;background:#0d1f33;border:1px solid var(--line);border-radius:11px;color:#ecf6ff;padding:10px 14px 10px 38px;font-size:14px}
+.search-input::placeholder{color:var(--muted)}
+.search-input:focus{outline:0;border-color:var(--pink)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;pointer-events:none}
+#searchCount{font-size:12px;color:var(--muted);margin-top:5px}
+
+/* Category tabs */
+.cat-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 10px}
+.cat-tab{font:700 12px system-ui;border:1px solid var(--line);background:#102239;color:#cfe0f0;border-radius:8px;padding:7px 12px;white-space:nowrap}
+.cat-tab.on{background:var(--pink);color:#1a0010;border-color:var(--pink)}
+.cat-panel{display:none}.cat-panel.on{display:block}
+
+/* Code table */
+.code-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+.code-table th{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#ffb6d9;background:#0a1e32}
+.code-table td{padding:9px 12px;border-bottom:1px solid rgba(169,205,237,.06);vertical-align:top}
+.code-table tr:last-child td{border-bottom:0}
+.code-table tr:hover td{background:rgba(255,126,179,.03)}
+.code-table td:first-child{font:700 12px 'SFMono-Regular',Consolas,monospace;color:#ff7eb3;width:170px;white-space:nowrap}
+.code-table td:nth-child(2){color:#c6d7e5;width:35%}
+.code-table td:last-child{color:#9eb8cc;font-size:12px}
+.cpy-row{font:600 10px system-ui;background:rgba(255,126,179,.1);border:1px solid rgba(255,126,179,.2);color:#ffc8e0;border-radius:5px;padding:2px 7px;cursor:pointer;white-space:nowrap}
+.cpy-row:hover{background:rgba(255,126,179,.2)}
+
+/* Hidden row */
+.code-row.hidden-row{display:none}
+
+/* Gemini anatomy */
+.gemini-box{background:linear-gradient(135deg,#0d1f35,#0d1829);border:1px solid rgba(66,133,244,.3);border-radius:20px;padding:22px;margin-top:14px}
+.g-row{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid rgba(169,205,237,.07)}
+.g-row:last-child{border-bottom:0}
+.g-let{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:15px;flex-shrink:0}
+.g-row h5{font-size:13px;margin:0 0 3px;color:#ecf6ff}
+.g-row p{font-size:12px;color:#9eb8cc;margin:0 0 5px}
+.g-row .ex{font:12px/1.5 'SFMono-Regular',Consolas,monospace;color:#a8dfff;background:#081728;border:1px solid var(--line);border-radius:7px;padding:5px 9px;display:inline-block}
+
+/* Combo cards */
+.combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:14px}
+.combo-card{background:linear-gradient(135deg,#102238,#0b1b2d);border:1px solid var(--line);border-radius:14px;padding:17px}
+.combo-card h4{font-size:14px;margin:0 0 7px;color:#ffb6d9}
+.combo-card p{font-size:12px;color:#9eb8cc;margin:0 0 8px}
+
+/* Badges */
+.badge-gpt{background:rgba(16,163,127,.15);color:#a2ffe8;border:1px solid rgba(16,163,127,.3);font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px}
+.badge-gem{background:rgba(66,133,244,.15);color:#9fd3f8;border:1px solid rgba(66,133,244,.3);font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px}
+.badge-both{background:rgba(255,126,179,.12);color:#ffc8e0;border:1px solid rgba(255,126,179,.25);font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px}
+
+/* Tooltip */
+.tooltip-wrap{position:relative;display:inline-block}
+.tooltip-wrap:hover .tooltip{display:block}
+.tooltip{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#0a1e32;border:1px solid var(--line);border-radius:7px;padding:5px 9px;font-size:11px;color:#c6d7e5;white-space:nowrap;z-index:20;margin-bottom:5px}
+
+/* Footer */
+.footer{margin-top:44px;padding:30px 0 44px;border-top:1px solid var(--line);color:#91a6bc;font-size:12px}
+
+@media(max-width:700px){.shell{padding:0 15px}.code-table td:nth-child(3){display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="coursenav" aria-label="Sitio">
+<a href="index.html">Inicio</a>
+<a href="prompts.html">Arte del Prompt</a>
+<a href="agentes.html">Agentes de Código</a>
+<a href="markdown.html">Markdown</a>
+<a href="codigos-imagen.html" aria-current="page">Códigos de Imagen IA</a>
+<a href="gestion.html">Gestión universitaria</a>
+<a href="directorio.html">Directorio</a>
+</nav>
+
+<main class="shell">
+
+<!-- HERO -->
+<section class="hero">
+<span class="eyebrow">✦ Módulo · Imágenes con IA</span>
+<h1>Códigos secretos<br><span class="grad">para imágenes IA.</span></h1>
+<p class="lead">200+ atajos para transformar y crear imágenes con ChatGPT y Gemini. Subes la foto, escribes el código y listo. Cada uno con un ejemplo de prompt listo para copiar.</p>
+<p class="author">ING. GREGORIO BAUTISTA OBLITAS<span>Maestro en Inteligencia Artificial</span></p>
+<div class="pillrow">
+<span>📸 Fondo y luz</span>
+<span>🎨 Estilos artísticos</span>
+<span>🔧 Técnico y 3D</span>
+<span>🌍 Viajes y lugares</span>
+<span>✨ Efectos</span>
+<span>🤖 Gemini + ChatGPT</span>
+</div>
+</section>
+
+<nav class="navstrip" aria-label="Secciones">
+<a href="#que-son">❓ ¿Qué son?</a>
+<a href="#estrella">&star; Código destacado</a>
+<a href="#buscador">🔍 Buscador</a>
+<a href="#categorias">📂 Por categorías</a>
+<a href="#gemini">🔵 Gemini</a>
+<a href="#combos">⚡ Combos</a>
+<a href="#consejos">💡 Consejos</a>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════
+     01 · ¿QUÉ SON?
+══════════════════════════════════════════════════════ -->
+<section class="section" id="que-son" aria-labelledby="qsh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">01 · ¿Qué son?</span>
+<h2 id="qsh">Atajos, no comandos oficiales</h2>
+<p class="sub">Antes de usar los códigos, es importante entender qué son realmente para usarlos bien.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+  <div style="background:#102238;border:1px solid rgba(103,236,208,.2);border-radius:14px;padding:17px">
+    <h3 style="color:#a2ffe8;font-size:15px;margin:0 0 8px">✅ Lo que SÍ son</h3>
+    <ul style="font-size:13px;color:#c6d7e5;padding-left:16px;margin:0">
+      <li style="margin:5px 0"><b>Atajos de vocabulario visual</b>: en vez de escribir "luz cálida de atardecer dorado", escribes <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">/goldenhour</code></li>
+      <li style="margin:5px 0"><b>Texto normal</b>: la IA los lee como texto y entiende el concepto</li>
+      <li style="margin:5px 0"><b>Memorables</b>: los memorizas en segundos y los reutilizas en cualquier chat</li>
+      <li style="margin:5px 0"><b>Combinables</b>: puedes usar varios en un mismo prompt</li>
+    </ul>
+  </div>
+  <div style="background:#102238;border:1px solid rgba(255,150,156,.2);border-radius:14px;padding:17px">
+    <h3 style="color:#ffd5d8;font-size:15px;margin:0 0 8px">❌ Lo que NO son</h3>
+    <ul style="font-size:13px;color:#c6d7e5;padding-left:16px;margin:0">
+      <li style="margin:5px 0"><b>No son comandos oficiales</b>: ni OpenAI ni Google los reconoce como función oficial</li>
+      <li style="margin:5px 0"><b>No activan ningún modo especial</b>: el <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">/</code> en ChatGPT abre el menú de la app, no estos efectos</li>
+      <li style="margin:5px 0"><b>Claude no genera imágenes</b>: Claude analiza imágenes pero no las crea ni edita</li>
+      <li style="margin:5px 0"><b>No son magia</b>: si la foto base es mala, ningún código la arreglará</li>
+    </ul>
+  </div>
+</div>
+
+<div class="note pink"><b>💡 La regla de oro:</b> si un código no funciona bien, escribe la frase equivalente directamente. <code style="font-size:11px">/goldenhour</code> = <em>"con luz cálida de hora dorada al atardecer"</em>. El resultado es idéntico.</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px">
+  <div style="background:#0d2033;border:1px solid var(--line);border-radius:13px;padding:15px;text-align:center">
+    <div style="font-size:28px;margin-bottom:7px">🤖</div>
+    <b style="color:#a2ffe8;font-size:13px">ChatGPT</b>
+    <p style="font-size:12px;color:#9eb8cc;margin:5px 0 0">Funciona con la cuenta gratis mientras te permita subir imágenes. Para generar sin foto: necesitas plan con DALL·E 3.</p>
+  </div>
+  <div style="background:#0d2033;border:1px solid var(--line);border-radius:13px;padding:15px;text-align:center">
+    <div style="font-size:28px;margin-bottom:7px">🔵</div>
+    <b style="color:#9fd3f8;font-size:13px">Gemini</b>
+    <p style="font-size:12px;color:#9eb8cc;margin:5px 0 0">Lee los mismos códigos como texto. Para mejores resultados, combina el código con la anatomía S-C-A-L-S (ver sección Gemini).</p>
+  </div>
+  <div style="background:#0d2033;border:1px solid var(--line);border-radius:13px;padding:15px;text-align:center">
+    <div style="font-size:28px;margin-bottom:7px">🔶</div>
+    <b style="color:#ffd5d8;font-size:13px">Claude</b>
+    <p style="font-size:12px;color:#9eb8cc;margin:5px 0 0">No genera ni edita imágenes. Solo las analiza. Los códigos de imagen no funcionan con Claude.</p>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     02 · CÓDIGO DESTACADO: /explodedview
+══════════════════════════════════════════════════════ -->
+<section class="section" id="estrella" aria-labelledby="esth">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">02 · Código destacado</span>
+<h2 id="esth">El código técnico más poderoso para docentes</h2>
+<p class="sub">El código <strong>/explodedview</strong> genera vistas explosionadas técnicas en 3D — perfectas para explicar el interior de cualquier objeto en clases de ciencias, ingeniería o tecnología.</p>
+
+<div class="featured">
+  <div class="feat-code">🔧 /explodedview</div>
+  <p class="feat-desc"><b style="color:#ecf6ff">Qué hace:</b> genera una vista explosionada técnica del objeto — las piezas separadas en el aire, alineadas, con etiquetas y sobre fondo blanco. Como las ilustraciones de los manuales de ensamblaje.</p>
+
+  <p style="font-size:12px;font-weight:800;color:#ffb6d9;margin:0 0 7px;text-transform:uppercase;letter-spacing:.5px">Prompt de ejemplo (el que usó el profesor)</p>
+  <div class="feat-example">/explodedview de [una cafetera espresso / un implante dental / una impresora 3D], ilustración técnica limpia en 3D sobre fondo blanco puro, piezas separadas y alineadas verticalmente con líneas finas y etiquetas en español: "[Pieza 1]", "[Pieza 2]", "[Pieza 3]". Iluminación de estudio suave, estilo editorial moderno.<button class="cpy" style="background:rgba(255,126,179,.13);border-color:rgba(255,126,179,.28);color:#ffc8e0" onclick="navigator.clipboard.writeText('/explodedview de [una cafetera espresso / un implante dental / una impresora 3D], ilustración técnica limpia en 3D sobre fondo blanco puro, piezas separadas y alineadas verticalmente con líneas finas y etiquetas en español: &quot;[Pieza 1]&quot;, &quot;[Pieza 2]&quot;, &quot;[Pieza 3]&quot;. Iluminación de estudio suave, estilo editorial moderno.').catch(()=>{});this.textContent='¡Copiado!';setTimeout(()=>this.textContent='Copiar',1800)">Copiar</button></div>
+
+  <p style="font-size:12px;font-weight:800;color:#ffb6d9;margin:12px 0 7px;text-transform:uppercase;letter-spacing:.5px">Variaciones — haz clic para ver el prompt adaptado</p>
+  <div class="variations" id="varPills">
+    <button class="var-pill active" data-var="0">🫀 Corazón humano</button>
+    <button class="var-pill" data-var="1">⚙ Motor de combustión</button>
+    <button class="var-pill" data-var="2">📱 Smartphone</button>
+    <button class="var-pill" data-var="3">🌱 Célula vegetal</button>
+    <button class="var-pill" data-var="4">🏛 Columna vertebral</button>
+    <button class="var-pill" data-var="5">💡 Bombilla LED</button>
+    <button class="var-pill" data-var="6">🔬 Microscopio</button>
+  </div>
+  <div class="feat-example" id="varPrompt" style="margin-top:10px">/explodedview de un corazón humano, ilustración médica técnica en 3D sobre fondo blanco puro, cámaras y válvulas separadas y alineadas verticalmente con líneas finas y etiquetas en español: "Aurícula derecha", "Ventrículo izquierdo", "Válvula mitral", "Aorta". Iluminación de estudio suave, estilo atlas de anatomía moderno.<button class="cpy" id="varCpy" style="background:rgba(255,126,179,.13);border-color:rgba(255,126,179,.28);color:#ffc8e0">Copiar</button></div>
+</div>
+
+<h3 style="margin-top:24px">Otros códigos técnicos para educación</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:12px" id="techCards"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     03 · BUSCADOR
+══════════════════════════════════════════════════════ -->
+<section class="section" id="buscador" aria-labelledby="bush">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">03 · Buscador</span>
+<h2 id="bush">Encuentra el código que necesitas</h2>
+<p class="sub">Busca por nombre del código o por lo que quieres hacer. Muestra todos los resultados al instante.</p>
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="searchInput" class="search-input" placeholder="Buscar: bokeh, fondo, estilo, 3D...">
+</div>
+<p id="searchCount"></p>
+<div style="overflow-x:auto;border:1px solid var(--line);border-radius:14px">
+<table class="code-table" id="searchTable">
+  <thead><tr><th>Código</th><th>Qué hace</th><th>Prompt de ejemplo</th></tr></thead>
+  <tbody id="searchBody"></tbody>
+</table>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     04 · CATEGORÍAS
+══════════════════════════════════════════════════════ -->
+<section class="section" id="categorias" aria-labelledby="cath">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">04 · Por categorías</span>
+<h2 id="cath">Todos los códigos organizados</h2>
+<div class="cat-tabs" id="catTabs"></div>
+<div id="catPanels"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     05 · GEMINI
+══════════════════════════════════════════════════════ -->
+<section class="section" id="gemini" aria-labelledby="gemh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">05 · Para Gemini</span>
+<h2 id="gemh">Cómo usarlos en Gemini</h2>
+<p class="sub">Gemini interpreta los mismos códigos como texto. Pero para mejores resultados usa la anatomía oficial que Google recomienda: <strong>S-C-A-L-S</strong>.</p>
+
+<div class="gemini-box">
+  <div class="g-row">
+    <div class="g-let" style="background:rgba(66,133,244,.2);color:#8ab4f8">S</div>
+    <div>
+      <h5>Subject · Sujeto — ¿qué o quién aparece?</h5>
+      <p>Sé específico. Describe el sujeto con detalle.</p>
+      <span class="ex">«Una cafetera espresso italiana vintage de aluminio»</span>
+    </div>
+  </div>
+  <div class="g-row">
+    <div class="g-let" style="background:rgba(52,168,83,.2);color:#81c995">C</div>
+    <div>
+      <h5>Composition · Composición — ¿cómo está encuadrado?</h5>
+      <p>Plano, ángulo, proporción.</p>
+      <span class="ex">«Vista explosionada desde ángulo ligeramente elevado, encuadre vertical 2:3»</span>
+    </div>
+  </div>
+  <div class="g-row">
+    <div class="g-let" style="background:rgba(251,188,4,.2);color:#fdd663">A</div>
+    <div>
+      <h5>Action · Acción — ¿qué está pasando?</h5>
+      <p>Movimiento, estado, momento.</p>
+      <span class="ex">«Piezas flotando separadas en el aire, alineadas verticalmente»</span>
+    </div>
+  </div>
+  <div class="g-row">
+    <div class="g-let" style="background:rgba(234,67,53,.2);color:#f28b82">L</div>
+    <div>
+      <h5>Location · Lugar — ¿dónde ocurre?</h5>
+      <p>Fondo, entorno, atmósfera.</p>
+      <span class="ex">«Sobre fondo blanco puro de estudio fotográfico»</span>
+    </div>
+  </div>
+  <div class="g-row">
+    <div class="g-let" style="background:rgba(103,236,208,.2);color:#a2ffe8">S</div>
+    <div>
+      <h5>Style · Estilo — ¿cuál es la estética?</h5>
+      <p>Estilo artístico, iluminación, cámara.</p>
+      <span class="ex">«Ilustración técnica 3D, estilo editorial moderno, iluminación de estudio suave, etiquetas en español»</span>
+    </div>
+  </div>
+</div>
+
+<h3 style="margin-top:20px">Prompt completo para Gemini (S-C-A-L-S + código)</h3>
+<div class="code" style="margin-top:8px;position:relative">Genera: una cafetera espresso italiana vintage de aluminio [S: sujeto]
+encuadre vertical con vista ligeramente elevada [C: composición]
+piezas flotando separadas y alineadas verticalmente en el aire [A: acción]
+sobre fondo blanco puro de estudio fotográfico [L: lugar]
+ilustración técnica 3D, estilo editorial moderno, iluminación suave de estudio,
+etiquetas en español indicando: "Filtro", "Cuerpo", "Junta", "Válvula de seguridad", "Mango" [S: estilo]
+/explodedview /studiowhite /hdreal<button class="cpy" onclick="navigator.clipboard.writeText('Genera: una cafetera espresso italiana vintage de aluminio\nencuadre vertical con vista ligeramente elevada\npiezas flotando separadas y alineadas verticalmente en el aire\nsobre fondo blanco puro de estudio fotográfico\nilustración técnica 3D, estilo editorial moderno, iluminación suave de estudio,\netiquetas en español indicando: &quot;Filtro&quot;, &quot;Cuerpo&quot;, &quot;Junta&quot;, &quot;Válvula de seguridad&quot;, &quot;Mango&quot;\n/explodedview /studiowhite /hdreal').catch(()=>{});this.textContent='¡Copiado!';setTimeout(()=>this.textContent='Copiar',1800)">Copiar</button></div>
+
+<h3 style="margin-top:20px">Instrucciones de edición para Gemini</h3>
+<p style="font-size:13px;color:var(--muted)">Para editar una imagen en Gemini, sube la foto y usa instrucciones directas y específicas:</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
+  <div style="background:#0d2033;border:1px solid rgba(66,133,244,.2);border-radius:13px;padding:15px">
+    <p style="font-size:12px;font-weight:800;color:#9fd3f8;margin:0 0 7px">✅ Instrucción clara para Gemini</p>
+    <div class="code" style="font-size:12px;margin:0">Usando la imagen proporcionada, cambia
+únicamente el fondo a una playa al atardecer
+con luz dorada. Mantén a la persona, su ropa
+y todas las proporciones exactamente igual.</div>
+  </div>
+  <div style="background:#0d2033;border:1px solid rgba(66,133,244,.2);border-radius:13px;padding:15px">
+    <p style="font-size:12px;font-weight:800;color:#9fd3f8;margin:0 0 7px">🔵 Código corto equivalente</p>
+    <div class="code" style="font-size:12px;margin:0">/setchange playa /goldenhour
+
+(Gemini lo lee como: "cambia el fondo
+a una playa con luz de hora dorada al
+atardecer, mantén todo lo demás igual")</div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     06 · COMBOS
+══════════════════════════════════════════════════════ -->
+<section class="section" id="combos" aria-labelledby="comh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">06 · Combos</span>
+<h2 id="comh">Combina dos o tres códigos en uno</h2>
+<p class="sub">El poder real está en combinar códigos. Puedes poner dos o tres en el mismo mensaje y la IA los aplica todos juntos.</p>
+<div class="combo-grid" id="comboGrid"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     07 · CONSEJOS
+══════════════════════════════════════════════════════ -->
+<section class="section" id="consejos" aria-labelledby="conh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">07 · Consejos</span>
+<h2 id="conh">Para mejores resultados</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:14px">
+  <div style="background:#102238;border:1px solid var(--line);border-radius:14px;padding:17px">
+    <div style="font-size:24px;margin-bottom:8px">📸</div>
+    <h4 style="font-size:14px;color:#ffb6d9;margin:0 0 7px">1. La foto base importa</h4>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Ningún código puede arreglar una foto borrosa, mal iluminada o con el sujeto cortado. La foto de partida determina el 80 % del resultado.</p>
+  </div>
+  <div style="background:#102238;border:1px solid var(--line);border-radius:14px;padding:17px">
+    <div style="font-size:24px;margin-bottom:8px">🎯</div>
+    <h4 style="font-size:14px;color:#ffb6d9;margin:0 0 7px">2. Máximo 3 códigos a la vez</h4>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Con 2-3 modificadores el resultado es consistente. Con 6 o más, la IA puede generar contradicciones visuales o ignorar algunos.</p>
+  </div>
+  <div style="background:#102238;border:1px solid var(--line);border-radius:14px;padding:17px">
+    <div style="font-size:24px;margin-bottom:8px">🧲</div>
+    <h4 style="font-size:14px;color:#ffb6d9;margin:0 0 7px">3. Ancla lo que quieres conservar</h4>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Después del código, agrega: <em>"mantén la cara, la ropa y las proporciones exactas"</em>. Sin esto, la IA puede cambiar más de lo que esperas.</p>
+  </div>
+  <div style="background:#102238;border:1px solid var(--line);border-radius:14px;padding:17px">
+    <div style="font-size:24px;margin-bottom:8px">🔄</div>
+    <h4 style="font-size:14px;color:#ffb6d9;margin:0 0 7px">4. Corrige en el mismo chat</h4>
+    <p style="font-size:13px;color:#9eb8cc;margin:0"><em>"Hazlo de nuevo pero con menos retoque"</em> o <em>"igual pero sin cambiar el fondo"</em> funciona mejor que abrir un chat nuevo.</p>
+  </div>
+  <div style="background:#102238;border:1px solid var(--line);border-radius:14px;padding:17px">
+    <div style="font-size:24px;margin-bottom:8px">🌐</div>
+    <h4 style="font-size:14px;color:#ffb6d9;margin:0 0 7px">5. Mezcla código con frase</h4>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">La combinación más confiable: código + frase equivalente. Ej: <em>"/goldenhour — luz cálida de atardecer dorado, fondo desenfocado"</em></p>
+  </div>
+  <div style="background:#102238;border:1px solid var(--line);border-radius:14px;padding:17px">
+    <div style="font-size:24px;margin-bottom:8px">📐</div>
+    <h4 style="font-size:14px;color:#ffb6d9;margin:0 0 7px">6. Especifica el formato</h4>
+    <p style="font-size:13px;color:#9eb8cc;margin:0">Agrega la proporción al final: <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">/9:16</code> para vertical (Instagram Stories), <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">/16:9</code> para horizontal, <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">/1:1</code> para cuadrado.</p>
+  </div>
+</div>
+</section>
+
+</main>
+
+<footer class="footer"><div class="shell">
+<p><b style="color:#eef7ff">ING. GREGORIO BAUTISTA OBLITAS</b><br>Maestro en Inteligencia Artificial</p>
+<p style="margin-top:8px">ExploraIA · Módulo de códigos de imagen IA · Basado en <a href="https://soypablocarballo.com/blog/200-codigos-para-editar-fotos-con-chatgpt/" style="color:var(--blue)" target="_blank" rel="noopener">soypablocarballo.com</a> y <a href="https://cognenza.com/en/tareas/codigos-imagenes-ia-chatgpt-gemini/" style="color:var(--blue)" target="_blank" rel="noopener">cognenza.com</a>. Los códigos no son comandos oficiales de ChatGPT ni Gemini: son atajos de vocabulario visual.</p>
+</div></footer>
+
+<script>
+'use strict';
+
+/* ═══════════ DATOS ═══════════ */
+
+const VARS = [
+  {label:'🫀 Corazón humano', prompt:'/explodedview de un corazón humano, ilustración médica técnica en 3D sobre fondo blanco puro, cámaras y válvulas separadas y alineadas verticalmente con líneas finas y etiquetas en español: "Aurícula derecha", "Ventrículo izquierdo", "Válvula mitral", "Aorta". Iluminación de estudio suave, estilo atlas de anatomía moderno.'},
+  {label:'⚙ Motor de combustión', prompt:'/explodedview de un motor de combustión interna de 4 cilindros, ilustración técnica limpia en 3D sobre fondo blanco puro, piezas separadas y alineadas con líneas finas y etiquetas en español: "Pistón", "Cigüeñal", "Árbol de levas", "Culata", "Carter". Estilo manual de ingeniería, fondo blanco puro.'},
+  {label:'📱 Smartphone', prompt:'/explodedview de un smartphone moderno, vista técnica 3D sobre fondo blanco puro, componentes internos separados y apilados verticalmente con líneas finas y etiquetas en español: "Pantalla OLED", "Batería", "Placa base", "Cámara", "Altavoz", "Carcasa". Estilo catálogo de producto premium.'},
+  {label:'🌱 Célula vegetal', prompt:'/explodedview de una célula vegetal, ilustración científica educativa en 3D sobre fondo blanco puro, orgánulos separados y alineados con líneas finas y etiquetas en español: "Pared celular", "Cloroplasto", "Vacuola central", "Núcleo", "Mitocondria". Estilo libro de texto universitario moderno.'},
+  {label:'🏛 Columna vertebral', prompt:'/explodedview de una vértebra lumbar con disco intervertebral, ilustración anatómica 3D sobre fondo blanco puro, partes separadas con líneas finas y etiquetas en español: "Cuerpo vertebral", "Disco intervertebral", "Apófisis espinosa", "Médula espinal". Estilo atlas de anatomía clínica.'},
+  {label:'💡 Bombilla LED', prompt:'/explodedview de una bombilla LED de bajo consumo, ilustración técnica 3D sobre fondo blanco puro, piezas separadas y alineadas verticalmente con líneas finas y etiquetas en español: "Difusor", "Chip LED", "Disipador", "Driver electrónico", "Base E27". Estilo catálogo técnico de ingeniería.'},
+  {label:'🔬 Microscopio', prompt:'/explodedview de un microscopio óptico de laboratorio, ilustración técnica 3D sobre fondo blanco puro, componentes separados y alineados con líneas finas y etiquetas en español: "Ocular", "Revólver", "Objetivos", "Platina", "Condensador", "Iluminador LED". Estilo manual de laboratorio universitario.'},
+];
+
+const TECH_CARDS = [
+  {code:'/blueprint', desc:'Plano técnico azul', icon:'📐', prompt:'/blueprint de [el objeto] sobre fondo azul oscuro, líneas blancas precisas con medidas y etiquetas técnicas. Estilo plano de arquitectura o ingeniería.'},
+  {code:'/crosssection', desc:'Corte transversal interior', icon:'✂', prompt:'/crosssection de [el objeto] partida por la mitad, sección limpia que muestra los componentes internos con colores diferenciados por material. Estilo atlas de ingeniería.'},
+  {code:'/xray', desc:'Visión de rayos X', icon:'🩻', prompt:'/xray de [el objeto], revelando la estructura interna como una radiografía real. Fondo negro, estructura visible en azul-gris translúcido.'},
+  {code:'/anatomy', desc:'Diagrama anatómico interno', icon:'🔬', prompt:'/anatomy de [el organismo/objeto], ilustración educativa que muestra los sistemas internos con colores por función: azul=circulatorio, rojo=muscular, blanco=óseo.'},
+  {code:'/schematic', desc:'Diagrama de flujo funcional', icon:'📊', prompt:'/schematic de [el sistema/proceso], diagrama funcional con flechas que muestran el flujo de energía/datos/materia. Fondo blanco, líneas limpias, etiquetas en español.'},
+  {code:'/assemblysteps', desc:'Pasos de ensamblaje', icon:'🔩', prompt:'/assemblysteps de [el producto], hoja técnica que muestra en 4-5 pasos cómo se ensambla. Fondo blanco, números de paso, flechas de dirección, estilo manual IKEA.'},
+];
+
+const COMBOS = [
+  {title:'Foto de perfil profesional', codes:'/fondoblanco /luzestudio /proshot', desc:'Fondo blanco de estudio, iluminación profesional y acabado de fotógrafo. Ideal para LinkedIn o currículum.', prompt:'/fondoblanco /luzestudio /proshot\nMantén mi cara, ropa y expresión exactamente igual. Elimina cualquier elemento de fondo.'},
+  {title:'Viaje sin salir de casa', codes:'/setchange santorini /goldenhour /bokeh', desc:'Cambia el fondo a Santorini con luz de atardecer y fondo desenfocado. Para fotos de redes sociales.', prompt:'/setchange santorini /goldenhour /bokeh\nMantén a la persona exactamente igual. Solo cambia el fondo y la luz.'},
+  {title:'Estilo cine dramático', codes:'/cinematic /tealandorange /lowkeylighting', desc:'Paleta de cine teal-orange, luz baja y dramática. Para fotos con carácter artístico.', prompt:'/cinematic /tealandorange /lowkeylighting\nEstilo Hollywood, atmósfera dramática, contraste cinematográfico.'},
+  {title:'Foto de producto perfecta', codes:'/studiowhite /floatingshadow /hdreal', desc:'Fondo blanco, sombra flotante real y máxima resolución. Para tiendas y catálogos.', prompt:'/studiowhite /floatingshadow /hdreal\nEl producto centrado, sombra suave debajo, fondo absolutamente blanco.'},
+  {title:'Documento técnico para clase', codes:'/explodedview /blueprint /sectioncallouts', desc:'Vista explosionada con estética de plano técnico y etiquetas con flechas. Para materiales educativos.', prompt:'/explodedview /blueprint /sectioncallouts\nde [el objeto]. Etiquetas en español con líneas de llamada. Fondo azul marino técnico.'},
+  {title:'Foto vintage de álbum familiar', codes:'/decada1980 /filmgrain /polaroid', desc:'Estética de los años 80 con grano de película y marco de Polaroid. Para efectos nostálgicos.', prompt:'/decada1980 /filmgrain /polaroid\nEstética de los años 80, tonos cálidos desaturados, como una foto real del álbum familiar.'},
+  {title:'Escena de ciencia ficción', codes:'/setchange ciudadfuturista /cyberpunk /luzneon', desc:'Ciudad futurista, estética cyberpunk y neones. Para proyectos creativos y presentaciones de tecnología.', prompt:'/setchange ciudadfuturista /cyberpunk /luzneon\nAtmósfera futurista, luces de neón azul y morado, lluvia, noche. Mantén al sujeto.'},
+  {title:'Restaurar foto antigua', codes:'/restaurar /colorize /hdreal', desc:'Elimina daños, colorea y mejora la resolución. Para recuperar fotos familiares viejas.', prompt:'/restaurar /colorize /hdreal\nRepara rayones, manchas y deterioro. Colorea de forma realista. Máxima nitidez.'},
+  {title:'Producto en contexto universitario', codes:'/deskscene /luznatural /lifestyle', desc:'Producto sobre escritorio de estudio con luz natural. Para comunicaciones institucionales.', prompt:'/deskscene /luznatural /lifestyle\nSobre un escritorio universitario ordenado, con luz natural de ventana, ambiente de estudio.'},
+];
+
+/* ═══════════ CATEGORÍAS COMPLETAS ═══════════ */
+const CATEGORIES = [
+  {id:'luz', label:'💡 Fondo y luz', codes:[
+    {c:'/bokeh', d:'Desenfoca el fondo, deja nítido solo el sujeto', p:'Fotografía de [sujeto], /bokeh — fondo desenfocado con puntos de luz suaves, sujeto nítido en primer plano. Mantén la persona y su expresión iguales.'},
+    {c:'/fondoblanco', d:'Fondo blanco liso de estudio', p:'/fondoblanco — reemplaza el fondo por blanco liso de estudio fotográfico. Mantén el sujeto, su sombra y todas sus proporciones iguales.'},
+    {c:'/fondonegro', d:'Fondo negro liso', p:'/fondonegro — fondo negro puro. Mantén el sujeto iluminado con luz de estudio suave. Efecto producto de catálogo premium.'},
+    {c:'/goldenhour', d:'Luz cálida de hora dorada', p:'[Foto exterior] /goldenhour — añade luz cálida y dorada de atardecer. Tonos naranjas y dorados en el cielo. Mantén al sujeto con la misma expresión.'},
+    {c:'/luznatural', d:'Luz suave de ventana', p:'/luznatural — simula luz natural de ventana de día, suave y difusa, sin sombras duras. Ideal para retratos íntimos.'},
+    {c:'/luzestudio', d:'Iluminación profesional de estudio', p:'/luzestudio — iluminación de estudio profesional con difusores. Luz pareja, sombras controladas. Estilo fotógrafo comercial.'},
+    {c:'/contraluz', d:'Silueta con luz detrás', p:'/contraluz — deja al sujeto en silueta oscura con luz intensa detrás. Cielo al atardecer, efecto dramático.'},
+    {c:'/luzneon', d:'Luz de neón de colores', p:'/luzneon — baña la escena en luces de neón rosa y azul. Ambiente nocturno urbano, reflejos en superficies mojadas.'},
+    {c:'/iluminacioncine', d:'Luz dramática cinematográfica', p:'/iluminacioncine — luz dramática de película, sombras largas y marcadas, ratio de contraste alto. Estilo director de fotografía de Hollywood.'},
+    {c:'/bluehour', d:'Hora azul crepuscular', p:'/bluehour — atmósfera crepuscular fría y melancólica, justo antes de que amanezca o después del atardecer. Tonos azulados.'},
+    {c:'/luzvela', d:'Solo luz de velas', p:'/luzvela — iluminado únicamente con la luz de velas. Tonos cálidos y parpadeantes, sombras suaves. Ambiente íntimo.'},
+    {c:'/rimlight', d:'Contorno de luz alrededor del sujeto', p:'/rimlight — añade un halo de luz que contornea el sujeto por detrás. Efecto de separación del fondo. Estilo editorial.'},
+    {c:'/reflejoagua', d:'Reflejo como si estuviera frente al agua', p:'/reflejoagua — añade el reflejo del sujeto como si estuviera frente a una superficie de agua tranquila.'},
+    {c:'/resplandorsolar', d:'Destello de sol en la cámara', p:'/resplandorsolar — añade un destello de sol directo a cámara (lens flare). Luz de verano, sensación de calor.'},
+  ]},
+  {id:'calidad', label:'⭐ Calidad y restauración', codes:[
+    {c:'/hdreal', d:'Máxima resolución y detalle realista', p:'/hdreal — eleva el detalle, nitidez y fotorrealismo. Texturas finas visibles, como una foto de cámara profesional de alta gama.'},
+    {c:'/4k', d:'Aspecto de imagen en 4K', p:'/4k — máxima calidad, aspecto 4K. Detalles finos, sin ruido, colores profundos.'},
+    {c:'/restaurar', d:'Repara daños de foto antigua', p:'/restaurar — repara rayones, roturas, manchas y deterioro de esta foto antigua. Mantén la composición original.'},
+    {c:'/colorize', d:'Colorea una foto en blanco y negro', p:'/colorize — colorea esta foto en blanco y negro de forma realista, con colores naturales de época. Mantén la composición original.'},
+    {c:'/quitarruido', d:'Elimina el grano digital', p:'/quitarruido — elimina el ruido digital y el grano de esta foto sin perder los detalles finos del sujeto.'},
+    {c:'/ojoscerrados', d:'Abre los ojos si saliste parpadeando', p:'/ojoscerrados — abre los ojos de la persona de forma natural, manteniendo la expresión, dirección de la mirada y proporciones del resto del rostro iguales.'},
+    {c:'/quitarobjeto', d:'Elimina un objeto o persona del fondo', p:'/quitarobjeto — elimina [el elemento] del fondo o escena, rellenando con el contexto natural de forma realista.'},
+    {c:'/mejorarnocturna', d:'Mejora foto oscura de noche', p:'/mejorarnocturna — mejora la exposición, el ruido y los colores de esta foto nocturna sin añadir artefactos ni sobreexponer las luces.'},
+    {c:'/upscale', d:'Agranda sin perder calidad', p:'/upscale — amplía la imagen al doble de tamaño manteniendo la nitidez y añadiendo detalle realista, sin bordes pixelados.'},
+    {c:'/skinretouch', d:'Retoca la piel naturalmente', p:'/skinretouch — retoque suave de piel, elimina imperfecciones manteniendo la textura natural de la piel. Sin efecto "plástico".'},
+    {c:'/nur', d:'Cambia SOLO lo que indicas', p:'/nur — cambia ÚNICAMENTE [el elemento específico] dejando absolutamente todo lo demás exactamente igual: luz, fondo, ropa, pose.'},
+  ]},
+  {id:'estilos', label:'🎨 Estilos artísticos', codes:[
+    {c:'/estilo anime', d:'Ilustración estilo anime japonés', p:'/estilo anime — transforma en ilustración anime japonés moderno. Ojos grandes, líneas limpias, colores vibrantes. Mantén los rasgos reconocibles del sujeto.'},
+    {c:'/estilo acuarela', d:'Pintura en acuarela', p:'/estilo acuarela — como una pintura en acuarela artística. Bordes suaves que se difuminan, transparencias, papel texturado visible.'},
+    {c:'/estilo oleo', d:'Pintura al óleo con pinceladas', p:'/estilo oleo — como una pintura al óleo clásica con pinceladas visibles y textura de lienzo. Paleta de colores ricos y profundos.'},
+    {c:'/estilo pixelart', d:'Arte en píxeles retro', p:'/estilo pixelart — convierte en pixel art retro de 16 bits, como un videojuego clásico. Paleta de colores limitada y definida.'},
+    {c:'/estilo cyberpunk', d:'Estética cyberpunk futurista', p:'/estilo cyberpunk — ciudad futurista, neones rosa y azul, lluvia nocturna, tecnología avanzada mezclada con pobreza urbana.'},
+    {c:'/estilo minimalista', d:'Diseño minimalista limpio', p:'/estilo minimalista — representación mínima del sujeto: pocos colores planos, formas geométricas simples, mucho espacio en blanco.'},
+    {c:'/estilo comic', d:'Panel de cómic americano', p:'/estilo comic — como un panel de cómic americano. Tramas de puntos (Ben-Day dots), líneas de acción, globos de diálogo, colores planos y contrastes fuertes.'},
+    {c:'/estilo manga', d:'Ilustración manga japonés', p:'/estilo manga — estilo manga japonés en blanco y negro. Tramas de puntos, líneas expresivas, encuadre dinámico.'},
+    {c:'/estilo vaporwave', d:'Estética vaporwave retro-futurista', p:'/estilo vaporwave — paleta retro de rosas, morados y azules. Rejilla geométrica, estatuas griegas, estética de los 80 digital.'},
+    {c:'/vintage', d:'Aspecto de foto analógica', p:'/vintage — aspecto de foto analógica antigua, con grano de película, tonos desaturados y ligeramente amarillentos, viñeta en los bordes.'},
+    {c:'/sketch', d:'Boceto a lápiz', p:'/sketch — como un boceto a lápiz con sombreado. Líneas de grafito, trazos visibles, fondo blanco de papel.'},
+    {c:'/storybook', d:'Ilustración de libro infantil', p:'/storybook — ilustración de libro de cuentos infantil, colores suaves y acogedores, estilo gouache, personajes expresivos y simpáticos.'},
+    {c:'/claymation', d:'Figuras de plastilina', p:'/claymation — como una figura de plastilina artesanal. Textura de arcilla visible, colores brillantes, imperfecciones adorables.'},
+    {c:'/lowpoly', d:'Polígonos simples estilo 3D geométrico', p:'/lowpoly — representación geométrica con polígonos grandes y visibles. Colores planos por cara, sin texturas. Estilo icono 3D moderno.'},
+    {c:'/doubleexposure', d:'Doble exposición de dos imágenes', p:'/doubleexposure — doble exposición que fusiona el retrato de [sujeto] con una imagen de [paisaje/naturaleza]. Las dos imágenes se superponen de forma artística.'},
+  ]},
+  {id:'tecnico', label:'🔧 Técnico y 3D', codes:[
+    {c:'/explodedview', d:'Vista explosionada técnica con piezas separadas', p:'/explodedview de [el objeto], ilustración técnica 3D sobre fondo blanco puro, piezas separadas y alineadas verticalmente con líneas finas y etiquetas en español. Iluminación de estudio suave.'},
+    {c:'/blueprint', d:'Plano técnico azul con medidas', p:'/blueprint de [el objeto] — plano técnico en azul marino con líneas blancas, medidas, cotas y etiquetas técnicas. Estilo plano de ingeniería profesional.'},
+    {c:'/crosssection', d:'Corte transversal que muestra el interior', p:'/crosssection de [el objeto] — sección transversal que muestra los componentes internos. Materiales diferenciados por color. Estilo manual de ingeniería.'},
+    {c:'/xray', d:'Visión de rayos X del interior', p:'/xray de [el objeto] — como una radiografía real que revela la estructura interna. Fondo negro, elementos internos en azul-blanco translúcido.'},
+    {c:'/anatomy', d:'Diagrama anatómico educativo', p:'/anatomy de [el sujeto] — ilustración educativa con los sistemas internos diferenciados por color y función. Etiquetas en español. Estilo atlas universitario.'},
+    {c:'/wireframe', d:'Solo el mallado de aristas 3D', p:'/wireframe de [el objeto] — render de malla 3D, solo aristas visibles sin relleno. Fondo negro, líneas en verde o azul brillante.'},
+    {c:'/schematic', d:'Diagrama funcional con flechas de flujo', p:'/schematic de [el sistema] — diagrama funcional limpio con flechas que muestran el flujo. Fondo blanco, iconos simples, etiquetas en español.'},
+    {c:'/assemblysteps', d:'Pasos de ensamblaje numerados', p:'/assemblysteps de [el producto] — hoja técnica con 4-5 pasos de ensamblaje. Fondo blanco, flechas de dirección, números de paso, estilo manual IKEA.'},
+    {c:'/isometric3d', d:'Diorama isométrico 3D', p:'/isometric3d de [el objeto/escena] — diorama isométrico 3D detallado, vista a 45 grados, estilo videojuego de estrategia, colores planos.'},
+    {c:'/cutawayview', d:'Corte que revela el interior', p:'/cutawayview de [el objeto] — la carcasa exterior cortada a la mitad revelando todos los componentes internos en su posición real. Estilo catálogo técnico.'},
+    {c:'/ghostlayers', d:'Carcasa translúcida que revela interior', p:'/ghostlayers de [el objeto] — carcasa exterior translúcida como vidrio que permite ver todos los componentes internos en detalle. Efecto "X-ray" suave.'},
+    {c:'/3drender', d:'Render 3D limpio y profesional', p:'/3drender de [el objeto] — render 3D limpio, fondo gris claro degradado, iluminación de tres puntos, materiales PBR realistas. Estilo visualización de producto.'},
+    {c:'/floorplan', d:'Planta arquitectónica', p:'/floorplan de [el espacio] — convierte en plano de planta arquitectónica visto desde arriba. Paredes en negro, espacios en gris claro, etiquetas de habitaciones.'},
+    {c:'/mechanicaldiagram', d:'Dibujo técnico mecánico en blanco y negro', p:'/mechanicaldiagram de [el mecanismo] — dibujo técnico en línea negra sobre fondo blanco. Cotas, tolerancias y nomenclatura técnica en español.'},
+  ]},
+  {id:'efectos', label:'✨ Efectos y atmósfera', codes:[
+    {c:'/lluvia', d:'Lluvia con reflejos en el suelo mojado', p:'/lluvia — añade lluvia cayendo y el suelo mojado con reflejos de luces. Ambiente nocturno urbano, vapor de agua.'},
+    {c:'/nieve', d:'Nieve cayendo en la escena', p:'/nieve — nieve cayendo suavemente, superficies cubiertas de blanco, luz fría de invierno, árboles nevados al fondo.'},
+    {c:'/nieblamisteriosa', d:'Niebla baja y atmosférica', p:'/nieblamisteriosa — niebla baja cubriendo el suelo, visibilidad reducida, atmósfera misteriosa. Luces difuminadas al fondo.'},
+    {c:'/auroraboreal', d:'Aurora boreal en el cielo', p:'/auroraboreal — reemplaza el cielo con una aurora boreal de colores verdes, azules y morados. Cielo nocturno estrellado.'},
+    {c:'/atardecerdramatico', d:'Cielo de atardecer con colores intensos', p:'/atardecerdramatico — cielo dramático de atardecer con nubes naranjas, rojas y moradas. Luz dorada desde el horizonte.'},
+    {c:'/nocheestrellada', d:'Cielo nocturno lleno de estrellas', p:'/nocheestrellada — cielo nocturno despejado con miles de estrellas visibles, Vía Láctea al fondo, luz azul-blanca.'},
+    {c:'/cinematic', d:'Atmósfera de fotograma de película', p:'/cinematic — estética de fotograma cinematográfico: relación de aspecto 2.39:1, grano de película, grading de color profesional.'},
+    {c:'/glitch', d:'Efecto de error digital', p:'/glitch — añade un efecto de fallo digital: líneas de escaneo desplazadas, bloques de píxeles distorsionados, aberración cromática.'},
+    {c:'/longexposure', d:'Efecto de larga exposición con trazos de luz', p:'/longexposure — simula larga exposición fotográfica: rastros de luces de coches, estrellas como arcos, agua sedosa.'},
+    {c:'/doubleexposure', d:'Dos imágenes superpuestas', p:'/doubleexposure del retrato con [un bosque / ciudad / montaña] — superposición artística de dos imágenes, efecto de galería de arte.'},
+    {c:'/steam', d:'Vapor visible que sube', p:'/steam — añade vapor visible que sube del [objeto: café, sopa, tierra mojada]. Luz lateral que hace el vapor dramático.'},
+    {c:'/splash', d:'Splash congelado en el aire', p:'/splash — salpicadura de líquido congelada en el aire, gotas suspendidas. Iluminación de estudio, fondo negro, estilo fotografía de alta velocidad.'},
+  ]},
+  {id:'composicion', label:'📐 Composición y encuadre', codes:[
+    {c:'/planocenital', d:'Vista desde arriba a 90 grados', p:'/planocenital — reencuadra la foto como si fuera tomada desde directamente arriba. Composición de flat lay, elementos bien organizados.'},
+    {c:'/primerplano', d:'Acerca el encuadre a la cara', p:'/primerplano — recorta y acerca el encuadre al rostro. Expresión protagonista, fondo muy desenfocado.'},
+    {c:'/droneview', d:'Vista aérea desde lo alto', p:'/droneview — perspectiva aérea de dron desde gran altura. La persona o el objeto se ve pequeño rodeado de su entorno.'},
+    {c:'/pov', d:'Primera persona, punto de vista', p:'/pov — punto de vista en primera persona, como si tú mismo estuvieras viendo la escena. Manos visibles si aplica.'},
+    {c:'/simetriaperfecta', d:'Composición perfectamente simétrica', p:'/simetriaperfecta — reordena la escena para que quede perfectamente simétrica respecto al eje central. Estilo Wes Anderson.'},
+    {c:'/panning', d:'Fondo con efecto de movimiento, sujeto nítido', p:'/panning — simula técnica de panning: sujeto completamente nítido y fondo con efecto de movimiento horizontal. Sensación de velocidad.'},
+    {c:'/granangular', d:'Lente gran angular, más escena alrededor', p:'/granangular — simula lente gran angular de 24mm. Más espacio visible a los lados, ligera distorsión perspectiva. Escena más épica.'},
+    {c:'/encuadrevertical', d:'Formato vertical para redes sociales', p:'/encuadrevertical — recorta y adapta la imagen a formato vertical 9:16 para Instagram Stories o TikTok, sin perder el elemento principal.'},
+    {c:'/fotodesdedron', d:'Simulación de toma aérea de dron', p:'/fotodesdedron — simula una toma aérea de dron desde 50 metros de altura. La persona en el centro, el entorno visible alrededor.'},
+    {c:'/splitview', d:'Imagen dividida en dos mitades', p:'/splitview — divide la imagen en dos partes comparativas: [antes / después] o [interior / exterior]. Línea vertical al centro.'},
+  ]},
+  {id:'viajes', label:'🌍 Viajes y lugares', codes:[
+    {c:'/setchange tokio', d:'Fondo de Tokio, Japón', p:'/setchange tokio — reemplaza el fondo con una calle de Tokio de noche, con carteles de neón en japonés. Mantén a la persona exactamente igual.'},
+    {c:'/setchange paris', d:'Fondo de París, Francia', p:'/setchange paris — reemplaza el fondo con la Torre Eiffel de fondo en un día soleado de primavera. La persona en el paseo a orillas del Sena.'},
+    {c:'/setchange santorini', d:'Fondo de Santorini, Grecia', p:'/setchange santorini — reemplaza el fondo con las casas blancas y cúpulas azules de Santorini al atardecer. Mantén a la persona igual.'},
+    {c:'/setchange machupicchu', d:'Fondo de Machu Picchu, Perú', p:'/setchange machupicchu — reemplaza el fondo con las ruinas de Machu Picchu entre las nubes de los Andes peruanos. Luz de mañana.'},
+    {c:'/setchange dubai', d:'Fondo de Dubái', p:'/setchange dubai — reemplaza el fondo con el skyline de Dubái de noche, con el Burj Khalifa iluminado. Mantén a la persona igual.'},
+    {c:'/setchange bali', d:'Fondo de Bali, Indonesia', p:'/setchange bali — reemplaza el fondo con un templo balinés rodeado de vegetación tropical y flores. Luz cálida de mediodía.'},
+    {c:'/setchange espacio', d:'Fondo del espacio exterior', p:'/setchange espacio — reemplaza el fondo con el espacio exterior: la Tierra al fondo, estrellas, nebulosas coloridas. La persona en traje astronauta (opcional).'},
+    {c:'/setchange bajodelmar', d:'Fondo submarino', p:'/setchange bajodelmar — reemplaza el fondo con el fondo del océano: corales de colores, peces tropicales, luz azul filtrada desde la superficie.'},
+    {c:'/setchange ciudadfuturista', d:'Ciudad del futuro', p:'/setchange ciudadfuturista — reemplaza el fondo con una metrópoli futurista del año 2150: rascacielos de cristal, autos voladores, luces de neón.'},
+    {c:'/setchange bosqueencantado', d:'Bosque mágico de fantasía', p:'/setchange bosqueencantado — reemplaza el fondo con un bosque mágico: árboles enormes con bioluminiscencia, hongos gigantes, luz mística verde.'},
+  ]},
+  {id:'epocas', label:'📅 Épocas y décadas', codes:[
+    {c:'/decada1920', d:'Ambientación en los años 20', p:'/decada1920 — estética de los años 20: vestimenta art decó, blanco y negro con tono sepia, peinados y objetos de la época. Como una foto real de los 20.'},
+    {c:'/decada1980', d:'Estética de los años 80', p:'/decada1980 — estética de los años 80: colores saturados, flequillo con laca, ropa de colores neón, como una foto de álbum familiar de los 80.'},
+    {c:'/decada1990', d:'Looks y escena de los 90', p:'/decada1990 — estética de los 90: grano de película, colores algo desaturados, ropa de la época. Como una foto real de álbum de los 90.'},
+    {c:'/medieval', d:'Ambientación medieval', p:'/medieval — viste y ambienta la escena en la Edad Media europea. Trajes de época, castillo o aldea de fondo. Iluminación de antorchas.'},
+    {c:'/viejooeste', d:'Ambientación en el viejo oeste', p:'/viejooeste — estética del viejo oeste americano: sombrero de cowboy, pistolera, pueblo polvoriento de fondo. Blanco y negro envejecido.'},
+    {c:'/futuro2050', d:'Estética de futuro cercano 2050', p:'/futuro2050 — cómo se vería esta persona o lugar en el año 2050: tecnología wearable discreta, arquitectura bioclimática, transporte sostenible.'},
+    {c:'/polaroid', d:'Aspecto de foto Polaroid instantánea', p:'/polaroid — dale el aspecto de una foto Polaroid: marco blanco con texto escrito a mano debajo, ligera sobreexposición en el centro, tonos algo desaturados.'},
+    {c:'/victoriana', d:'Época victoriana del siglo XIX', p:'/victoriana — ambientación victoriana del siglo XIX: trajes de época, sala de interior con muebles elaborados. Aspecto de fotografía daguerrotipo antiguo.'},
+  ]},
+  {id:'profesional', label:'💼 Uso profesional', codes:[
+    {c:'/fotolinkedin', d:'Foto de perfil profesional para LinkedIn', p:'/fotolinkedin — foto de perfil profesional para LinkedIn: fondo neutro gris o blanco, luz de estudio suave, expresión seria pero accesible, encuadre busto.'},
+    {c:'/fotocurriculum', d:'Foto formal para currículum', p:'/fotocurriculum — foto formal para currículum: fondo liso azul o blanco, ropa formal, iluminación pareja, encuadre cabeza y hombros. Expresión profesional.'},
+    {c:'/fotoproducto', d:'Foto de catálogo de producto', p:'/fotoproducto — convierte la foto del producto en imagen de catálogo profesional: fondo blanco, luz de estudio, sombra suave, producto perfectamente iluminado.'},
+    {c:'/fotocarnet', d:'Foto tipo carnet o DNI', p:'/fotocarnet — foto tipo carnet: fondo blanco liso, encuadre busto (cabeza + 10 cm de ropa), mirada al frente, expresión neutral. Proporciones estándar.'},
+    {c:'/fotoequipo', d:'Integra a una foto grupal de equipo', p:'/fotoequipo — intégrame de forma natural a esta foto de equipo de trabajo. Mi ropa y expresión deben ser coherentes con el grupo. Mismo estilo de iluminación.'},
+    {c:'/presentacion', d:'Fondo para presentación de diapositivas', p:'/presentacion de [el tema] — imagen de fondo para diapositiva: composición horizontal 16:9, zona izquierda con el elemento principal, zona derecha despejada para texto.'},
+    {c:'/fotoinmobiliaria', d:'Mejora foto de propiedad inmobiliaria', p:'/fotoinmobiliaria — mejora esta foto del piso/casa: corrige la perspectiva, mejora la luz natural, ordena el espacio visualmente. Estilo portal inmobiliario premium.'},
+    {c:'/metaads', d:'Imagen para anuncio de Facebook/Instagram', p:'/metaads — adapta esta imagen para un anuncio de redes sociales: zona despejada para texto en el tercio superior, formato 1:1, colores vivos y llamativos.'},
+  ]},
+  {id:'producto', label:'🛍 Producto y marketing', codes:[
+    {c:'/studiowhite', d:'Fondo blanco de catálogo', p:'/studiowhite — coloca el producto sobre un fondo blanco liso de estudio fotográfico. Iluminación pareja, sin sombras duras.'},
+    {c:'/lifestyle', d:'Producto en escena de vida real', p:'/lifestyle — muestra el producto siendo usado en un contexto real cotidiano: casa, café, exterior. Persona usando el producto de forma natural.'},
+    {c:'/fotoflatlay', d:'Composición cenital con objetos', p:'/fotoflatlay — composición cenital (desde arriba) con el producto rodeado de objetos complementarios. Fondo de madera o mármol, estilo editorial minimalista.'},
+    {c:'/waterdroplets', d:'Gotas de agua frescas en el producto', p:'/waterdroplets — añade gotas de agua frescas y brillantes sobre el producto. Sensación de frescura, iluminación lateral que hace brillar las gotas.'},
+    {c:'/steam', d:'Vapor que sube del producto', p:'/steam — añade vapor visible y sugestivo que sube del producto (ideal para bebidas calientes, comida). Luz lateral dramática.'},
+    {c:'/productburst', d:'Explosión de ingredientes alrededor', p:'/productburst — rodea el producto con una explosión de sus ingredientes o componentes clave: frutas, especias, elementos volando en el aire. Fondo negro.'},
+    {c:'/phonemockup', d:'Pantalla en un móvil', p:'/phonemockup — pon esta pantalla/captura dentro de un smartphone moderno en perspectiva. Mano sosteniendo el teléfono, fondo desenfocado de oficina.'},
+    {c:'/etiqueta', d:'Nuevo diseño de etiqueta sin cambiar el envase', p:'/etiqueta — diseña una nueva etiqueta para este producto, manteniendo exactamente el mismo envase, forma y proporciones. Nuevo diseño: [describe el estilo].'},
+    {c:'/marblesurface', d:'Producto sobre superficie de mármol', p:'/marblesurface — coloca el producto sobre una elegante superficie de mármol blanco con vetas doradas. Luz lateral suave.'},
+  ]},
+  {id:'personas', label:'👤 Personas y mascotas', codes:[
+    {c:'/together', d:'Mezcla dos personas en una foto', p:'/together — combina la foto de [persona 1] y [persona 2] en una misma escena de forma natural, con la misma iluminación y perspectiva para ambas.'},
+    {c:'/outfitchange traje formal', d:'Cambia el vestuario a traje formal', p:'/outfitchange traje formal — cambia la ropa a un traje formal de hombre/mujer de alta calidad. Mantén la cara, peinado y postura exactamente iguales.'},
+    {c:'/outfitchange uniforme medico', d:'Cambia a uniforme médico', p:'/outfitchange uniforme medico — cambia la ropa a un uniforme médico (bata blanca con estetoscopio). Mantén la cara y postura iguales.'},
+    {c:'/agechange joven', d:'Muéstrate más joven', p:'/agechange joven — muéstrame 15 años más joven, con la cara y facciones que tenía a esa edad. Mantén mi misma identidad reconocible.'},
+    {c:'/agechange viejo', d:'Muéstrate más mayor', p:'/agechange viejo — muéstrame 20 años mayor, con arrugas y cabello con canas natural. Mantén mi identidad reconocible.'},
+    {c:'/mimascotahumana', d:'Tu mascota vestida como persona', p:'/mimascotahumana — viste a esta mascota como una persona: ropa humana, postura erguida, expresión seria. Fondo neutro de estudio.'},
+    {c:'/mascotaestiloanime', d:'Mascota convertida en personaje anime', p:'/mascotaestiloanime — convierte a esta mascota en un personaje de anime: ojos grandes expresivos, pelo estilizado, mantiene el color y la raza.'},
+    {c:'/dobleyo', d:'Clónate dos veces en la misma foto', p:'/dobleyo — clóname dos veces en la misma foto en poses distintas, una al lado de la otra. La misma persona dos veces interactuando de forma natural.'},
+    {c:'/poseprofesional', d:'Corrige postura para foto profesional', p:'/poseprofesional — corrige la postura para que sea una foto de perfil profesional: espalda recta, hombros alineados, mirada directa a cámara, expresión segura.'},
+    {c:'/fotocasamiento', d:'Ambientación de boda', p:'/fotocasamiento — ambienta la escena en una boda elegante: fondo de flores blancas, luz cálida de la tarde, decoración floral sutil.'},
+  ]},
+  {id:'formato', label:'📏 Formato y relación', codes:[
+    {c:'/9:16', d:'Formato vertical para Reels/Stories', p:'/9:16 — adapta la imagen a formato vertical 9:16, ideal para Instagram Stories, Reels y TikTok. Mantén el elemento principal visible.'},
+    {c:'/16:9', d:'Formato horizontal para pantalla/YouTube', p:'/16:9 — adapta a formato horizontal 16:9 para YouTube, presentaciones o TV. Rellena los bordes de forma coherente.'},
+    {c:'/1:1', d:'Formato cuadrado para Instagram', p:'/1:1 — recorta a formato cuadrado 1:1 para Instagram. El elemento principal al centro.'},
+    {c:'/4:5', d:'Formato retrato para Instagram feed', p:'/4:5 — formato retrato 4:5 para el feed de Instagram. Máxima área visible en el feed.'},
+    {c:'/encuadrevertical', d:'Reencuadra en formato vertical', p:'/encuadrevertical — reencuadra y amplía la imagen en formato vertical 9:16, generando el contenido que falta arriba/abajo de forma coherente.'},
+    {c:'/erweitern', d:'Amplía la imagen por los lados', p:'/erweitern — amplía la imagen hacia [arriba / los lados / abajo] generando de forma coherente lo que habría en ese espacio. Estilo Generative Fill.'},
+  ]},
+];
+
+const ALL_CODES = CATEGORIES.flatMap(cat => cat.codes);
+
+/* ═══════════ INICIALIZAR ═══════════ */
+
+// Variaciones del /explodedview
+document.getElementById('varCpy').onclick = function(){
+  const idx = document.querySelector('.var-pill.active')?.dataset.var||0;
+  navigator.clipboard.writeText(VARS[idx].prompt).catch(()=>{});
+  this.textContent='¡Copiado!'; setTimeout(()=>this.textContent='Copiar',1800);
+};
+document.querySelectorAll('.var-pill').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.var-pill').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const v = VARS[Number(btn.dataset.var)];
+    document.getElementById('varPrompt').childNodes[0].textContent = v.prompt;
+    document.getElementById('varCpy').onclick = function(){
+      navigator.clipboard.writeText(v.prompt).catch(()=>{});
+      this.textContent='¡Copiado!'; setTimeout(()=>this.textContent='Copiar',1800);
+    };
+  });
+});
+
+// Tarjetas técnicas
+const tc = document.getElementById('techCards');
+TECH_CARDS.forEach(card=>{
+  const d = document.createElement('div');
+  d.style.cssText='background:linear-gradient(135deg,#102238,#0b1b2d);border:1px solid rgba(255,126,179,.15);border-radius:14px;padding:16px';
+  d.innerHTML=`<div style="font-size:22px;margin-bottom:7px">${card.icon}</div>
+<b style="font:700 14px system-ui;color:#ffc8e0;display:block;margin-bottom:5px">${card.code}</b>
+<p style="font-size:12px;color:#9eb8cc;margin:0 0 8px">${card.desc}</p>
+<div style="background:#081728;border:1px solid var(--line);border-radius:8px;padding:10px;font:11.5px/1.5 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;position:relative">${card.prompt}<button style="position:absolute;top:6px;right:6px;font:700 9px system-ui;background:rgba(255,126,179,.13);border:1px solid rgba(255,126,179,.28);color:#ffc8e0;border-radius:4px;padding:2px 6px;cursor:pointer" onclick="navigator.clipboard.writeText(this.previousSibling.textContent.trim()).catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>`;
+  tc.appendChild(d);
+});
+
+// Buscador
+const searchBody = document.getElementById('searchBody');
+const searchInput = document.getElementById('searchInput');
+const searchCount = document.getElementById('searchCount');
+
+function buildSearchTable(filter=''){
+  const q = filter.toLowerCase();
+  const matches = ALL_CODES.filter(c=> !q || c.c.toLowerCase().includes(q) || c.d.toLowerCase().includes(q));
+  searchBody.innerHTML = matches.map(c=>`<tr>
+    <td>${c.c}</td>
+    <td>${c.d}</td>
+    <td>${c.p.slice(0,80)}... <button class="cpy-row" onclick="navigator.clipboard.writeText(${JSON.stringify(c.p)}).catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></td>
+  </tr>`).join('');
+  searchCount.textContent = q ? `${matches.length} resultados para "${filter}"` : `${matches.length} códigos en total`;
+}
+
+searchInput.addEventListener('input', e => buildSearchTable(e.target.value));
+buildSearchTable();
+
+// Categorías con tabs
+const catTabs = document.getElementById('catTabs');
+const catPanels = document.getElementById('catPanels');
+
+CATEGORIES.forEach((cat,i)=>{
+  const btn = document.createElement('button');
+  btn.type='button'; btn.className='cat-tab'+(i===0?' on':'');
+  btn.textContent=cat.label;
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.cat-panel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('cp'+cat.id).classList.add('on');
+  });
+  catTabs.appendChild(btn);
+
+  const panel = document.createElement('div');
+  panel.className='cat-panel'+(i===0?' on':'');
+  panel.id='cp'+cat.id;
+  const rows = cat.codes.map(c=>`<tr>
+    <td>${c.c}</td>
+    <td>${c.d}</td>
+    <td>${c.p.slice(0,90)}... <button class="cpy-row" onclick="navigator.clipboard.writeText(${JSON.stringify(c.p)}).catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></td>
+  </tr>`).join('');
+  panel.innerHTML=`<div style="overflow-x:auto;border:1px solid var(--line);border-radius:14px"><table class="code-table"><thead><tr><th>Código</th><th>Qué hace</th><th>Prompt de ejemplo</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  catPanels.appendChild(panel);
+});
+
+// Combos
+const cg = document.getElementById('comboGrid');
+COMBOS.forEach(combo=>{
+  const d = document.createElement('div');
+  d.className='combo-card';
+  d.innerHTML=`<h4>${combo.title}</h4>
+<p>${combo.desc}</p>
+<div style="font:700 11px 'SFMono-Regular',Consolas,monospace;color:#ff7eb3;background:rgba(255,126,179,.08);border:1px solid rgba(255,126,179,.2);border-radius:7px;padding:5px 10px;margin-bottom:8px">${combo.codes}</div>
+<div style="background:#081728;border:1px solid var(--line);border-radius:9px;padding:11px;font:12px/1.55 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;position:relative">${combo.prompt}<button style="position:absolute;top:7px;right:7px;font:700 10px system-ui;background:rgba(255,126,179,.13);border:1px solid rgba(255,126,179,.28);color:#ffc8e0;border-radius:5px;padding:3px 7px;cursor:pointer" onclick="navigator.clipboard.writeText(${JSON.stringify(combo.prompt)}).catch(()=>{});this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1600)">Copiar</button></div>`;
+  cg.appendChild(d);
+});
+</script>
+</body>
+</html>
