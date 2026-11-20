@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Markdown: el idioma nativo de la IA. Sintaxis completa, instalación de Pandoc y conversión a Word, PDF y HTML con ejemplos universitarios reales.">
+<title>Markdown &amp; Pandoc · ExploraIA</title>
+<style>
+:root{color-scheme:dark;--bg:#07111f;--line:rgba(169,205,237,.17);--txt:#ecf6ff;--muted:#a8bacf;--mint:#67ecd0;--blue:#6dbff7;--violet:#c1a4ff;--yellow:#f8cb80;--red:#ff969c;--orange:#ffaa6e}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:66px}
+body{margin:0;background:radial-gradient(ellipse 55% 18% at 90% 2%,rgba(248,203,128,.12),transparent 70%),radial-gradient(ellipse 30% 20% at 2% 12%,rgba(94,47,148,.14),transparent 80%),var(--bg);color:var(--txt);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,textarea:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+p{margin:0 0 12px}h2,h3{letter-spacing:-.03em}h2{font-size:clamp(22px,3vw,34px);margin:0 0 10px}h3{font-size:19px;margin:0 0 8px}
+
+/* Nav */
+.coursenav{position:sticky;top:0;z-index:10;display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:9px 22px;background:#07111f;border-bottom:1px solid var(--line);font-size:12px;font-weight:700}
+.coursenav a{color:#c9d6e8;border:1px solid var(--line);border-radius:99px;padding:5px 11px;white-space:nowrap}
+.coursenav a[aria-current=page]{background:linear-gradient(110deg,#f8d980,#ffb966);color:#1a0e00;border-color:transparent}
+.coursenav a:hover{color:#fff}
+
+.shell{max-width:1120px;margin:auto;padding:0 22px}
+.section{padding:52px 0;border-top:1px solid var(--line)}
+.sub{color:var(--muted);max-width:720px;margin:0 0 20px;font-size:15px}
+
+/* Hero */
+.hero{padding:56px 0 32px}
+.eyebrow{display:inline-flex;gap:8px;font-size:11px;font-weight:800;color:#f8e09a;border:1px solid rgba(248,203,128,.3);padding:5px 11px;border-radius:99px;background:rgba(248,203,128,.07);letter-spacing:1px;text-transform:uppercase}
+h1{font-size:clamp(32px,5vw,60px);line-height:1.07;letter-spacing:-.05em;margin:14px 0 12px}
+.grad{background:linear-gradient(100deg,#f8d060,#ffb966,#ff7eb3);background-clip:text;-webkit-background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:16px;max-width:680px;margin:0 0 16px}
+.author{font-weight:800;font-size:13px;letter-spacing:.02em;margin:12px 0 0}
+.author span{display:block;font-weight:500;color:var(--muted)}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.pillrow span{font-size:12px;color:#b6cbdd;background:#12243a;border:1px solid var(--line);border-radius:30px;padding:5px 11px}
+
+/* Navstrip */
+.navstrip{display:flex;overflow-x:auto;gap:7px;padding:10px 0 16px;scrollbar-width:thin}
+.navstrip a{white-space:nowrap;color:#c7d4e4;border:1px solid var(--line);border-radius:25px;padding:7px 12px;font-size:12px;font-weight:700}
+.navstrip a:hover{background:#14304e}
+
+/* Code blocks */
+.code{background:#081728;border:1px solid var(--line);border-radius:10px;padding:14px 16px;font:12.5px/1.65 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre-wrap;margin:9px 0;position:relative}
+.code-wrap{position:relative}
+.cpy{position:absolute;top:9px;right:10px;font:700 10px system-ui;background:rgba(109,191,247,.13);border:1px solid rgba(109,191,247,.28);color:#a8dfff;border-radius:5px;padding:3px 8px;cursor:pointer;z-index:2}
+.cpy:hover{background:rgba(109,191,247,.22)}
+
+/* Syntax highlighting helpers */
+.mk-h{color:#f8d060;font-weight:700}
+.mk-b{color:#ffe9a0;font-weight:700}
+.mk-i{color:#ffc8e0;font-style:italic}
+.mk-c{color:#a2ffe8;background:rgba(103,236,208,.1);padding:1px 4px;border-radius:4px}
+.mk-l{color:#9fd3f8}
+.mk-t{color:#c1a4ff}
+.mk-m{color:#ff969c}
+.mk-y{color:#a8bacf;font-style:italic}
+
+/* Notes */
+.note{padding:13px 16px;border-left:3px solid var(--c,var(--yellow));border-radius:0 11px 11px 0;background:rgba(248,203,128,.07);color:#e8d9bc;font-size:13px;margin:12px 0}
+.note.safe{--c:var(--mint);background:rgba(103,236,208,.07);color:#caeadf}
+.note.info{--c:var(--blue);background:rgba(109,191,247,.07);color:#cce5fa}
+.note.warn{--c:var(--orange);background:rgba(255,170,110,.07);color:#f5d7be}
+
+/* Tabs */
+.dtabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 10px}
+.dtab{font:700 12px system-ui;border:1px solid var(--line);background:#102239;color:#cfe0f0;border-radius:8px;padding:8px 13px}
+.dtab.on{background:var(--yellow);color:#1a0e00;border-color:var(--yellow)}
+.dpanel{display:none}.dpanel.on{display:block}
+
+/* Cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:14px}
+.card{background:linear-gradient(135deg,#102238,#0b1b2d);border:1px solid var(--line);border-radius:15px;padding:17px}
+.card h4{color:#f8d060;margin:0 0 7px;font-size:14px}
+.card p{font-size:13px;color:#b8cfe0;margin:0}
+
+/* Markdown syntax table */
+.syn-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+.syn-table th{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#f8d060;background:#0a1e32}
+.syn-table td{padding:9px 12px;border-bottom:1px solid rgba(169,205,237,.07);vertical-align:top}
+.syn-table tr:last-child td{border-bottom:0}
+.syn-table td:first-child{font:12.5px/1.6 'SFMono-Regular',Consolas,monospace;color:#bbe5ff;white-space:pre;width:42%}
+.syn-table td:last-child{color:#c6d7e5}
+
+/* Live editor */
+.editor-wrap{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:14px;min-height:460px}
+.editor-pane{display:flex;flex-direction:column}
+.editor-header{padding:9px 14px;background:#0a1e32;border-bottom:1px solid var(--line);font:700 11px system-ui;letter-spacing:.5px;text-transform:uppercase;display:flex;align-items:center;justify-content:space-between}
+.editor-header span{color:#f8d060}
+#mdInput{flex:1;background:#081728;border:0;color:#bbe5ff;padding:14px;font:13px/1.6 'SFMono-Regular',Consolas,monospace;resize:none;outline:none;min-height:420px}
+.preview-pane{border-left:1px solid var(--line)}
+#mdPreview{flex:1;padding:18px;overflow-y:auto;font-size:14px;line-height:1.65;color:#ecf6ff;min-height:420px}
+
+/* Preview rendered styles */
+#mdPreview h1{font-size:1.6em;margin:.6em 0 .3em;color:#f8d060;border-bottom:1px solid var(--line);padding-bottom:.3em}
+#mdPreview h2{font-size:1.3em;margin:.7em 0 .3em;color:#a2ffe8}
+#mdPreview h3{font-size:1.1em;margin:.6em 0 .2em;color:#9fd3f8}
+#mdPreview strong{color:#ffe9a0}
+#mdPreview em{color:#ffc8e0}
+#mdPreview code{background:#0a1e32;border:1px solid var(--line);padding:1px 5px;border-radius:4px;font-family:'SFMono-Regular',Consolas,monospace;font-size:.9em;color:#a2ffe8}
+#mdPreview pre{background:#0a1e32;border:1px solid var(--line);border-radius:9px;padding:12px;overflow-x:auto}
+#mdPreview pre code{background:0;border:0;padding:0;color:#bbe5ff}
+#mdPreview table{border-collapse:collapse;width:100%;font-size:.9em;margin:10px 0}
+#mdPreview th{background:#0a1e32;padding:7px 10px;border:1px solid var(--line);color:#f8d060;text-align:left}
+#mdPreview td{padding:6px 10px;border:1px solid rgba(169,205,237,.12);color:#c6d7e5}
+#mdPreview tr:nth-child(even) td{background:rgba(10,30,50,.5)}
+#mdPreview ul,#mdPreview ol{padding-left:20px;margin:.5em 0}
+#mdPreview li{margin:3px 0;color:#c6d7e5}
+#mdPreview blockquote{border-left:3px solid var(--yellow);margin:10px 0;padding:6px 14px;background:rgba(248,203,128,.06);color:#e8d9bc}
+#mdPreview hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+#mdPreview p{margin:.5em 0}
+.yaml-block{background:#0a1e32;border:1px solid rgba(248,203,128,.3);border-radius:9px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#a8bacf}
+.yaml-block b{color:#f8d060;display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+
+/* Pandoc steps */
+.step-list{display:flex;flex-direction:column;gap:11px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step-n{width:30px;height:30px;border-radius:9px;background:rgba(248,203,128,.18);color:#f8d060;font-weight:900;font-size:14px;display:grid;place-items:center;flex-shrink:0;margin-top:2px}
+.step b{font-size:13px;display:block;margin-bottom:3px;color:#ecf6ff}
+.step p{font-size:12px;color:#9eb8cc;margin:0}
+
+/* Install tabs */
+.inst-panel{display:none}.inst-panel.on{display:block}
+
+/* Convert table */
+.conv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:14px}
+.conv-card{background:linear-gradient(135deg,#102238,#0b1b2d);border:1px solid var(--line);border-radius:14px;padding:16px}
+.conv-card h4{margin:0 0 7px;font-size:14px;display:flex;align-items:center;gap:8px}
+.conv-card .code{margin:8px 0 0;font-size:11.5px}
+
+/* Badge */
+.badge{display:inline-block;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:800}
+.badge.oss{background:rgba(193,164,255,.12);color:#e0d4ff;border:1px solid rgba(193,164,255,.3)}
+.badge.free{background:rgba(103,236,208,.13);color:#a2ffe8;border:1px solid rgba(103,236,208,.3)}
+
+/* RCTFR anatomy */
+.rctfr{background:linear-gradient(135deg,#0d2237,#0d1b2b);border:1px solid rgba(248,203,128,.22);border-radius:18px;padding:22px;margin-top:14px}
+.rctfr-row{display:flex;align-items:flex-start;gap:13px;padding:11px 0;border-bottom:1px solid rgba(169,205,237,.07)}
+.rctfr-row:last-child{border-bottom:0}
+.rctfr-let{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:900;font-size:16px;flex-shrink:0}
+.rctfr-row h5{font-size:13px;margin:0 0 3px;color:#ecf6ff}
+.rctfr-row p{font-size:12px;color:#9eb8cc;margin:0}
+
+/* Document showcase */
+.doc-showcase{background:linear-gradient(135deg,#0d1a0d,#0d2007);border:1px solid rgba(103,236,208,.2);border-radius:18px;overflow:hidden;margin-top:14px}
+.doc-tabs{display:flex;border-bottom:1px solid var(--line)}
+.doc-tab{padding:10px 16px;font:700 12px system-ui;cursor:pointer;color:#9eb8cc;border:0;background:0;border-bottom:2px solid transparent}
+.doc-tab.on{color:#a2ffe8;border-bottom-color:var(--mint)}
+.doc-tab-panel{display:none;padding:20px}
+.doc-tab-panel.on{display:block}
+.doc-rendered{font-size:14px;line-height:1.65;color:#ecf6ff;max-width:720px}
+.doc-rendered h1{font-size:1.5em;margin:.5em 0 .3em;color:#f8d060;border-bottom:1px solid var(--line);padding-bottom:.3em}
+.doc-rendered h2{font-size:1.2em;margin:.7em 0 .2em;color:#a2ffe8}
+.doc-rendered h3{font-size:1.05em;margin:.6em 0 .2em;color:#9fd3f8}
+.doc-rendered strong{color:#ffe9a0}
+.doc-rendered table{border-collapse:collapse;width:100%;font-size:.85em;margin:10px 0}
+.doc-rendered th{background:#0a1e32;padding:8px 10px;border:1px solid var(--line);color:#f8d060;text-align:left}
+.doc-rendered td{padding:7px 10px;border:1px solid rgba(169,205,237,.12);color:#c6d7e5}
+.doc-rendered tr:nth-child(even) td{background:rgba(10,30,50,.5)}
+.doc-rendered ul,.doc-rendered ol{padding-left:20px;margin:.5em 0}
+.doc-rendered li{margin:4px 0;color:#c6d7e5}
+.doc-rendered p{margin:.5em 0}
+.doc-rendered .yaml-front{background:#0a1e32;border:1px solid rgba(248,203,128,.3);border-radius:8px;padding:12px;font:12px/1.5 'SFMono-Regular',Consolas,monospace;color:#a8bacf;margin-bottom:14px}
+.doc-rendered .yaml-front b{color:#f8d060;display:block;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+
+/* Footer */
+.footer{margin-top:44px;padding:30px 0 44px;border-top:1px solid var(--line);color:#91a6bc;font-size:12px}
+
+@media(max-width:820px){.editor-wrap{grid-template-columns:1fr}.preview-pane{border-left:0;border-top:1px solid var(--line)}}
+@media(max-width:600px){.shell{padding:0 15px}.coursenav{padding:9px 15px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="coursenav" aria-label="Sitio">
+<a href="index.html">Inicio</a>
+<a href="historia.html">Historia</a>
+<a href="aprende.html">Aprende IA</a>
+<a href="prompts.html">Arte del Prompt</a>
+<a href="agentes.html">Agentes de Código</a>
+<a href="markdown.html" aria-current="page">Markdown &amp; Pandoc</a>
+<a href="gestion.html">Gestión universitaria</a>
+<a href="directorio.html">Directorio</a>
+</nav>
+
+<main class="shell">
+
+<!-- HERO -->
+<section class="hero">
+<span class="eyebrow">✦ Módulo · Markdown &amp; Pandoc</span>
+<h1>El idioma nativo<br><span class="grad">de la IA.</span></h1>
+<p class="lead">Cuando le pides a un agente de IA que redacte un informe, un silabo o un acta, responde en Markdown. Aprender a leerlo, editarlo y convertirlo a Word o PDF con Pandoc es la habilidad que completa el flujo de trabajo.</p>
+<p class="author">ING. GREGORIO BAUTISTA OBLITAS<span>Maestro en Inteligencia Artificial</span></p>
+<div class="pillrow">
+<span>📝 Sintaxis interactiva</span>
+<span>⚙ Instalación de Pandoc</span>
+<span>📄 Word · PDF · HTML</span>
+<span>🔬 Marco R-C-T-F-R en Markdown</span>
+<span>📋 Documento real de ejemplo</span>
+</div>
+</section>
+
+<nav class="navstrip" aria-label="Secciones">
+<a href="#que-es">📝 ¿Qué es Markdown?</a>
+<a href="#sintaxis">🔤 Sintaxis completa</a>
+<a href="#editor">▶ Editor en vivo</a>
+<a href="#pandoc">⚙ Pandoc</a>
+<a href="#conversiones">📄 Conversiones</a>
+<a href="#rctfr">🔬 R-C-T-F-R en Markdown</a>
+<a href="#ejemplo">📋 Documento real</a>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════
+     01 · ¿QUÉ ES MARKDOWN?
+══════════════════════════════════════════════════════ -->
+<section class="section" id="que-es" aria-labelledby="qeh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">01 · ¿Qué es Markdown?</span>
+<h2 id="qeh">Texto plano con superpoderes</h2>
+<p class="sub">Markdown es un lenguaje de marcado ligero creado en 2004 por John Gruber. Permite escribir texto con formato usando caracteres simples — sin botones, sin menús, sin ratón.</p>
+
+<div class="card-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+  <div class="card">
+    <h4>✍ Texto plano</h4>
+    <p>Un archivo Markdown es texto puro (.md). Funciona en cualquier editor, sistema operativo y se puede leer perfectamente incluso sin renderizar.</p>
+  </div>
+  <div class="card">
+    <h4>🤖 Idioma de la IA</h4>
+    <p>Los modelos de lenguaje (GPT, Claude, Gemini) fueron entrenados con millones de documentos en Markdown. Por eso lo usan por defecto al generar contenido estructurado.</p>
+  </div>
+  <div class="card">
+    <h4>⚡ Convierte a todo</h4>
+    <p>Un mismo archivo .md puede convertirse a Word, PDF, HTML, PowerPoint, EPUB y más formatos con Pandoc, sin perder la estructura.</p>
+  </div>
+  <div class="card">
+    <h4>📂 El estándar de facto</h4>
+    <p>GitHub, Notion, Obsidian, Confluence, Reddit, Discord y prácticamente toda plataforma tecnológica usa Markdown como formato nativo.</p>
+  </div>
+</div>
+
+<div class="note info" style="margin-top:16px"><b>🔑 La conexión con la IA:</b> Cuando usas el marco R-C-T-F-R y pides al agente "formato Markdown", obtienes un documento estructurado listo para convertir a Word con un solo comando de Pandoc. Eso es lo que aprenderás en este módulo.</div>
+
+<h3 style="margin-top:24px">¿Por qué no escribir directamente en Word?</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+  <div style="background:#102238;border:1px solid rgba(255,150,156,.2);border-radius:13px;padding:16px">
+    <h4 style="color:#ffd5d8;font-size:14px;margin:0 0 8px">❌ Flujo tradicional</h4>
+    <ol style="font-size:13px;color:#c6d7e5;padding-left:16px;margin:0">
+      <li style="margin:5px 0">Pides al agente que redacte</li>
+      <li style="margin:5px 0">La IA responde en texto con formato visual</li>
+      <li style="margin:5px 0">Copias a Word → el formato se rompe</li>
+      <li style="margin:5px 0">Pasas 20 minutos arreglando estilos y sangrías</li>
+      <li style="margin:5px 0">Repites el proceso si cambias algo</li>
+    </ol>
+  </div>
+  <div style="background:#102238;border:1px solid rgba(103,236,208,.2);border-radius:13px;padding:16px">
+    <h4 style="color:#a2ffe8;font-size:14px;margin:0 0 8px">✅ Flujo con Markdown + Pandoc</h4>
+    <ol style="font-size:13px;color:#c6d7e5;padding-left:16px;margin:0">
+      <li style="margin:5px 0">Pides al agente "responde en Markdown"</li>
+      <li style="margin:5px 0">La IA responde con formato perfecto</li>
+      <li style="margin:5px 0">Guardas como <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">documento.md</code></li>
+      <li style="margin:5px 0">Ejecutas un comando Pandoc</li>
+      <li style="margin:5px 0">Tienes el .docx con estilos correctos en segundos</li>
+    </ol>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     02 · SINTAXIS COMPLETA
+══════════════════════════════════════════════════════ -->
+<section class="section" id="sintaxis" aria-labelledby="sinh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">02 · Sintaxis completa</span>
+<h2 id="sinh">Todo lo que necesitas saber</h2>
+<p class="sub">Markdown tiene menos de 20 elementos. Con estos dominas el 95 % de los documentos que genera la IA.</p>
+
+<div class="dtabs" id="synTabs">
+  <button type="button" class="dtab on" data-syn="0">📌 Básico</button>
+  <button type="button" class="dtab" data-syn="1">📋 Listas</button>
+  <button type="button" class="dtab" data-syn="2">📊 Tablas</button>
+  <button type="button" class="dtab" data-syn="3">💻 Código</button>
+  <button type="button" class="dtab" data-syn="4">🗂 Front Matter</button>
+</div>
+
+<div class="syn-panel on" id="syn0">
+<table class="syn-table">
+<thead><tr><th>Escribes en Markdown</th><th>Resultado renderizado</th></tr></thead>
+<tbody>
+<tr><td><span class="mk-h"># Título principal</span></td><td><b style="color:#f8d060;font-size:1.3em">Título principal</b> (H1)</td></tr>
+<tr><td><span class="mk-h">## Sección</span></td><td><b style="color:#a2ffe8;font-size:1.1em">Sección</b> (H2)</td></tr>
+<tr><td><span class="mk-h">### Subsección</span></td><td><b style="color:#9fd3f8">Subsección</b> (H3)</td></tr>
+<tr><td><span class="mk-b">**texto en negrita**</span></td><td><b>texto en negrita</b></td></tr>
+<tr><td><span class="mk-i">*texto en cursiva*</span></td><td><i>texto en cursiva</i></td></tr>
+<tr><td><span class="mk-b">**<span class="mk-i">*negrita y cursiva*</span>**</span></td><td><b><i>negrita y cursiva</i></b></td></tr>
+<tr><td><span class="mk-m">~~texto tachado~~</span></td><td><s>texto tachado</s></td></tr>
+<tr><td><span class="mk-c">`código inline`</span></td><td><code style="background:#0a1e32;padding:1px 5px;border-radius:4px;color:#a2ffe8">código inline</code></td></tr>
+<tr><td><span class="mk-l">[texto del enlace](https://url.com)</span></td><td><span style="color:#6dbff7;text-decoration:underline">texto del enlace</span></td></tr>
+<tr><td><span class="mk-m">![alt text](imagen.png)</span></td><td>🖼 imagen incrustada</td></tr>
+<tr><td><span class="mk-h">---</span> (tres guiones solos)</td><td><hr style="border-color:var(--line);margin:4px 0"></td></tr>
+<tr><td><span class="mk-y">&gt; Cita o nota importante</span></td><td style="border-left:3px solid var(--yellow);padding-left:10px;color:#e8d9bc">Cita o nota importante</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="syn-panel" id="syn1">
+<table class="syn-table">
+<thead><tr><th>Escribes en Markdown</th><th>Resultado</th></tr></thead>
+<tbody>
+<tr><td><span class="mk-l">- Elemento A
+- Elemento B
+- Elemento C</span></td><td>• Elemento A<br>• Elemento B<br>• Elemento C (lista no ordenada)</td></tr>
+<tr><td><span class="mk-l">1. Primer paso
+2. Segundo paso
+3. Tercer paso</span></td><td>1. Primer paso<br>2. Segundo paso<br>3. Tercer paso (lista ordenada)</td></tr>
+<tr><td><span class="mk-l">- Categoría A
+  - Subcategoría 1
+  - Subcategoría 2
+- Categoría B</span></td><td>Lista anidada con dos niveles de jerarquía</td></tr>
+<tr><td><span class="mk-l">- [x] Tarea completada
+- [ ] Tarea pendiente
+- [ ] Otra tarea</span></td><td>☑ Tarea completada<br>☐ Tarea pendiente<br>☐ Otra tarea (lista de verificación)</td></tr>
+</tbody>
+</table>
+<div class="note info" style="margin-top:10px;font-size:12px"><b>💡 Tip:</b> Para listas anidadas, usa exactamente <b>2 espacios</b> de indentación antes del guion del subnivel. Pandoc respeta esta jerarquía al convertir a Word.</div>
+</div>
+
+<div class="syn-panel" id="syn2">
+<div class="code-wrap"><div class="code">| Columna 1   | Columna 2   | Columna 3   |
+| :---------- | :---------: | ----------: |
+| Izquierda   | Centrado    | Derecha     |
+| Dato A      | Dato B      | Dato C      |</div><button class="cpy" data-copy="| Columna 1   | Columna 2   | Columna 3   |&#10;| :---------- | :---------: | ----------: |&#10;| Izquierda   | Centrado    | Derecha     |&#10;| Dato A      | Dato B      | Dato C      |">Copiar</button></div>
+<div style="margin-top:12px;overflow-x:auto">
+<table style="border-collapse:collapse;font-size:13px;width:100%;max-width:500px">
+<thead><tr><th style="background:#0a1e32;padding:8px 12px;border:1px solid var(--line);color:#f8d060;text-align:left">Columna 1</th><th style="background:#0a1e32;padding:8px 12px;border:1px solid var(--line);color:#f8d060;text-align:center">Columna 2</th><th style="background:#0a1e32;padding:8px 12px;border:1px solid var(--line);color:#f8d060;text-align:right">Columna 3</th></tr></thead>
+<tbody><tr><td style="padding:7px 12px;border:1px solid rgba(169,205,237,.12)">Izquierda</td><td style="padding:7px 12px;border:1px solid rgba(169,205,237,.12);text-align:center">Centrado</td><td style="padding:7px 12px;border:1px solid rgba(169,205,237,.12);text-align:right">Derecha</td></tr>
+<tr><td style="padding:7px 12px;border:1px solid rgba(169,205,237,.12);background:rgba(10,30,50,.5)">Dato A</td><td style="padding:7px 12px;border:1px solid rgba(169,205,237,.12);text-align:center;background:rgba(10,30,50,.5)">Dato B</td><td style="padding:7px 12px;border:1px solid rgba(169,205,237,.12);text-align:right;background:rgba(10,30,50,.5)">Dato C</td></tr></tbody>
+</table></div>
+<p style="font-size:12px;color:var(--muted);margin-top:8px"><b style="color:#9fd3f8">Alineación:</b> <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">:---</code> = izquierda · <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">:---:</code> = centrado · <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">---:</code> = derecha</p>
+<div class="note info" style="font-size:12px"><b>💡 Tip:</b> Pandoc convierte perfectamente las tablas Markdown a tablas Word con formatos de celda, bordes y alineaciones. Las tablas son uno de los elementos más útiles para informes y cronogramas.</div>
+</div>
+
+<div class="syn-panel" id="syn3">
+<div class="code-wrap"><div class="code"><span class="mk-c">`código de una línea`</span>
+
+<span class="mk-c">```python</span>
+<span style="color:#9fd3f8">def</span> <span style="color:#a2ffe8">calcular_promedio</span>(notas):
+    <span style="color:#9fd3f8">return</span> sum(notas) / len(notas)
+
+notas = [<span style="color:#f8d060">14</span>, <span style="color:#f8d060">16</span>, <span style="color:#f8d060">18</span>, <span style="color:#f8d060">12</span>]
+print(calcular_promedio(notas))  <span class="mk-y"># → 15.0</span>
+<span class="mk-c">```</span></div></div>
+<div class="note info" style="font-size:12px"><b>Lenguajes disponibles:</b> después de las tres comillas puedes especificar el lenguaje para resaltado de sintaxis: <code style="font-size:11px">python</code>, <code style="font-size:11px">javascript</code>, <code style="font-size:11px">bash</code>, <code style="font-size:11px">sql</code>, <code style="font-size:11px">json</code>, <code style="font-size:11px">html</code>, <code style="font-size:11px">css</code> y más. Pandoc lo convierte a código con colores en HTML y como bloque de texto monoespaciado en Word.</div>
+</div>
+
+<div class="syn-panel" id="syn4">
+<p style="font-size:14px;color:#c6d7e5;margin-bottom:12px">El <b style="color:#f8d060">YAML Front Matter</b> es el encabezado de metadatos de un documento Markdown. Va entre tres guiones <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">---</code> al inicio del archivo. Pandoc lo usa para el título, autor, fecha y opciones de formato del documento final.</p>
+<div class="code-wrap"><div class="code"><span class="mk-y">---</span>
+<span class="mk-h">title</span>: <span style="color:#ffe9a0">"Informe de Gestión — Semestre 2026-I"</span>
+<span class="mk-h">author</span>: <span style="color:#ffe9a0">"Gregorio Bautista Oblitas"</span>
+<span class="mk-h">date</span>: <span style="color:#ffe9a0">"20 de noviembre de 2026"</span>
+<span class="mk-h">lang</span>: <span style="color:#ffe9a0">"es"</span>
+<span class="mk-h">toc</span>: <span style="color:#9fd3f8">true</span>          <span class="mk-y"># tabla de contenidos automática</span>
+<span class="mk-h">toc-title</span>: <span style="color:#ffe9a0">"Contenido"</span>
+<span class="mk-h">geometry</span>: <span style="color:#ffe9a0">"margin=2.5cm"</span>  <span class="mk-y"># márgenes del PDF</span>
+<span class="mk-y">---</span>
+
+<span class="mk-h"># 1. Resumen ejecutivo</span>
+
+Texto del documento aquí...</div><button class="cpy" data-copy="---&#10;title: &quot;Informe de Gestión — Semestre 2026-I&quot;&#10;author: &quot;Gregorio Bautista Oblitas&quot;&#10;date: &quot;20 de noviembre de 2026&quot;&#10;lang: &quot;es&quot;&#10;toc: true&#10;toc-title: &quot;Contenido&quot;&#10;geometry: &quot;margin=2.5cm&quot;&#10;---&#10;&#10;# 1. Resumen ejecutivo&#10;&#10;Texto del documento aquí...">Copiar</button></div>
+<div class="note safe" style="font-size:12px"><b>✓ Pandoc lee el Front Matter automáticamente</b> y lo convierte en la portada del Word o en los metadatos del PDF, con título centrado, autor y fecha en el formato que espera cada plantilla corporativa.</div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     03 · EDITOR EN VIVO
+══════════════════════════════════════════════════════ -->
+<section class="section" id="editor" aria-labelledby="edh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">03 · Editor en vivo</span>
+<h2 id="edh">Escribe Markdown, ve el resultado</h2>
+<p class="sub">Edita en el panel izquierdo y verás el resultado renderizado al instante en el panel derecho. Prueba la sintaxis antes de enviarla al agente.</p>
+<div class="editor-wrap">
+  <div class="editor-pane">
+    <div class="editor-header"><span>✏ Markdown (editable)</span><button class="cpy" style="position:static;padding:4px 9px" id="edCopy">Copiar</button></div>
+    <textarea id="mdInput" spellcheck="false" aria-label="Editor Markdown"></textarea>
+  </div>
+  <div class="editor-pane preview-pane">
+    <div class="editor-header"><span>👁 Vista previa renderizada</span></div>
+    <div id="mdPreview" aria-live="polite"></div>
+  </div>
+</div>
+<p style="font-size:12px;color:var(--muted);margin-top:7px">💡 El renderizado es en tiempo real. Para convertir a Word o PDF real, usa Pandoc (sección siguiente).</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     04 · PANDOC: INSTALACIÓN
+══════════════════════════════════════════════════════ -->
+<section class="section" id="pandoc" aria-labelledby="panh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">04 · Pandoc</span>
+<h2 id="panh">El conversor universal de documentos</h2>
+<p class="sub">Pandoc convierte entre más de 50 formatos de documentos. Es gratuito, open source y corre desde la terminal con un comando. Una vez instalado, conviertes Markdown a Word en 2 segundos.</p>
+
+<div class="dtabs" id="instTabs">
+  <button type="button" class="dtab on" data-inst="0">🪟 Windows</button>
+  <button type="button" class="dtab" data-inst="1">🍎 macOS</button>
+  <button type="button" class="dtab" data-inst="2">🐧 Linux</button>
+</div>
+
+<div class="inst-panel on" id="inst0">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div>
+      <h3 style="font-size:16px;color:#f8d060;margin-bottom:14px">Instalación en Windows</h3>
+      <div class="step-list">
+        <div class="step"><span class="step-n">1</span><div>
+          <b>Método 1: Instalador oficial (recomendado)</b>
+          <p>Ve a <a href="https://pandoc.org/installing.html" style="color:var(--blue)" target="_blank" rel="noopener">pandoc.org/installing.html</a> → descarga el instalador <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">pandoc-X.X-windows-x86_64.msi</code> → ejecútalo → Next → Finish.</p>
+        </div></div>
+        <div class="step"><span class="step-n">2</span><div>
+          <b>Método 2: winget (si tienes Windows 11+)</b>
+          <div class="code" style="margin:5px 0 0;font-size:11.5px">winget install JohnMacFarlane.Pandoc</div>
+        </div></div>
+        <div class="step"><span class="step-n">3</span><div>
+          <b>Verifica la instalación</b>
+          <p>Abre PowerShell o CMD y escribe:</p>
+          <div class="code" style="margin:5px 0 0;font-size:11.5px">pandoc --version
+# Deberías ver: pandoc X.X.X</div>
+        </div></div>
+        <div class="step"><span class="step-n">4</span><div>
+          <b>Para generar PDF instala también MiKTeX (opcional)</b>
+          <p>Descarga desde <a href="https://miktex.org/download" style="color:var(--blue)" target="_blank" rel="noopener">miktex.org/download</a>. Solo necesario para PDF. Para Word (.docx) no hace falta.</p>
+        </div></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size:16px;color:#f8d060;margin-bottom:14px">Tu primer documento Word</h3>
+      <div class="step-list">
+        <div class="step"><span class="step-n" style="background:rgba(103,236,208,.18);color:#a2ffe8">A</span><div>
+          <b>Crea un archivo .md</b>
+          <p>Abre el Bloc de notas (o VS Code), pega el Markdown que generó la IA y guárdalo como <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">mi_documento.md</code></p>
+        </div></div>
+        <div class="step"><span class="step-n" style="background:rgba(103,236,208,.18);color:#a2ffe8">B</span><div>
+          <b>Abre PowerShell en esa carpeta</b>
+          <p>En el Explorador de Windows, navega a la carpeta del archivo → mantén pulsado <kbd>Shift</kbd> + clic derecho → "Abrir ventana de PowerShell aquí"</p>
+        </div></div>
+        <div class="step"><span class="step-n" style="background:rgba(103,236,208,.18);color:#a2ffe8">C</span><div>
+          <b>Ejecuta Pandoc</b>
+          <div class="code" style="margin:5px 0 0;font-size:11.5px">pandoc mi_documento.md -o mi_documento.docx</div>
+          <p style="margin-top:4px">En segundos aparece <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">mi_documento.docx</code> en la misma carpeta.</p>
+        </div></div>
+      </div>
+      <div class="note safe" style="margin-top:14px;font-size:12px"><span class="badge free">Gratis</span> <span class="badge oss">Open Source</span> Pandoc es completamente gratuito y open source. No requiere registro ni suscripción.</div>
+    </div>
+  </div>
+</div>
+
+<div class="inst-panel" id="inst1">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div>
+      <h3 style="font-size:16px;color:#f8d060;margin-bottom:14px">Instalación en macOS</h3>
+      <div class="step-list">
+        <div class="step"><span class="step-n">1</span><div>
+          <b>Método 1: Homebrew (recomendado)</b>
+          <p>Si ya tienes Homebrew, es un solo comando:</p>
+          <div class="code" style="margin:5px 0 0;font-size:11.5px">brew install pandoc</div>
+        </div></div>
+        <div class="step"><span class="step-n">2</span><div>
+          <b>Instalar Homebrew si no lo tienes</b>
+          <div class="code" style="margin:5px 0 0;font-size:11.5px">/bin/bash -c "$(curl -fsSL \
+  https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</div>
+        </div></div>
+        <div class="step"><span class="step-n">3</span><div>
+          <b>Método 2: Instalador .pkg</b>
+          <p>Descarga el <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">pandoc-X.X-macOS.pkg</code> desde pandoc.org/installing.html y ejecútalo.</p>
+        </div></div>
+        <div class="step"><span class="step-n">4</span><div>
+          <b>Para PDF en macOS</b>
+          <div class="code" style="margin:5px 0 0;font-size:11.5px">brew install --cask basictex
+# Luego cierra y abre la Terminal</div>
+        </div></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size:16px;color:#f8d060;margin-bottom:14px">Verificar e iniciar</h3>
+      <div class="code" style="font-size:11.5px"># Verifica la instalación
+pandoc --version
+
+# Convierte Markdown a Word
+pandoc documento.md -o documento.docx
+
+# Convierte a PDF
+pandoc documento.md -o documento.pdf
+
+# Convierte a HTML
+pandoc documento.md -o documento.html</div>
+    </div>
+  </div>
+</div>
+
+<div class="inst-panel" id="inst2">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div>
+      <h3 style="font-size:16px;color:#f8d060;margin-bottom:14px">Instalación en Linux</h3>
+      <div class="code" style="font-size:11.5px"># Ubuntu / Debian
+sudo apt update && sudo apt install pandoc
+
+# Arch / Manjaro
+sudo pacman -S pandoc
+
+# Fedora / RHEL
+sudo dnf install pandoc
+
+# Para versión más reciente (cualquier distro)
+wget https://github.com/jgm/pandoc/releases/download/\
+3.6.4/pandoc-3.6.4-linux-amd64.tar.gz
+tar -xvzf pandoc-3.6.4-linux-amd64.tar.gz
+sudo mv pandoc-3.6.4/bin/pandoc /usr/local/bin/
+
+# Para PDF en Linux
+sudo apt install texlive-xetex texlive-lang-spanish</div>
+    </div>
+    <div>
+      <h3 style="font-size:16px;color:#f8d060;margin-bottom:14px">Verifica e inicia</h3>
+      <div class="code" style="font-size:11.5px"># Verifica la instalación
+pandoc --version
+
+# Convierte a Word
+pandoc mi_doc.md -o mi_doc.docx
+
+# Convierte a PDF con XeLaTeX (mejor para español)
+pandoc mi_doc.md \
+  --pdf-engine=xelatex \
+  -V mainfont="DejaVu Serif" \
+  -o mi_doc.pdf</div>
+      <div class="note info" style="font-size:12px"><b>En servidores:</b> Pandoc funciona perfectamente en entornos sin interfaz gráfica. Ideal para automatizar la generación de documentos en pipelines CI/CD.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     05 · CONVERSIONES
+══════════════════════════════════════════════════════ -->
+<section class="section" id="conversiones" aria-labelledby="conh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">05 · Conversiones</span>
+<h2 id="conh">De Markdown a cualquier formato</h2>
+<p class="sub">Un documento Markdown bien escrito se convierte a cualquier formato con un solo comando. Aquí los más útiles para la gestión universitaria.</p>
+
+<div class="conv-grid">
+
+  <div class="conv-card" style="border-color:rgba(103,236,208,.25)">
+    <h4><span style="font-size:20px">📄</span> <span style="color:#a2ffe8">Word (.docx)</span></h4>
+    <p style="font-size:12px;color:#9eb8cc;margin:0 0 4px">El más usado en universidades. Mantiene todos los estilos, tablas, listas y headings de forma perfecta.</p>
+    <div class="code-wrap"><div class="code" style="font-size:11px"># Conversión básica
+pandoc doc.md -o doc.docx
+
+# Con plantilla corporativa
+pandoc doc.md \
+  --reference-doc=plantilla_uni.docx \
+  -o doc.docx
+
+# Con tabla de contenidos automática
+pandoc doc.md \
+  --toc --toc-depth=3 \
+  -o doc.docx</div><button class="cpy" data-copy="pandoc doc.md -o doc.docx">Copiar</button></div>
+  </div>
+
+  <div class="conv-card" style="border-color:rgba(255,150,156,.25)">
+    <h4><span style="font-size:20px">📕</span> <span style="color:#ffd5d8">PDF</span></h4>
+    <p style="font-size:12px;color:#9eb8cc;margin:0 0 4px">PDF de alta calidad, ideal para documentos formales, informes y certificados. Requiere LaTeX instalado.</p>
+    <div class="code-wrap"><div class="code" style="font-size:11px"># PDF estándar
+pandoc doc.md -o doc.pdf
+
+# PDF con XeLaTeX (mejor para español)
+pandoc doc.md \
+  --pdf-engine=xelatex \
+  -V lang=es \
+  -V geometry:margin=2.5cm \
+  -o doc.pdf
+
+# PDF con fuente personalizada
+pandoc doc.md \
+  --pdf-engine=xelatex \
+  -V mainfont="Georgia" \
+  -o doc.pdf</div><button class="cpy" data-copy="pandoc doc.md --pdf-engine=xelatex -V lang=es -V geometry:margin=2.5cm -o doc.pdf">Copiar</button></div>
+  </div>
+
+  <div class="conv-card" style="border-color:rgba(109,191,247,.25)">
+    <h4><span style="font-size:20px">🌐</span> <span style="color:#9fd3f8">HTML</span></h4>
+    <p style="font-size:12px;color:#9eb8cc;margin:0 0 4px">Para publicar en la web, intranet o enviar por correo como página web. No requiere ninguna dependencia extra.</p>
+    <div class="code-wrap"><div class="code" style="font-size:11px"># HTML simple
+pandoc doc.md -o doc.html
+
+# HTML completo (con &lt;!DOCTYPE&gt;, CSS, etc.)
+pandoc doc.md --standalone -o doc.html
+
+# HTML con estilos personalizados
+pandoc doc.md \
+  --standalone \
+  --css=mi_estilo.css \
+  -o doc.html
+
+# HTML con tabla de contenidos
+pandoc doc.md \
+  --standalone --toc \
+  -o doc.html</div><button class="cpy" data-copy="pandoc doc.md --standalone -o doc.html">Copiar</button></div>
+  </div>
+
+  <div class="conv-card" style="border-color:rgba(193,164,255,.25)">
+    <h4><span style="font-size:20px">📊</span> <span style="color:#e0d4ff">PowerPoint (.pptx)</span></h4>
+    <p style="font-size:12px;color:#9eb8cc;margin:0 0 4px">Convierte Markdown a diapositivas. Cada <code style="font-size:11px">#</code> es una diapositiva nueva. Funciona con plantillas .pptx.</p>
+    <div class="code-wrap"><div class="code" style="font-size:11px"># PPT básico (cada # = nueva diapositiva)
+pandoc doc.md -o presentacion.pptx
+
+# Con plantilla corporativa
+pandoc doc.md \
+  --reference-doc=plantilla.pptx \
+  -o presentacion.pptx</div><button class="cpy" data-copy="pandoc doc.md -o presentacion.pptx">Copiar</button></div>
+  </div>
+
+  <div class="conv-card" style="border-color:rgba(248,203,128,.25)">
+    <h4><span style="font-size:20px">📚</span> <span style="color:#f8d060">Múltiples archivos → 1 doc</span></h4>
+    <p style="font-size:12px;color:#9eb8cc;margin:0 0 4px">Combina todos los .md de una carpeta en un único documento Word o PDF. Perfecto para manuales o programas curriculares.</p>
+    <div class="code-wrap"><div class="code" style="font-size:11px"># Combinar todos los .md en orden
+pandoc capitulo1.md capitulo2.md \
+  capitulo3.md -o libro.docx
+
+# Con glob (todos los .md de la carpeta)
+pandoc *.md -o documento_completo.docx
+
+# Especificando el orden con un archivo lista
+pandoc $(cat lista_archivos.txt) \
+  -o manual_completo.docx</div><button class="cpy" data-copy="pandoc *.md -o documento_completo.docx">Copiar</button></div>
+  </div>
+
+  <div class="conv-card" style="border-color:rgba(255,170,110,.25)">
+    <h4><span style="font-size:20px">✉</span> <span style="color:#ffaa6e">Con plantilla corporativa</span></h4>
+    <p style="font-size:12px;color:#9eb8cc;margin:0 0 4px">La clave para documentos institucionales: crea una vez la plantilla .docx con los estilos de tu universidad y úsala siempre.</p>
+    <div class="code-wrap"><div class="code" style="font-size:11px"># CÓMO CREAR LA PLANTILLA:
+# 1. Abre Word → aplica tus estilos
+#    (fuentes, colores, márgenes, logo)
+# 2. Guarda como "plantilla_UNI.docx"
+# 3. Úsala en Pandoc:
+
+pandoc informe.md \
+  --reference-doc=plantilla_UNI.docx \
+  -o informe_final.docx
+
+# Pandoc preserva tus estilos H1, H2, H3,
+# Normal, Table, etc. de la plantilla</div><button class="cpy" data-copy="pandoc informe.md --reference-doc=plantilla_UNI.docx -o informe_final.docx">Copiar</button></div>
+  </div>
+
+</div>
+
+<div class="note info" style="margin-top:16px"><b>🚀 Automatización:</b> puedes combinar Pandoc con un script de PowerShell para convertir automáticamente todos los .md de una carpeta. Ideal para generar reportes mensuales con un solo doble clic. <a href="#documentos-script" style="color:var(--blue)">Ver ejemplo de script →</a></div>
+
+<div style="margin-top:18px" id="documentos-script">
+<h3>Script de conversión automática (Windows PowerShell)</h3>
+<div class="code-wrap"><div class="code" style="font-size:11.5px"># Guarda este script como "convertir.ps1"
+# Clic derecho → Ejecutar con PowerShell
+
+$carpeta = "C:\Documentos\Informes_Markdown"
+$salida  = "C:\Documentos\Informes_Word"
+$plantilla = "C:\Plantillas\plantilla_UNI.docx"
+
+# Crea la carpeta de salida si no existe
+New-Item -ItemType Directory -Force -Path $salida | Out-Null
+
+# Convierte todos los .md a .docx
+Get-ChildItem -Path $carpeta -Filter "*.md" | ForEach-Object {
+    $entrada = $_.FullName
+    $nombre  = $_.BaseName + ".docx"
+    $destino = Join-Path $salida $nombre
+
+    pandoc $entrada --reference-doc=$plantilla -o $destino
+    Write-Host "✓ Convertido: $($_.Name) → $nombre"
+}
+
+Write-Host "`n¡Conversión completada! Archivos en: $salida"</div><button class="cpy" data-copy="# Script PowerShell para convertir todos los .md a .docx&#10;$carpeta = 'C:\Documentos\Informes_Markdown'&#10;$salida  = 'C:\Documentos\Informes_Word'&#10;$plantilla = 'C:\Plantillas\plantilla_UNI.docx'&#10;New-Item -ItemType Directory -Force -Path $salida | Out-Null&#10;Get-ChildItem -Path $carpeta -Filter '*.md' | ForEach-Object {&#10;    $entrada = $_.FullName&#10;    $nombre  = $_.BaseName + '.docx'&#10;    $destino = Join-Path $salida $nombre&#10;    pandoc $entrada --reference-doc=$plantilla -o $destino&#10;    Write-Host &quot;Convertido: $($_.Name) → $nombre&quot;&#10;}">Copiar</button></div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     06 · R-C-T-F-R EN MARKDOWN
+══════════════════════════════════════════════════════ -->
+<section class="section" id="rctfr" aria-labelledby="rcth">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">06 · Marco R-C-T-F-R</span>
+<h2 id="rcth">Pedir documentos Markdown con el marco R-C-T-F-R</h2>
+<p class="sub">La combinación perfecta: usa el marco R-C-T-F-R para que el agente genere exactamente el documento que necesitas, ya en formato Markdown listo para Pandoc.</p>
+
+<div class="rctfr">
+  <div class="rctfr-row">
+    <div class="rctfr-let" style="background:rgba(103,236,208,.18);color:#a2ffe8">R</div>
+    <div>
+      <h5>Rol — ¿Quién es el agente?</h5>
+      <p>«Eres el coordinador académico de una universidad pública con experiencia en diseño de talleres de formación docente.»</p>
+    </div>
+  </div>
+  <div class="rctfr-row">
+    <div class="rctfr-let" style="background:rgba(109,191,247,.18);color:#9fd3f8">C</div>
+    <div>
+      <h5>Contexto — ¿Cuál es la situación?</h5>
+      <p>«La dirección académica necesita una propuesta formal para un taller de 6 horas dirigido a 30 docentes de nivel secundario sobre herramientas de IA generativa.»</p>
+    </div>
+  </div>
+  <div class="rctfr-row">
+    <div class="rctfr-let" style="background:rgba(193,164,255,.18);color:#c1a4ff">T</div>
+    <div>
+      <h5>Tarea — ¿Qué debe hacer?</h5>
+      <p>«Redacta la propuesta completa del taller incluyendo: resumen ejecutivo, objetivos, cronograma de sesiones con tabla, requisitos técnicos y criterios de evaluación.»</p>
+    </div>
+  </div>
+  <div class="rctfr-row">
+    <div class="rctfr-let" style="background:rgba(248,203,128,.18);color:#f8d060">F</div>
+    <div>
+      <h5>Formato — ¿Cómo debe presentarse?</h5>
+      <p>«Responde en formato <b>Markdown</b> con YAML Front Matter al inicio (title, author, date). Usa # para secciones numeradas, ## para subsecciones, tablas Markdown para el cronograma y negritas para términos clave.»</p>
+    </div>
+  </div>
+  <div class="rctfr-row">
+    <div class="rctfr-let" style="background:rgba(255,150,156,.18);color:#ff969c">R</div>
+    <div>
+      <h5>Restricciones — ¿Qué NO debe hacer?</h5>
+      <p>«No inventes nombres de docentes ni instituciones reales. No incluyas presupuesto (es sección separada). Máximo 4 páginas A4. Usa lenguaje formal pero no excesivamente técnico.»</p>
+    </div>
+  </div>
+</div>
+
+<div class="note safe" style="margin-top:14px;font-size:13px"><b>→ Este prompt exacto generó el documento del siguiente ejemplo.</b> El resultado fue un Markdown perfecto que con un comando Pandoc produce el Word de 4 páginas que ves abajo.</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     07 · DOCUMENTO REAL DE EJEMPLO
+══════════════════════════════════════════════════════ -->
+<section class="section" id="ejemplo" aria-labelledby="ejh">
+<span class="eyebrow" style="margin-bottom:10px;display:inline-flex">07 · Documento real</span>
+<h2 id="ejh">Propuesta de taller: del prompt al .docx</h2>
+<p class="sub">Documento completo generado con el marco R-C-T-F-R anterior. Haz clic en las pestañas para ver el Markdown fuente, la vista previa y el comando Pandoc.</p>
+
+<div class="doc-showcase">
+  <div class="doc-tabs" role="tablist">
+    <button type="button" class="doc-tab on" data-docv="0" role="tab">📝 Markdown fuente</button>
+    <button type="button" class="doc-tab" data-docv="1" role="tab">👁 Vista previa</button>
+    <button type="button" class="doc-tab" data-docv="2" role="tab">⚙ Convertir con Pandoc</button>
+  </div>
+
+  <!-- MARKDOWN SOURCE -->
+  <div class="doc-tab-panel on" id="docv0">
+    <div class="code-wrap">
+      <div class="code" id="docSource" style="font-size:12px;max-height:620px;overflow-y:auto"></div>
+      <button class="cpy" id="docSrcCpy" style="top:9px;right:10px">Copiar todo</button>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:7px">↑ Este es el Markdown exacto que generó el agente con el prompt R-C-T-F-R. Guárdalo como <code style="font-size:11px;background:#081728;padding:1px 4px;border-radius:3px">propuesta_taller.md</code> y conviértelo con Pandoc.</p>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="doc-tab-panel" id="docv1">
+    <div class="doc-rendered" id="docRendered"></div>
+  </div>
+
+  <!-- PANDOC COMMANDS -->
+  <div class="doc-tab-panel" id="docv2">
+    <h3 style="color:#f8d060;font-size:16px;margin-bottom:14px">Comandos para convertir este documento</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <p style="font-size:13px;font-weight:800;color:#a2ffe8;margin:0 0 6px">📄 A Word (.docx)</p>
+        <div class="code-wrap"><div class="code" style="font-size:12px">pandoc propuesta_taller.md -o propuesta_taller.docx
+
+# Con tabla de contenidos automática:
+pandoc propuesta_taller.md \
+  --toc --toc-depth=2 \
+  -o propuesta_taller_toc.docx
+
+# Con plantilla corporativa de tu universidad:
+pandoc propuesta_taller.md \
+  --reference-doc=plantilla_UNI.docx \
+  -o propuesta_taller_oficial.docx</div><button class="cpy" data-copy="pandoc propuesta_taller.md -o propuesta_taller.docx">Copiar</button></div>
+      </div>
+      <div>
+        <p style="font-size:13px;font-weight:800;color:#ffd5d8;margin:0 0 6px">📕 A PDF</p>
+        <div class="code-wrap"><div class="code" style="font-size:12px">pandoc propuesta_taller.md \
+  --pdf-engine=xelatex \
+  -V lang=es \
+  -V geometry:margin=2.5cm \
+  -V fontsize=11pt \
+  -o propuesta_taller.pdf</div><button class="cpy" data-copy="pandoc propuesta_taller.md --pdf-engine=xelatex -V lang=es -V geometry:margin=2.5cm -o propuesta_taller.pdf">Copiar</button></div>
+        <p style="font-size:13px;font-weight:800;color:#9fd3f8;margin:12px 0 6px">🌐 A HTML</p>
+        <div class="code-wrap"><div class="code" style="font-size:12px">pandoc propuesta_taller.md \
+  --standalone --toc \
+  -o propuesta_taller.html</div><button class="cpy" data-copy="pandoc propuesta_taller.md --standalone --toc -o propuesta_taller.html">Copiar</button></div>
+      </div>
+    </div>
+    <div class="note safe" style="margin-top:16px"><b>⏱ Tiempo real:</b> los tres comandos anteriores tardan menos de 3 segundos cada uno. Del Markdown al Word profesional en un instante.</div>
+  </div>
+</div>
+</section>
+
+</main>
+
+<footer class="footer"><div class="shell">
+<p><b style="color:#eef7ff">ING. GREGORIO BAUTISTA OBLITAS</b><br>Maestro en Inteligencia Artificial</p>
+<p style="margin-top:8px">ExploraIA · Módulo de Markdown &amp; Pandoc · El documento de ejemplo fue generado con el marco R-C-T-F-R y convertido a este módulo. Pandoc es open source (GPL v2+) disponible en pandoc.org.</p>
+</div></footer>
+
+<script>
+'use strict';
+
+/* ───── DOCUMENTO DE EJEMPLO ───── */
+const DOC_MD = `---
+title: "Propuesta de Taller Práctico: Herramientas de Inteligencia Artificial para Docentes"
+author: "Gregorio Bautista Oblitas"
+date: "20 de noviembre de 2026"
+---
+
+# 1. Resumen ejecutivo y objetivos
+
+## Resumen ejecutivo
+
+La presente propuesta plantea el desarrollo del taller práctico "Herramientas de Inteligencia Artificial para Docentes", dirigido a un grupo de 30 profesores de educación secundaria. El programa responde a la necesidad institucional de actualizar las competencias digitales del cuerpo docente y optimizar los tiempos destinados a la planificación curricular, la elaboración de materiales didácticos y la evaluación formativa.
+
+Mediante una metodología eminentemente aplicada, los participantes integrarán herramientas de inteligencia artificial generativa en sus flujos de trabajo habituales. El enfoque prioriza el criterio pedagógico, la personalización del aprendizaje y el uso ético de la tecnología, garantizando que los docentes diseñen recursos listos para implementar en sus aulas desde la primera jornada.
+
+## Objetivo general
+
+Fortalecer las competencias digitales y pedagógicas de 30 docentes de nivel secundario mediante el uso práctico, crítico y ético de herramientas de inteligencia artificial generativa aplicadas a la planificación, creación de recursos y evaluación del aprendizaje.
+
+## Objetivos específicos
+
+- Aplicar técnicas efectivas de redacción de instrucciones (prompting) para diseñar sesiones de aprendizaje y actividades adaptadas a las necesidades de estudiantes de secundaria.
+- Elaborar materiales didácticos visuales, presentaciones y fichas de trabajo diferenciadas utilizando plataformas educativas asistidas por inteligencia artificial.
+- Construir instrumentos de evaluación formativa y lineamientos de integridad académica que promuevan un uso responsable de la inteligencia artificial en el entorno escolar.
+
+# 2. Cronograma de sesiones
+
+El taller tiene una duración total de 6 horas pedagógicas, distribuidas en tres sesiones presenciales de 2 horas cada una, con modalidad práctica orientada a la elaboración de entregables concretos.
+
+| Sesión | Tema | Herramienta IA | Duración | Producto esperado |
+| :--- | :--- | :--- | :--- | :--- |
+| Sesión 1 | Fundamentos de IA generativa y diseño de instrucciones pedagógicas (prompting) | ChatGPT y Google Gemini | 2 horas | Sesión de aprendizaje contextualizada y guía de prompts docentes |
+| Sesión 2 | Creación de recursos visuales, presentaciones y material didáctico adaptado | Gamma y Canva Magic Studio | 2 horas | Presentación didáctica interactiva y ficha de trabajo diferenciada |
+| Sesión 3 | Evaluación formativa, diseño de rúbricas y uso ético de la IA en el aula | MagicSchool AI y Diffit | 2 horas | Rúbrica analítica, banco de preguntas y protocolo de uso ético |
+
+# 3. Requisitos técnicos mínimos
+
+Para asegurar el desarrollo fluido de las actividades prácticas y el aprovechamiento pleno de cada sesión, se requieren las siguientes condiciones técnicas:
+
+- **Equipamiento individual:** Computadora portátil o de escritorio por participante, con navegador web actualizado (Google Chrome, Microsoft Edge o Mozilla Firefox).
+- **Conectividad:** Acceso estable a internet en el aula o laboratorio de cómputo, con capacidad suficiente para soportar 30 equipos conectados de forma simultánea.
+- **Cuentas de acceso:** Correo electrónico personal o institucional activo (preferentemente de Google o Microsoft) para el registro en las versiones gratuitas de las plataformas seleccionadas.
+- **Insumos pedagógicos:** Una unidad didáctica, programación curricular o tema específico del área que dicta cada docente, en formato digital, para trabajar casos reales durante el taller.
+- **Equipamiento de sala:** Proyector multimedia, pantalla de proyección y sistema de audio para las demostraciones guiadas.
+
+# 4. Criterios de evaluación del taller
+
+La evaluación del desempeño de los participantes tendrá un carácter formativo y práctico, orientado a verificar la transferencia efectiva de lo aprendido al quehacer docente. Para acreditar la aprobación y certificación del taller, cada participante deberá alcanzar un puntaje mínimo de 75 puntos sobre 100, distribuidos según la siguiente ponderación:
+
+| Criterio | Descripción | Ponderación |
+| :--- | :--- | :--- |
+| Asistencia y participación activa | Cumplimiento de al menos el 85 % de las horas programadas e intervención en los ejercicios guiados | 20 % |
+| Entrega de productos por sesión | Elaboración y presentación completa de los tres entregables establecidos en el cronograma | 50 % |
+| Pertinencia pedagógica y criterio ético | Alineación de los recursos al nivel secundario, validación de la precisión disciplinar y resguardo de datos personales | 30 % |
+
+Al finalizar la tercera sesión, se aplicará una encuesta de satisfacción y una autoevaluación de competencias adquiridas con el propósito de remitir un informe de resultados a la dirección académica.`;
+
+/* ───── EDITOR EN VIVO (contenido inicial) ───── */
+const EDITOR_INIT = `---
+title: "Mi Documento"
+author: "Tu nombre"
+date: "20 de noviembre de 2026"
+---
+
+# 1. Título principal (H1)
+
+## 1.1 Subsección (H2)
+
+Párrafo normal. Puedes escribir **negrita**, *cursiva* y \`código inline\`.
+
+### 1.1.1 Sub-subsección (H3)
+
+- Elemento de lista A
+- Elemento de lista B
+  - Subelemento anidado
+
+> 💡 **Nota:** Esta es una cita o bloque de énfasis.
+
+## 1.2 Tabla de ejemplo
+
+| Columna A    | Columna B    | Columna C |
+| :----------- | :----------: | --------: |
+| Izquierda    | Centrado     | Derecha   |
+| Dato 1       | Dato 2       | Dato 3    |
+
+## 1.3 Lista ordenada
+
+1. Primer paso del proceso
+2. Segundo paso del proceso
+3. Tercer paso del proceso
+
+---
+
+# 2. Segunda sección
+
+Escribe aquí el contenido de la segunda sección.
+Prueba cambiar el texto y observa el resultado en tiempo real.`;
+
+/* ───── RENDERIZADOR MARKDOWN BÁSICO ───── */
+function renderMd(text) {
+  if (!text) return '';
+  let html = text;
+
+  // YAML front matter → bloque visual
+  html = html.replace(/^---\n([\s\S]*?)\n---\n?/, (_, yaml) => {
+    const lines = yaml.split('\n').map(l => {
+      const m = l.match(/^(\w[\w-]*):\s*"?(.+?)"?\s*$/);
+      return m ? `<span style="color:#f8d060">${m[1]}</span>: <span style="color:#ffe9a0">${m[2]}</span>` : l;
+    }).join('<br>');
+    return `<div class="yaml-block"><b>📋 Front Matter (metadatos)</b>${lines}</div>`;
+  });
+
+  // Escape HTML special chars (except in code)
+  const codeBlocks = [], codeInlines = [];
+  html = html.replace(/```[\s\S]*?```/g, m => { codeBlocks.push(m); return `\x00CB${codeBlocks.length-1}\x00`; });
+  html = html.replace(/`[^`\n]+`/g, m => { codeInlines.push(m); return `\x00CI${codeInlines.length-1}\x00`; });
+
+  // Tables
+  html = html.replace(/^\|.+\|\n\|[-: |]+\|\n(\|.+\|\n)*/gm, t => {
+    const rows = t.trim().split('\n');
+    const header = rows[0].split('|').filter((c,i,a)=>i>0&&i<a.length-1).map(c=>`<th>${c.trim()}</th>`).join('');
+    const body = rows.slice(2).map(r=>'<tr>'+r.split('|').filter((c,i,a)=>i>0&&i<a.length-1).map(c=>`<td>${c.trim()}</td>`).join('')+'</tr>').join('');
+    return `<table><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>\n`;
+  });
+
+  // Headings
+  html = html.replace(/^(#{1,6})\s+(.+)$/gm, (_, h, t) => `<h${h.length}>${t}</h${h.length}>`);
+
+  // Bold + italic
+  html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  html = html.replace(/~~(.+?)~~/g, '<s>$1</s>');
+
+  // Links
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:#6dbff7" target="_blank" rel="noopener">$1</a>');
+
+  // Blockquote
+  html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+
+  // HR
+  html = html.replace(/^---$/gm, '<hr>');
+
+  // Unordered list
+  html = html.replace(/(^- .+\n?)+/gm, m => '<ul>'+m.trim().split('\n').map(l=>`<li>${l.replace(/^- /,'')}</li>`).join('')+'</ul>');
+
+  // Ordered list
+  html = html.replace(/(^\d+\. .+\n?)+/gm, m => '<ol>'+m.trim().split('\n').map(l=>`<li>${l.replace(/^\d+\. /,'')}</li>`).join('')+'</ol>');
+
+  // Paragraphs
+  html = html.replace(/\n\n([^<\n][^\n]*)\n\n/g, '\n\n<p>$1</p>\n\n');
+  html = html.replace(/^([^<\n][^\n]{5,})$/gm, '<p>$1</p>');
+
+  // Restore code blocks
+  codeBlocks.forEach((b,i) => {
+    const lang = b.match(/^```(\w*)\n/);
+    const code = b.replace(/^```\w*\n/, '').replace(/\n```$/, '');
+    html = html.replace(`\x00CB${i}\x00`, `<pre><code>${code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</code></pre>`);
+  });
+  codeInlines.forEach((b,i) => {
+    const code = b.slice(1,-1);
+    html = html.replace(`\x00CI${i}\x00`, `<code>${code}</code>`);
+  });
+
+  return html;
+}
+
+/* ───── INICIALIZAR EDITOR ───── */
+const mdInput = document.getElementById('mdInput');
+const mdPreview = document.getElementById('mdPreview');
+mdInput.value = EDITOR_INIT;
+mdPreview.innerHTML = renderMd(EDITOR_INIT);
+mdInput.addEventListener('input', () => { mdPreview.innerHTML = renderMd(mdInput.value); });
+
+document.getElementById('edCopy').onclick = () => {
+  navigator.clipboard.writeText(mdInput.value).catch(()=>{});
+  document.getElementById('edCopy').textContent = '¡Copiado!';
+  setTimeout(() => document.getElementById('edCopy').textContent = 'Copiar', 1800);
+};
+
+/* ───── LLENAR DOCUMENTO REAL ───── */
+const docSrc = document.getElementById('docSource');
+const docRend = document.getElementById('docRendered');
+docSrc.textContent = DOC_MD;
+docRend.innerHTML = renderMd(DOC_MD);
+
+document.getElementById('docSrcCpy').onclick = () => {
+  navigator.clipboard.writeText(DOC_MD).catch(()=>{});
+  document.getElementById('docSrcCpy').textContent = '¡Copiado!';
+  setTimeout(() => document.getElementById('docSrcCpy').textContent = 'Copiar todo', 1800);
+};
+
+/* ───── BOTONES COPIAR GLOBALES ───── */
+document.querySelectorAll('.cpy[data-copy]').forEach(b => {
+  b.addEventListener('click', () => {
+    navigator.clipboard.writeText(b.dataset.copy.replace(/&#10;/g,'\n').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&amp;/g,'&')).catch(()=>{});
+    const orig = b.textContent; b.textContent = '¡Copiado!';
+    setTimeout(() => b.textContent = orig, 1800);
+  });
+});
+
+/* ───── TABS SINTAXIS ───── */
+document.querySelectorAll('.dtab[data-syn]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const t = Number(btn.dataset.syn);
+    document.querySelectorAll('.dtab[data-syn]').forEach(b => b.classList.remove('on'));
+    document.querySelectorAll('.syn-panel').forEach(p => p.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('syn'+t).classList.add('on');
+  });
+});
+
+/* ───── TABS INSTALACIÓN ───── */
+document.querySelectorAll('.dtab[data-inst]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const t = Number(btn.dataset.inst);
+    document.querySelectorAll('.dtab[data-inst]').forEach(b => b.classList.remove('on'));
+    document.querySelectorAll('.inst-panel').forEach(p => p.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('inst'+t).classList.add('on');
+  });
+});
+
+/* ───── TABS DOCUMENTO REAL ───── */
+document.querySelectorAll('.doc-tab[data-docv]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const t = Number(btn.dataset.docv);
+    document.querySelectorAll('.doc-tab[data-docv]').forEach(b => b.classList.remove('on'));
+    document.querySelectorAll('.doc-tab-panel').forEach(p => p.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('docv'+t).classList.add('on');
+  });
+});
+</script>
+</body>
+</html>
